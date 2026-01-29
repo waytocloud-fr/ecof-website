@@ -1,0 +1,58 @@
+---
+export interface Props {
+  showOn?: 'mobile' | 'tablet' | 'desktop' | 'mobile-tablet' | 'tablet-desktop';
+  hideOn?: 'mobile' | 'tablet' | 'desktop' | 'mobile-tablet' | 'tablet-desktop';
+  class?: string;
+}
+
+const { showOn, hideOn, class: className = '' } = Astro.props;
+
+// Générer les classes CSS conditionnelles
+let conditionalClasses = '';
+
+if (showOn) {
+  switch (showOn) {
+    case 'mobile':
+      conditionalClasses = 'block sm:hidden';
+      break;
+    case 'tablet':
+      conditionalClasses = 'hidden sm:block lg:hidden';
+      break;
+    case 'desktop':
+      conditionalClasses = 'hidden lg:block';
+      break;
+    case 'mobile-tablet':
+      conditionalClasses = 'block lg:hidden';
+      break;
+    case 'tablet-desktop':
+      conditionalClasses = 'hidden sm:block';
+      break;
+  }
+}
+
+if (hideOn) {
+  switch (hideOn) {
+    case 'mobile':
+      conditionalClasses = 'hidden sm:block';
+      break;
+    case 'tablet':
+      conditionalClasses = 'block sm:hidden lg:block';
+      break;
+    case 'desktop':
+      conditionalClasses = 'block lg:hidden';
+      break;
+    case 'mobile-tablet':
+      conditionalClasses = 'hidden lg:block';
+      break;
+    case 'tablet-desktop':
+      conditionalClasses = 'block sm:hidden';
+      break;
+  }
+}
+
+const finalClasses = `${conditionalClasses} ${className}`.trim();
+---
+
+<div class={finalClasses}>
+  <slot />
+</div>

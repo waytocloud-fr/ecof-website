@@ -1,0 +1,85 @@
+---
+// Navigation optimisée pour desktop
+---
+
+<!-- Navigation Desktop avec menu horizontal -->
+<nav class="hidden lg:block fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="5.5" cy="17.5" r="3.5" stroke-width="2"/>
+              <circle cx="18.5" cy="17.5" r="3.5" stroke-width="2"/>
+              <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" stroke-width="2"/>
+              <path d="M9 12h3l3-6h2l1.5 3" stroke-width="2"/>
+              <path d="M9 12v5" stroke-width="2"/>
+              <path d="M15 12l-3 5" stroke-width="2"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-gray-900">ECOF</h1>
+            <p class="text-xs text-gray-600">Étoile Cycliste Ouvrière de Firminy</p>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Menu principal -->
+      <div class="flex items-center space-x-8">
+        <a href="/" class="text-gray-700 hover:text-red-600 transition-colors font-medium">
+          Accueil
+        </a>
+        
+        <a href="/actualites" class="text-gray-700 hover:text-red-600 transition-colors font-medium">
+          Actualités
+        </a>
+        
+        <a href="/calendrier" class="text-gray-700 hover:text-red-600 transition-colors font-medium">
+          Calendrier
+        </a>
+        
+        <!-- Dropdown Le Club -->
+        <div class="relative group">
+          <button class="text-gray-700 hover:text-red-600 transition-colors font-medium flex items-center space-x-1">
+            <span>Le Club</span>
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          
+          <!-- Dropdown menu -->
+          <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <div class="py-2">
+              <a href="/historique" class="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                Historique
+              </a>
+              <a href="/organigramme" class="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                Organigramme
+              </a>
+              <a href="/esprit" class="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                Esprit du Club
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <a href="/nous-rejoindre" class="text-gray-700 hover:text-red-600 transition-colors font-medium">
+          Nous rejoindre
+        </a>
+        
+        <a href="/ecole-de-velo" class="text-gray-700 hover:text-red-600 transition-colors font-medium">
+          École de vélo
+        </a>
+        
+        <a href="/nous-soutenir" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium">
+          Nous soutenir
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Spacer pour compenser la navigation fixe -->
+<div class="hidden lg:block h-16"></div>
