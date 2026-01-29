@@ -1,0 +1,89 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import RideCard from '@/components/RideCard.astro';
+
+// Récupérer toutes les sorties
+const allRides = await Astro.glob('../content/sorties/*.md');
+const sortedRides = allRides.sort((a, b) => 
+  new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+);
+---
+
+<BaseLayout title="Sorties" description="Découvrez toutes nos sorties cyclistes organisées par l'ECOF">
+  <div class="page-header">
+    <div class="container">
+      <h1>Nos sorties</h1>
+      <p>Découvrez toutes nos sorties cyclistes organisées tout au long de l'année</p>
+    </div>
+  </div>
+
+  <section class="rides-section">
+    <div class="container">
+      {sortedRides.length > 0 ? (
+        <div class="rides-grid">
+          {sortedRides.map((ride) => (
+            <RideCard
+              title={ride.frontmatter.title}
+              date={ride.frontmatter.date}
+              distance={ride.frontmatter.distance}
+              difficulty={ride.frontmatter.difficulty}
+              description={ride.frontmatter.description}
+              image={ride.frontmatter.image}
+              slug={ride.file.split('/').pop()?.replace('.md', '') || ''}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="no-rides">
+          <p>Aucune sortie programmée pour le moment.</p>
+          <p>Revenez bientôt pour découvrir nos prochaines aventures !</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, #007acc 0%, #005a9e 100%);
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .page-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .rides-section {
+    padding: 4rem 1rem;
+  }
+  
+  .rides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .no-rides {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #666;
+  }
+  
+  .no-rides p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+</style>

@@ -1,0 +1,31 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "sorties"
+    label: "Sorties"
+    folder: "src/content/sorties"
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Distance", name: "distance", widget: "string"}
+      - {label: "Difficulté", name: "difficulty", widget: "select", options: ["Facile", "Modéré", "Difficile"]}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Contenu", name: "body", widget: "markdown"}
+
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Titre", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Contenu", name: "body", widget: "markdown"}

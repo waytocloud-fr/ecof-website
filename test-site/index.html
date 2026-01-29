@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOF - Test Infrastructure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #007acc 0%, #005a9e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .status {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        .success {
+            background: rgba(40, 167, 69, 0.3);
+            border-left: 4px solid #28a745;
+        }
+        .info {
+            background: rgba(23, 162, 184, 0.3);
+            border-left: 4px solid #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚴‍♂️ ECOF Website - Infrastructure Test</h1>
+        
+        <div class="status success">
+            <h3>✅ Infrastructure Déployée avec Succès !</h3>
+            <p>L'infrastructure AWS pour le site ECOF est maintenant opérationnelle.</p>
+        </div>
+
+        <div class="status info">
+            <h3>📋 Composants Déployés</h3>
+            <ul>
+                <li><strong>S3 Bucket :</strong> ecof-website-stage-6e85ed80</li>
+                <li><strong>CloudFront CDN :</strong> d1zcuce5tj6u3s.cloudfront.net</li>
+                <li><strong>HTTPS :</strong> Activé avec certificat CloudFront</li>
+                <li><strong>Chiffrement :</strong> AES256 sur S3</li>
+                <li><strong>Versioning :</strong> Activé</li>
+            </ul>
+        </div>
+
+        <div class="status info">
+            <h3>🔗 Accès</h3>
+            <p><strong>URL du site :</strong> <a href="https://d1zcuce5tj6u3s.cloudfront.net" style="color: #fff;">https://d1zcuce5tj6u3s.cloudfront.net</a></p>
+        </div>
+
+        <div class="status info">
+            <h3>🚀 Prochaines Étapes</h3>
+            <ul>
+                <li>Développer le site Astro</li>
+                <li>Configurer Decap CMS</li>
+                <li>Ajouter le contenu cyclisme</li>
+                <li>Configurer le domaine personnalisé (optionnel)</li>
+            </ul>
+        </div>
+
+        <div class="status">
+            <p><em>Infrastructure gérée par Terraform • Backend sécurisé S3 + DynamoDB</em></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Parcours" description="Découvrez nos parcours cyclistes autour de Fontainebleau">
+  <div class="page-header">
+    <div class="container">
+      <h1>Nos parcours</h1>
+      <p>Explorez les plus beaux itinéraires cyclistes de Seine-et-Marne</p>
+    </div>
+  </div>
+
+  <section class="parcours-section">
+    <div class="container">
+      <div class="parcours-grid">
+        <div class="parcours-card">
+          <div class="parcours-image">
+            <img src="/images/foret-fontainebleau.jpg" alt="Forêt de Fontainebleau" />
+          </div>
+          <div class="parcours-content">
+            <h3>Tour de la Forêt de Fontainebleau</h3>
+            <div class="parcours-meta">
+              <span class="distance">45 km</span>
+              <span class="difficulty moderate">Modéré</span>
+            </div>
+            <p>Un parcours magnifique à travers la forêt de Fontainebleau, passant par les plus beaux points de vue et rochers emblématiques.</p>
+            <ul class="parcours-highlights">
+              <li>Rocher de la Tortue</li>
+              <li>Gorges de Franchard</li>
+              <li>Château de Fontainebleau</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="parcours-card">
+          <div class="parcours-image">
+            <img src="/images/seine-valley.jpg" alt="Vallée de la Seine" />
+          </div>
+          <div class="parcours-content">
+            <h3>Vallée de la Seine</h3>
+            <div class="parcours-meta">
+              <span class="distance">60 km</span>
+              <span class="difficulty easy">Facile</span>
+            </div>
+            <p>Une balade tranquille le long de la Seine, idéale pour les familles et les cyclistes débutants.</p>
+            <ul class="parcours-highlights">
+              <li>Bords de Seine</li>
+              <li>Écluses historiques</li>
+              <li>Villages pittoresques</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="parcours-card">
+          <div class="parcours-image">
+            <img src="/images/gatinais.jpg" alt="Gâtinais" />
+          </div>
+          <div class="parcours-content">
+            <h3>Circuit du Gâtinais</h3>
+            <div class="parcours-meta">
+              <span class="distance">80 km</span>
+              <span class="difficulty hard">Difficile</span>
+            </div>
+            <p>Un défi sportif à travers les collines du Gâtinais, réservé aux cyclistes expérimentés.</p>
+            <ul class="parcours-highlights">
+              <li>Côtes du Gâtinais</li>
+              <li>Panoramas exceptionnels</li>
+              <li>Villages médiévaux</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, #007acc 0%, #005a9e 100%);
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .page-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .parcours-section {
+    padding: 4rem 1rem;
+  }
+  
+  .parcours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .parcours-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  
+  .parcours-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .parcours-image {
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .parcours-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .parcours-content {
+    padding: 1.5rem;
+  }
+  
+  .parcours-content h3 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .parcours-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .distance {
+    color: #007acc;
+    font-weight: 500;
+  }
+  
+  .difficulty {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .difficulty.easy { background-color: #28a745; }
+  .difficulty.moderate { background-color: #ffc107; }
+  .difficulty.hard { background-color: #dc3545; }
+  
+  .parcours-highlights {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  
+  .parcours-highlights li {
+    padding: 0.25rem 0;
+    color: #666;
+  }
+  
+  .parcours-highlights li:before {
+    content: "✓ ";
+    color: #28a745;
+    font-weight: bold;
+  }
+</style>
