@@ -10,7 +10,7 @@ echo "=========================="
 
 # Variables (à adapter selon tes ressources AWS)
 S3_BUCKET="ecof-website-stage-6e85ed80"
-CLOUDFRONT_DISTRIBUTION_ID="d1zcuce5tj6u3s"
+CLOUDFRONT_DISTRIBUTION_ID="EA2FNVF5R7H6G"
 AWS_REGION="eu-west-3"
 
 # Vérifier que AWS CLI est configuré

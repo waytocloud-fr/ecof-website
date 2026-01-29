@@ -94,21 +94,26 @@ jobs:
 
     - name: Invalidate CloudFront
       run: |
-        # ID de distribution CloudFront (à adapter)
-        DISTRIBUTION_ID="d1zcuce5tj6u3s"
+        # ID de distribution CloudFront (corrigé)
+        DISTRIBUTION_ID="EA2FNVF5R7H6G"
         
         echo "🔄 Invalidation CloudFront: $DISTRIBUTION_ID"
         
-        # Invalider le cache CloudFront
-        INVALIDATION_ID=$(aws cloudfront create-invalidation \
-          --distribution-id $DISTRIBUTION_ID \
-          --paths "/*" \
-          --query 'Invalidation.Id' \
-          --output text)
-        
-        echo "✅ Invalidation créée: $INVALIDATION_ID"
-        echo "🌐 Site disponible sur: https://$DISTRIBUTION_ID.cloudfront.net"
-      continue-on-error: true
+        # Vérifier que la distribution existe
+        if aws cloudfront get-distribution --id $DISTRIBUTION_ID > /dev/null 2>&1; then
+          # Invalider le cache CloudFront
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id $DISTRIBUTION_ID \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          
+          echo "✅ Invalidation créée: $INVALIDATION_ID"
+          echo "🌐 Site disponible sur: https://d1zcuce5tj6u3s.cloudfront.net"
+        else
+          echo "⚠️  Distribution CloudFront $DISTRIBUTION_ID non trouvée ou pas d'accès"
+          echo "🌐 Vérifiez l'ID de distribution dans le workflow"
+        fi
 
   # Job 3: Tests de base (optionnel)
   test:
