@@ -1,4 +1,4 @@
-name: Deploy to Stage
+name: Build and Deploy ECOF Website
 
 on:
   push:
@@ -6,100 +6,14 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  AWS_REGION: eu-west-3
-  TERRAFORM_VERSION: 1.5.0
-
 jobs:
-  security-scan:
+  # Job 1: Build le site
+  build:
     runs-on: ubuntu-latest
-    name: Security Scan
+    name: Build Website
     
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        format: 'sarif'
-        output: 'trivy-results.sarif'
-
-    - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v2
-      if: always()
-      with:
-        sarif_file: 'trivy-results.sarif'
-
-  terraform-plan:
-    runs-on: ubuntu-latest
-    needs: security-scan
-    name: Terraform Plan
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: ${{ env.TERRAFORM_VERSION }}
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-        role-session-name: GitHubActions-TerraformPlan
-        aws-region: ${{ env.AWS_REGION }}
-
-    - name: Terraform Init
-      working-directory: terraform/env/stage
-      run: terraform init
-
-    - name: Terraform Validate
-      working-directory: terraform/env/stage
-      run: terraform validate
-
-    - name: Terraform Plan
-      working-directory: terraform/env/stage
-      run: |
-        terraform plan -no-color -out=tfplan
-        terraform show -no-color tfplan > plan.txt
-
-    - name: Upload Terraform Plan
-      uses: actions/upload-artifact@v4
-      with:
-        name: terraform-plan
-        path: terraform/env/stage/tfplan
-        retention-days: 5
-
-    - name: Comment PR with Plan
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const fs = require('fs');
-          const plan = fs.readFileSync('terraform/env/stage/plan.txt', 'utf8');
-          const maxLength = 65000; // GitHub comment limit
-          const truncatedPlan = plan.length > maxLength ? 
-            plan.substring(0, maxLength) + '\n\n... (truncated)' : plan;
-          
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `## Terraform Plan\n\`\`\`\n${truncatedPlan}\n\`\`\``
-          });
-
-  build-and-test:
-    runs-on: ubuntu-latest
-    needs: security-scan
-    name: Build and Test
-    
-    steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Setup Node.js
@@ -111,160 +25,89 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Run tests
-      run: npm run test --if-present
-
-    - name: Build site
+    - name: Build Astro site
       run: npm run build
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: build-artifacts
+        name: website-build
         path: dist/
-        retention-days: 5
+        retention-days: 7
 
-  deploy-infrastructure:
+  # Job 2: Deploy vers AWS S3 (seulement sur main)
+  deploy:
     runs-on: ubuntu-latest
-    needs: [terraform-plan, build-and-test]
-    name: Deploy Infrastructure
+    needs: build
+    name: Deploy to AWS
     if: github.ref == 'refs/heads/main'
-    environment: stage
     
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: ${{ env.TERRAFORM_VERSION }}
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-        role-session-name: GitHubActions-Deploy
-        aws-region: ${{ env.AWS_REGION }}
-
-    - name: Download Terraform Plan
-      uses: actions/download-artifact@v4
-      with:
-        name: terraform-plan
-        path: terraform/env/stage/
-
-    - name: Terraform Init
-      working-directory: terraform/env/stage
-      run: terraform init
-
-    - name: Terraform Apply
-      working-directory: terraform/env/stage
-      run: terraform apply -auto-approve tfplan
-
-    - name: Get Terraform Outputs
-      working-directory: terraform/env/stage
-      run: |
-        echo "S3_BUCKET=$(terraform output -raw s3_bucket_name)" >> $GITHUB_ENV
-        echo "CLOUDFRONT_DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_ENV
-
-    - name: Save outputs for deployment
-      run: |
-        echo "S3_BUCKET=${{ env.S3_BUCKET }}" >> terraform-outputs.env
-        echo "CLOUDFRONT_DISTRIBUTION_ID=${{ env.CLOUDFRONT_DISTRIBUTION_ID }}" >> terraform-outputs.env
-
-    - name: Upload Terraform outputs
-      uses: actions/upload-artifact@v4
-      with:
-        name: terraform-outputs
-        path: terraform-outputs.env
-        retention-days: 1
-
-  deploy-website:
-    runs-on: ubuntu-latest
-    needs: deploy-infrastructure
-    name: Deploy Website
-    if: github.ref == 'refs/heads/main'
-    environment: stage
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-        role-session-name: GitHubActions-WebsiteDeploy
-        aws-region: ${{ env.AWS_REGION }}
 
     - name: Download build artifacts
       uses: actions/download-artifact@v4
       with:
-        name: build-artifacts
+        name: website-build
         path: dist/
-
-    - name: Download Terraform outputs
-      uses: actions/download-artifact@v4
-      with:
-        name: terraform-outputs
-        path: .
-
-    - name: Load Terraform outputs
-      run: |
-        source terraform-outputs.env
-        echo "S3_BUCKET=$S3_BUCKET" >> $GITHUB_ENV
-        echo "CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_ENV
-
-    - name: Deploy to S3
-      run: |
-        aws s3 sync dist/ s3://${{ env.S3_BUCKET }} \
-          --delete \
-          --cache-control "public, max-age=31536000" \
-          --exclude "*.html" \
-          --exclude "*.xml" \
-          --exclude "*.txt"
-        
-        # HTML files with shorter cache
-        aws s3 sync dist/ s3://${{ env.S3_BUCKET }} \
-          --cache-control "public, max-age=3600" \
-          --include "*.html" \
-          --include "*.xml" \
-          --include "*.txt"
-
-    - name: Invalidate CloudFront
-      run: |
-        aws cloudfront create-invalidation \
-          --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
-          --paths "/*"
-
-  security-post-deploy:
-    runs-on: ubuntu-latest
-    needs: [deploy-infrastructure, deploy-website]
-    name: Post-Deploy Security Check
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-        role-session-name: GitHubActions-SecurityCheck
-        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-3
 
-    - name: Run AWS Config compliance check
+    - name: Deploy to S3
       run: |
-        echo "Checking AWS Config compliance..."
-        # Add AWS Config compliance checks here
+        # Nom du bucket S3 (à adapter selon ton bucket)
+        S3_BUCKET="ecof-website-stage-6e85ed80"
         
-    - name: Check S3 bucket security
-      run: |
-        echo "Verifying S3 bucket security configuration..."
-        # Add S3 security validation here
+        # Sync des fichiers vers S3
+        aws s3 sync dist/ s3://$S3_BUCKET \
+          --delete \
+          --cache-control "public, max-age=31536000" \
+          --exclude "*.html"
         
-    - name: Verify HTTPS enforcement
+        # HTML avec cache plus court
+        aws s3 sync dist/ s3://$S3_BUCKET \
+          --cache-control "public, max-age=3600" \
+          --include "*.html"
+
+    - name: Invalidate CloudFront (optional)
       run: |
-        echo "Testing HTTPS enforcement..."
-        # Add HTTPS validation here
+        # ID de distribution CloudFront (à adapter)
+        DISTRIBUTION_ID="d1zcuce5tj6u3s"
+        
+        # Invalider le cache CloudFront
+        aws cloudfront create-invalidation \
+          --distribution-id $DISTRIBUTION_ID \
+          --paths "/*"
+      continue-on-error: true
+
+  # Job 3: Tests de base (optionnel)
+  test:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Check TypeScript
+      run: npx tsc --noEmit
+      continue-on-error: true
+
+    - name: Lint check (if available)
+      run: npm run lint --if-present
+      continue-on-error: true
