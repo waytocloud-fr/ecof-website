@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Organigramme" description="Organigramme de l'Étoile Cycliste Ouvrière de Firminy">
+  <div class="min-h-screen bg-gray-50 py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Organigramme du Club</h1>
+        <p class="text-xl text-gray-600">Structure et organisation de l'ECOF</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="space-y-8">
+          <!-- Bureau -->
+          <div class="text-center">
+            <h2 class="text-2xl font-bold text-red-600 mb-6">Bureau Directeur</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="bg-red-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Président</h3>
+                <p class="text-gray-600 mt-2">Direction générale du club</p>
+              </div>
+              <div class="bg-red-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Vice-Président</h3>
+                <p class="text-gray-600 mt-2">Assistance à la direction</p>
+              </div>
+              <div class="bg-red-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Secrétaire</h3>
+                <p class="text-gray-600 mt-2">Administration et communication</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trésorerie -->
+          <div class="text-center">
+            <h2 class="text-2xl font-bold text-yellow-600 mb-6">Trésorerie</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-yellow-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Trésorier</h3>
+                <p class="text-gray-600 mt-2">Gestion financière</p>
+              </div>
+              <div class="bg-yellow-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Trésorier Adjoint</h3>
+                <p class="text-gray-600 mt-2">Assistance trésorerie</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Encadrement -->
+          <div class="text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Encadrement Technique</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Responsable École de Vélo</h3>
+                <p class="text-gray-600 mt-2">Formation des jeunes cyclistes</p>
+              </div>
+              <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-bold text-gray-900">Encadrants Bénévoles</h3>
+                <p class="text-gray-600 mt-2">Accompagnement des sorties</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
