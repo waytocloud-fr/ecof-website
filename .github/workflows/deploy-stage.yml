@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
 
+# Permissions nécessaires pour OIDC
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   # Job 1: Build le site
   build:
@@ -41,6 +46,7 @@ jobs:
     needs: build
     name: Deploy to AWS
     if: github.ref == 'refs/heads/main'
+    environment: stage
     
     steps:
     - name: Checkout code
@@ -52,38 +58,56 @@ jobs:
         name: website-build
         path: dist/
 
-    - name: Configure AWS credentials
+    - name: Configure AWS credentials with OIDC
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        role-session-name: GitHubActions-ECOF-Deploy
         aws-region: eu-west-3
+
+    - name: Get AWS caller identity (for verification)
+      run: aws sts get-caller-identity
 
     - name: Deploy to S3
       run: |
         # Nom du bucket S3 (à adapter selon ton bucket)
         S3_BUCKET="ecof-website-stage-6e85ed80"
         
-        # Sync des fichiers vers S3
+        echo "🚀 Déploiement vers S3: $S3_BUCKET"
+        
+        # Sync des fichiers statiques avec cache long
         aws s3 sync dist/ s3://$S3_BUCKET \
           --delete \
           --cache-control "public, max-age=31536000" \
-          --exclude "*.html"
+          --exclude "*.html" \
+          --exclude "*.xml" \
+          --exclude "*.txt"
         
         # HTML avec cache plus court
         aws s3 sync dist/ s3://$S3_BUCKET \
           --cache-control "public, max-age=3600" \
-          --include "*.html"
+          --include "*.html" \
+          --include "*.xml" \
+          --include "*.txt"
+        
+        echo "✅ Déploiement S3 terminé"
 
-    - name: Invalidate CloudFront (optional)
+    - name: Invalidate CloudFront
       run: |
         # ID de distribution CloudFront (à adapter)
         DISTRIBUTION_ID="d1zcuce5tj6u3s"
         
+        echo "🔄 Invalidation CloudFront: $DISTRIBUTION_ID"
+        
         # Invalider le cache CloudFront
-        aws cloudfront create-invalidation \
+        INVALIDATION_ID=$(aws cloudfront create-invalidation \
           --distribution-id $DISTRIBUTION_ID \
-          --paths "/*"
+          --paths "/*" \
+          --query 'Invalidation.Id' \
+          --output text)
+        
+        echo "✅ Invalidation créée: $INVALIDATION_ID"
+        echo "🌐 Site disponible sur: https://$DISTRIBUTION_ID.cloudfront.net"
       continue-on-error: true
 
   # Job 3: Tests de base (optionnel)
