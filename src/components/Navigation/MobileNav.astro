@@ -23,90 +23,116 @@
       </div>
       
       <nav class="space-y-1">
-        <a href="/" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
+        <a href="/" class="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
           </svg>
           <span class="font-medium">Accueil</span>
         </a>
         
-        <a href="/actualites" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
+        <a href="/actualites" class="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
           </svg>
           <span class="font-medium">Actualités</span>
         </a>
         
-        <a href="/calendrier" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
+        <a href="/calendrier" class="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
           <span class="font-medium">Calendrier</span>
         </a>
         
-        <!-- Liens directs pour mobile (pas de sous-menu) -->
-        <a href="/en-bref" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-          </svg>
-          <span class="font-medium">En bref</span>
-        </a>
+        <!-- Section Le Club avec sous-menus pour mobile -->
+        <div class="space-y-2">
+          <button class="flex items-center justify-between w-full text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg" id="mobile-club-menu-toggle">
+            <div class="flex items-center space-x-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              <span class="font-medium">Le Club</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-200" id="mobile-club-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+          
+          <div class="ml-10 space-y-2 hidden" id="mobile-club-submenu">
+            <a href="/historique" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+              <span class="font-medium">Historique</span>
+            </a>
+            
+            <a href="/organigramme" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span class="font-medium">Organigramme</span>
+            </a>
+            
+            <a href="/esprit" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              </svg>
+              <span class="font-medium">Esprit du Club</span>
+            </a>
+          </div>
+        </div>
         
-        <a href="/historique" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-          </svg>
-          <span class="font-medium">Historique</span>
-        </a>
+        <!-- Section Sections avec sous-menus pour mobile -->
+        <div class="space-y-2">
+          <button class="flex items-center justify-between w-full text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg" id="mobile-sections-menu-toggle">
+            <div class="flex items-center space-x-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-4H5m14 8H5m14 4H5"></path>
+              </svg>
+              <span class="font-medium">Sections</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-200" id="mobile-sections-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+          
+          <div class="ml-10 space-y-2 hidden" id="mobile-sections-submenu">
+            <a href="/competition" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+              </svg>
+              <span class="font-medium">Compétition</span>
+            </a>
+            
+            <a href="/ecole-de-velo" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="5.5" cy="17.5" r="3.5" stroke-width="2"/>
+                <circle cx="18.5" cy="17.5" r="3.5" stroke-width="2"/>
+                <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" stroke-width="2"/>
+                <path d="M9 12h3l3-6h2l1.5 3" stroke-width="2"/>
+                <path d="M9 12v5" stroke-width="2"/>
+                <path d="M15 12l-3 5" stroke-width="2"/>
+              </svg>
+              <span class="font-medium">École de vélo</span>
+            </a>
+            
+            <a href="/cyclosport" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              <span class="font-medium">Cyclosport</span>
+            </a>
+            
+            <a href="/loisirs" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-10v20m5-20v20"></path>
+              </svg>
+              <span class="font-medium">Loisirs</span>
+            </a>
+          </div>
+        </div>
         
-        <a href="/organigramme" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-          </svg>
-          <span class="font-medium">Organigramme</span>
-        </a>
-        
-        <a href="/esprit" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-          </svg>
-          <span class="font-medium">Esprit du Club</span>
-        </a>
-        
-        <a href="/competition" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-          </svg>
-          <span class="font-medium">Compétition</span>
-        </a>
-        
-        <a href="/ecole-de-velo" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="5.5" cy="17.5" r="3.5" stroke-width="2"/>
-            <circle cx="18.5" cy="17.5" r="3.5" stroke-width="2"/>
-            <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" stroke-width="2"/>
-            <path d="M9 12h3l3-6h2l1.5 3" stroke-width="2"/>
-            <path d="M9 12v5" stroke-width="2"/>
-            <path d="M15 12l-3 5" stroke-width="2"/>
-          </svg>
-          <span class="font-medium">École de vélo</span>
-        </a>
-        
-        <a href="/cyclosport" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-          </svg>
-          <span class="font-medium">Cyclosport</span>
-        </a>
-        
-        <a href="/loisirs" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-10v20m5-20v20"></path>
-          </svg>
-          <span class="font-medium">Loisirs</span>
-        </a>
-        
-        <a href="/nous-rejoindre" class="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors p-4 rounded-lg hover:bg-blue-50 touch-manipulation text-lg">
+        <a href="/nous-rejoindre" class="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
           </svg>
@@ -133,7 +159,17 @@
   const mobileLine2 = document.getElementById('mobile-line2');
   const mobileLine3 = document.getElementById('mobile-line3');
   
+  const mobileClubMenuToggle = document.getElementById('mobile-club-menu-toggle');
+  const mobileClubSubmenu = document.getElementById('mobile-club-submenu');
+  const mobileClubArrow = document.getElementById('mobile-club-arrow');
+  
+  const mobileSectionsMenuToggle = document.getElementById('mobile-sections-menu-toggle');
+  const mobileSectionsSubmenu = document.getElementById('mobile-sections-submenu');
+  const mobileSectionsArrow = document.getElementById('mobile-sections-arrow');
+  
   let isMobileMenuOpen = false;
+  let isMobileClubSubmenuOpen = false;
+  let isMobileSectionsSubmenuOpen = false;
   
   function toggleMobileMenu() {
     isMobileMenuOpen = !isMobileMenuOpen;
@@ -150,11 +186,51 @@
       mobileLine1?.classList.remove('rotate-45', 'translate-y-1.5');
       mobileLine2?.classList.remove('opacity-0');
       mobileLine3?.classList.remove('-rotate-45', '-translate-y-1.5');
+      
+      // Fermer les sous-menus quand on ferme le menu principal
+      if (isMobileClubSubmenuOpen) {
+        toggleMobileClubSubmenu();
+      }
+      if (isMobileSectionsSubmenuOpen) {
+        toggleMobileSectionsSubmenu();
+      }
+    }
+  }
+  
+  function toggleMobileClubSubmenu() {
+    isMobileClubSubmenuOpen = !isMobileClubSubmenuOpen;
+    
+    if (isMobileClubSubmenuOpen) {
+      mobileClubSubmenu?.classList.remove('hidden');
+      mobileClubArrow?.classList.add('rotate-90');
+    } else {
+      mobileClubSubmenu?.classList.add('hidden');
+      mobileClubArrow?.classList.remove('rotate-90');
+    }
+  }
+  
+  function toggleMobileSectionsSubmenu() {
+    isMobileSectionsSubmenuOpen = !isMobileSectionsSubmenuOpen;
+    
+    if (isMobileSectionsSubmenuOpen) {
+      mobileSectionsSubmenu?.classList.remove('hidden');
+      mobileSectionsArrow?.classList.add('rotate-90');
+    } else {
+      mobileSectionsSubmenu?.classList.add('hidden');
+      mobileSectionsArrow?.classList.remove('rotate-90');
     }
   }
   
   if (mobileMenuToggle) {
     mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+  }
+  
+  if (mobileClubMenuToggle) {
+    mobileClubMenuToggle.addEventListener('click', toggleMobileClubSubmenu);
+  }
+  
+  if (mobileSectionsMenuToggle) {
+    mobileSectionsMenuToggle.addEventListener('click', toggleMobileSectionsSubmenu);
   }
   
   if (mobileMenuOverlay) {
