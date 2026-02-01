@@ -1,6 +1,6 @@
 ---
 title: "Sortie découverte du Col de la Croix"
-date: "2026-02-15T09:00:00Z"
+date: 2026-02-15T09:00:00Z
 description: "Une belle sortie matinale pour découvrir le Col de la Croix et ses panoramas exceptionnels"
 distance: "35 km"
 difficulty: "Modéré"
