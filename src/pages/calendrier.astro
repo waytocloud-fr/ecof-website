@@ -2,7 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // Récupérer les sorties
-const allRides = await Astro.glob('../content/sorties/*.md');
+const allRidesModules = import.meta.glob('../content/sorties/*.md');
+const allRides = await Promise.all(
+  Object.entries(allRidesModules).map(async ([path, module]) => {
+    const mod = await (module as any)();
+    return {
+      ...mod,
+      file: path
+    };
+  })
+);
 const upcomingRides = allRides
   .sort((a, b) => new Date(a.frontmatter.date).getTime() - new Date(b.frontmatter.date).getTime())
   .filter(ride => new Date(ride.frontmatter.date) >= new Date());

@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const allNewsModules = import.meta.glob('../../content/actualites/*.md');
+  const allNews = await Promise.all(
+    Object.entries(allNewsModules).map(async ([path, module]) => {
+      const mod = await (module as any)();
+      return {
+        ...mod,
+        file: path
+      };
+    })
+  );
+  
+  return allNews.map((news: any) => {
+    const slug = news.file.split('/').pop()?.replace('.md', '') || '';
+    return {
+      params: { slug },
+      props: { news }
+    };
+  });
+}
+
+const { news }: { news: any } = Astro.props;
+const { Content } = news;
+
+// Gérer les différents formats de métadonnées
+const publishDate = news.frontmatter.pubDate || news.frontmatter.date;
+const description = news.frontmatter.description || news.frontmatter.excerpt || '';
+---
+
+<BaseLayout title={news.frontmatter.title} description={description}>
+  <article class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header de l'article -->
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+        {news.frontmatter.image && (
+          <div class="h-64 md:h-96 overflow-hidden">
+            <img 
+              src={`${news.frontmatter.image}?v=${Date.now()}`}
+              alt={news.frontmatter.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        )}
+        
+        <div class="p-8">
+          <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+            <span>{new Date(publishDate).toLocaleDateString('fr-FR', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}</span>
+            {news.frontmatter.author && (
+              <>
+                <span>•</span>
+                <span>Par {news.frontmatter.author}</span>
+              </>
+            )}
+          </div>
+          
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {news.frontmatter.title}
+          </h1>
+          
+          {description && (
+            <div class="bg-gray-100 border-l-4 border-red-500 p-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">📝 Description de l'article :</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">
+                {description}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Contenu de l'article -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="mt-8 text-center">
+        <a 
+          href="/actualites" 
+          class="inline-flex items-center px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Retour aux actualités
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose h1, .prose h2, .prose h3 {
+    color: #1f2937;
+  }
+  
+  .prose h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  
+  .prose strong {
+    font-weight: 600;
+    color: #dc2626;
+  }
+  
+  .prose em {
+    font-style: italic;
+    color: #6b7280;
+  }
+</style>

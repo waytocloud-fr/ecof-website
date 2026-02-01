@@ -1,116 +1,145 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Récupérer les dernières sorties
-const allRides = await Astro.glob('../content/sorties/*.md');
-const recentRides = allRides
+// Récupérer les dernières actualités
+const allNewsModules = import.meta.glob('../content/actualites/*.md');
+const allNews = await Promise.all(
+  Object.entries(allNewsModules).map(async ([path, module]) => {
+    const mod = await (module as any)();
+    return {
+      ...mod,
+      file: path
+    };
+  })
+);
+const recentNews = allNews
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
-  .slice(0, 2);
+  .slice(0, 3);
 ---
 
-<BaseLayout title="Accueil" description="École de Cyclisme Olympique de Fontainebleau - Découvrez les plus beaux parcours cyclistes de Seine-et-Marne">
+<BaseLayout title="Accueil" description="Étoile Cycliste Ouvrière de Firminy - Découvrez notre club de cyclisme">
   <!-- Hero Section -->
-  <section class="relative h-96 md:h-[500px] flex items-center justify-center overflow-hidden">
+  <section class="relative h-[60vh] sm:h-80 md:h-96 flex items-center justify-center overflow-hidden">
     <!-- Hero Background Image -->
     <div class="absolute inset-0 z-0">
       <img 
         src="/images/GroupRide.png" 
-        alt="" 
-        class="w-full h-full object-cover object-top"
+        alt="Groupe de cyclistes ECOF" 
+        class="w-full h-full object-cover"
+        style="object-position: 50% 30%;"
       />
-      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute inset-0 bg-black/30"></div>
     </div>
     
     <!-- Hero Content -->
-    <div class="absolute top-8 right-8 z-10 text-right text-white">
-      <h1 class="text-3xl md:text-5xl font-bold leading-tight">
-        Étoile Cycliste<br>
-        Ouvrière<br>
-        de Firminy
+    <div class="relative z-10 text-center text-white px-4">
+      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+        Bienvenue à l'E.C.O.F.
       </h1>
+      <p class="text-lg sm:text-xl md:text-2xl font-light drop-shadow-md">
+        Étoile Cycliste Ouvrière de Firminy
+      </p>
     </div>
     
     <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
       </svg>
     </div>
   </section>
 
-  <!-- Three Column Section -->
-  <section class="py-20 bg-gray-50">
+  <!-- Section En bref -->
+  <section class="py-12 sm:py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Actualités du club -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-          <div class="h-48 bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-            </svg>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Actualités du club</h3>
-            <p class="text-gray-600 mb-6">
-              Restez informé des dernières nouvelles, événements et actualités de notre club de cyclisme.
-            </p>
-            <div class="space-y-3 mb-6">
-              <div class="flex items-start space-x-3">
-                <div class="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Nouvelle saison 2026</p>
-                  <p class="text-xs text-gray-500">Inscriptions ouvertes</p>
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">En bref</h2>
+        <p class="text-lg text-gray-600">Les dernières nouvelles de l'E.C.O.F.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {recentNews.map((news) => {
+          const slug = news.file.split('/').pop()?.replace('.md', '') || '';
+          return (
+            <article class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              {news.frontmatter.image && (
+                <div class="h-48 overflow-hidden">
+                  <img 
+                    src={news.frontmatter.image} 
+                    alt={news.frontmatter.title}
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-              </div>
-              <div class="flex items-start space-x-3">
-                <div class="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
-                <div>
-                  <p class="text-sm font-medium text-gray-900">Sortie spéciale forêt</p>
-                  <p class="text-xs text-gray-500">Dimanche prochain</p>
+              )}
+              <div class="p-6">
+                <div class="text-sm text-red-600 font-medium mb-2">
+                  {new Date(news.frontmatter.date).getFullYear()}
                 </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">
+                  {news.frontmatter.title}
+                </h3>
+                {news.frontmatter.excerpt && (
+                  <p class="text-gray-600 text-sm mb-4">
+                    {news.frontmatter.excerpt.substring(0, 120)}...
+                  </p>
+                )}
+                <a 
+                  href={`/actualites/${slug}`}
+                  class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm transition-colors"
+                >
+                  Lire l'article
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </a>
               </div>
-            </div>
-            <a href="/actualites" class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold">
-              Voir toutes les actualités
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </a>
+            </article>
+          );
+        })}
+        
+        {recentNews.length === 0 && (
+          <div class="col-span-full text-center py-12">
+            <p class="text-gray-500 text-lg">Aucune actualité récente disponible.</p>
           </div>
-        </div>
+        )}
+      </div>
+    </div>
+  </section>
 
-        <!-- Calendrier du club -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-          <div class="h-48 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+  <!-- Two Column Section -->
+  <section class="py-12 sm:py-16 md:py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        <!-- Résultats -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 touch-manipulation">
+          <div class="h-32 sm:h-40 md:h-48 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
+            <svg class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
             </svg>
           </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Calendrier du club</h3>
-            <p class="text-gray-600 mb-6">
-              Consultez notre calendrier des sorties, entraînements et événements à venir.
+          <div class="p-4 sm:p-6 md:p-8">
+            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Résultats</h3>
+            <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
+              Découvrez les performances de nos coureurs lors des dernières compétitions et courses.
             </p>
-            <div class="space-y-3 mb-6">
-              {recentRides.slice(0, 2).map((ride) => (
-                <div class="flex items-start space-x-3">
-                  <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-900">{ride.frontmatter.title}</p>
-                    <p class="text-xs text-gray-500">{new Date(ride.frontmatter.date).toLocaleDateString('fr-FR')}</p>
-                  </div>
-                </div>
-              ))}
+            <div class="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
               <div class="flex items-start space-x-3">
                 <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
                 <div>
-                  <p class="text-sm font-medium text-gray-900">Entraînement hebdomadaire</p>
-                  <p class="text-xs text-gray-500">Tous les mercredis</p>
+                  <p class="text-sm font-medium text-gray-900">🏆 3ème place - Pierre Martin</p>
+                  <p class="text-xs text-gray-500">Course de côte du Pilat</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <p class="text-sm font-medium text-gray-900">🥈 2ème place - Marie Dubois</p>
+                  <p class="text-xs text-gray-500">Cyclo-cross de Firminy</p>
                 </div>
               </div>
             </div>
-            <a href="/calendrier" class="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-semibold">
-              Voir le calendrier complet
+            <a href="/resultats" class="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-semibold text-sm sm:text-base touch-manipulation">
+              Voir tous les résultats
               <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
@@ -119,38 +148,38 @@ const recentRides = allRides
         </div>
 
         <!-- Nous rejoindre -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-          <div class="h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 touch-manipulation">
+          <div class="h-32 sm:h-40 md:h-48 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+            <svg class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
           </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Nous rejoindre</h3>
-            <p class="text-gray-600 mb-6">
+          <div class="p-4 sm:p-6 md:p-8">
+            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Nous rejoindre</h3>
+            <p class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
               Envie de faire partie de l'aventure ? Découvrez comment rejoindre notre club et nos conditions d'adhésion.
             </p>
-            <div class="space-y-3 mb-6">
+            <div class="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
               <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <span class="text-sm text-gray-700">Tous niveaux acceptés</span>
               </div>
               <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <span class="text-sm text-gray-700">Matériel fourni</span>
               </div>
               <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <span class="text-sm text-gray-700">Encadrement professionnel</span>
               </div>
             </div>
-            <a href="/nous-rejoindre" class="inline-flex items-center text-gray-800 hover:text-gray-900 font-semibold">
+            <a href="/nous-rejoindre" class="inline-flex items-center text-gray-800 hover:text-gray-900 font-semibold text-sm sm:text-base touch-manipulation">
               Rejoindre le club
               <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

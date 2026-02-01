@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Récupérer toutes les actualités
+const allNewsModules = import.meta.glob('../content/actualites/*.md');
+const allNews = await Promise.all(
+  Object.entries(allNewsModules).map(async ([path, module]) => {
+    const mod = await module() as any;
+    return {
+      ...mod,
+      file: path
+    };
+  })
+);
+const sortedNews = allNews
+  .sort((a, b) => new Date(b.frontmatter.pubDate || b.frontmatter.date).getTime() - new Date(a.frontmatter.pubDate || a.frontmatter.date).getTime())
+  .slice(0, 6); // Limiter à 6 articles pour "En bref"
+---
+
+<BaseLayout title="En bref" description="Résumé des actualités récentes de l'Étoile Cycliste Ouvrière de Firminy">
+  <div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">En bref</h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Un aperçu rapide des dernières actualités et événements de l'E.C.O.F.
+        </p>
+        <div class="mt-6">
+          <a href="/actualites" class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold">
+            Voir toutes les actualités
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Liste des actualités en format carte -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedNews.map((news) => {
+          const slug = news.file.split('/').pop()?.replace('.md', '') || '';
+          const publishDate = news.frontmatter.pubDate || news.frontmatter.date;
+          const description = news.frontmatter.description || news.frontmatter.excerpt || '';
+          
+          return (
+            <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              {news.frontmatter.image && (
+                <div class="h-48 overflow-hidden">
+                  <img 
+                    src={`${news.frontmatter.image}?v=${Date.now()}`}
+                    alt={news.frontmatter.title}
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              )}
+              <div class="p-6">
+                <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                  <span>{new Date(publishDate).toLocaleDateString('fr-FR', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}</span>
+                  {news.frontmatter.author && (
+                    <>
+                      <span>•</span>
+                      <span>{news.frontmatter.author}</span>
+                    </>
+                  )}
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                  {news.frontmatter.title}
+                </h3>
+                
+                <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                  {description.substring(0, 120)}...
+                </p>
+                
+                <a 
+                  href={`/actualites/${slug}`}
+                  class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm transition-colors"
+                >
+                  Lire l'article
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </a>
+              </div>
+            </article>
+          );
+        })}
+        
+        {sortedNews.length === 0 && (
+          <div class="col-span-full text-center py-12">
+            <p class="text-gray-500 text-lg">Aucune actualité disponible pour le moment.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

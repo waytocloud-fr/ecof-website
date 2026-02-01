@@ -1,9 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Récupérer toutes les actualités
+const allNewsModules = import.meta.glob('../content/actualites/*.md');
+const allNews = await Promise.all(
+  Object.entries(allNewsModules).map(async ([path, module]) => {
+    const mod = await module() as any;
+    return {
+      ...mod,
+      file: path
+    };
+  })
+);
+const sortedNews = allNews
+  .sort((a, b) => new Date(b.frontmatter.pubDate || b.frontmatter.date).getTime() - new Date(a.frontmatter.pubDate || a.frontmatter.date).getTime());
 ---
 
 <BaseLayout title="Actualités" description="Toutes les actualités de l'Étoile Cycliste Ouvrière de Firminy">
-  <div class="pt-20 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div class="pt-20 pb-16 bg-gradient-to-br from-red-50 to-red-100">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
         Actualités du club
@@ -17,107 +31,61 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="space-y-12">
-        <!-- Article 1 -->
-        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div class="md:flex">
-            <div class="md:w-1/3">
-              <img 
-                src="https://images.unsplash.com/photo-1544191696-15693072e0b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Nouvelle saison cycliste" 
-                class="w-full h-48 md:h-full object-cover"
-              />
-            </div>
-            <div class="md:w-2/3 p-8">
-              <div class="flex items-center mb-4">
-                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
-                  Saison 2026
-                </span>
-                <span class="text-gray-500 text-sm ml-4">28 janvier 2026</span>
+        {sortedNews.map((news) => {
+          const slug = news.file.split('/').pop()?.replace('.md', '') || '';
+          const publishDate = news.frontmatter.pubDate || news.frontmatter.date;
+          const description = news.frontmatter.description || news.frontmatter.excerpt || '';
+          
+          return (
+            <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div class="md:flex">
+                {news.frontmatter.image && (
+                  <div class="md:w-1/3">
+                    <img 
+                      src={`${news.frontmatter.image}?v=${Date.now()}`}
+                      alt={news.frontmatter.title}
+                      class="w-full h-48 md:h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div class={news.frontmatter.image ? "md:w-2/3 p-8" : "w-full p-8"}>
+                  <div class="flex items-center mb-4">
+                    {news.frontmatter.tags && news.frontmatter.tags[0] && (
+                      <span class="bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full">
+                        {news.frontmatter.tags[0]}
+                      </span>
+                    )}
+                    <span class="text-gray-500 text-sm ml-4">
+                      {new Date(publishDate).toLocaleDateString('fr-FR', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </span>
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                    {news.frontmatter.title}
+                  </h2>
+                  <p class="text-gray-600 mb-6">
+                    {description.substring(0, 200)}...
+                  </p>
+                  <a href={`/actualites/${slug}`} class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold">
+                    Lire l'article complet
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
               </div>
-              <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                Ouverture des inscriptions pour la saison 2026
-              </h2>
-              <p class="text-gray-600 mb-6">
-                Nous sommes ravis d'annoncer l'ouverture des inscriptions pour la nouvelle saison cycliste 2026. 
-                Cette année, nous proposons de nouveaux parcours et des activités enrichies pour tous les niveaux.
-              </p>
-              <a href="#" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold">
-                Lire la suite
-                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
+            </article>
+          );
+        })}
+        
+        {sortedNews.length === 0 && (
+          <div class="text-center py-12">
+            <p class="text-gray-500 text-lg">Aucune actualité disponible pour le moment.</p>
           </div>
-        </article>
-
-        <!-- Article 2 -->
-        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div class="md:flex">
-            <div class="md:w-1/3">
-              <img 
-                src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Sortie forêt de Fontainebleau" 
-                class="w-full h-48 md:h-full object-cover"
-              />
-            </div>
-            <div class="md:w-2/3 p-8">
-              <div class="flex items-center mb-4">
-                <span class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
-                  Sortie spéciale
-                </span>
-                <span class="text-gray-500 text-sm ml-4">25 janvier 2026</span>
-              </div>
-              <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                Sortie découverte en forêt de Fontainebleau
-              </h2>
-              <p class="text-gray-600 mb-6">
-                Rejoignez-nous dimanche prochain pour une sortie découverte exceptionnelle dans les sentiers 
-                de la forêt de Fontainebleau. Une occasion unique de découvrir de nouveaux parcours.
-              </p>
-              <a href="#" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold">
-                Lire la suite
-                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Article 3 -->
-        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div class="md:flex">
-            <div class="md:w-1/3">
-              <img 
-                src="https://images.unsplash.com/photo-1517654443271-18c1b1ad4ec8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Nouveau matériel" 
-                class="w-full h-48 md:h-full object-cover"
-              />
-            </div>
-            <div class="md:w-2/3 p-8">
-              <div class="flex items-center mb-4">
-                <span class="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full">
-                  Équipement
-                </span>
-                <span class="text-gray-500 text-sm ml-4">20 janvier 2026</span>
-              </div>
-              <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                Renouvellement du parc de vélos du club
-              </h2>
-              <p class="text-gray-600 mb-6">
-                Le club s'est équipé de nouveaux vélos de qualité pour offrir une expérience optimale 
-                à tous nos membres. Découvrez notre nouveau matériel lors de votre prochaine sortie.
-              </p>
-              <a href="#" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold">
-                Lire la suite
-                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </article>
+        )}
       </div>
     </div>
   </section>

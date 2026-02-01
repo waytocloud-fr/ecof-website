@@ -3,7 +3,16 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import RideCard from '@/components/RideCard.astro';
 
 // Récupérer toutes les sorties
-const allRides = await Astro.glob('../content/sorties/*.md');
+const allRidesModules = import.meta.glob('../content/sorties/*.md');
+const allRides = await Promise.all(
+  Object.entries(allRidesModules).map(async ([path, module]) => {
+    const mod = await (module as any)();
+    return {
+      ...mod,
+      file: path
+    };
+  })
+);
 const sortedRides = allRides.sort((a, b) => 
   new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
 );
