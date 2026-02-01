@@ -25,10 +25,11 @@ const recentNews = allNews
       <img 
         src="/images/GroupRide.png" 
         alt="Groupe de cyclistes ECOF" 
-        class="w-full h-full object-cover"
-        style="object-position: 50% 30%;"
+        class="w-full h-full object-cover hero-image sm:object-center md:object-center"
+        style="object-position: 50% 20%;"
       />
-      <div class="absolute inset-0 bg-black/30"></div>
+      <!-- Overlay plus sombre pour mobile pour améliorer la lisibilité -->
+      <div class="absolute inset-0 bg-black/40 sm:bg-black/30"></div>
     </div>
     
     <!-- Hero Content -->
@@ -48,6 +49,30 @@ const recentNews = allNews
       </svg>
     </div>
   </section>
+
+  <style>
+    /* Optimisation de l'image hero pour différentes tailles d'écran */
+    @media (max-width: 640px) {
+      /* Mobile : centrer l'image et ajuster la position */
+      .hero-image {
+        object-position: 50% 25% !important;
+      }
+    }
+    
+    @media (min-width: 641px) and (max-width: 1024px) {
+      /* Tablette : position légèrement ajustée */
+      .hero-image {
+        object-position: 50% 30% !important;
+      }
+    }
+    
+    @media (min-width: 1025px) {
+      /* Desktop : position optimale */
+      .hero-image {
+        object-position: 50% 30% !important;
+      }
+    }
+  </style>
 
   <!-- Section En bref -->
   <section class="py-12 sm:py-16 bg-white">
