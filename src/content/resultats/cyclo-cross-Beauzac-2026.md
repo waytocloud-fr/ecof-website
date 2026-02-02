@@ -1,29 +1,25 @@
 ---
-title: "Course de côte du Pilat 2026"
-date: 2026-01-15
-epreuve: "Course de côte du Pilat"
-lieu: "Saint-Julien-Molin-Molette"
+title: "yclo-cross/VTT de Beauzac FSGT 2026"
+date: 2026-01-24
+epreuve: "Cyclo-cross de Beauzac FSGT"
+lieu: "Beauzac"
 distance: "12 km"
-categorie: "Toutes catégories"
-description: "Une belle course de côte dans le massif du Pilat avec un dénivelé de 800m. Conditions météo parfaites et parcours technique."
+categorie: "FSGT"
+description: "Une belle course. Conditions météo parfaites et parcours technique."
 images: 
-  - "/images/pilat-2026-1.jpg"
-  - "/images/pilat-2026-2.jpg"
-participants:
-  - nom: "Pierre Martin"
+  - "/images/beauzac1.jpg"
+  - "/images/beauzac2.jpg
+  - nom: "Léon Michalon"
     position: 3
-    temps: "28'45\""
-    categorie: "Elite"
-    commentaire: "Excellent temps sur ce parcours difficile"
-  - nom: "Marie Dubois"
-    position: 8
-    temps: "32'12\""
-    categorie: "Masters"
+    categorie: "Cyclo-cross/ Poussin"
+    commentaire: "Excellent"
+  - nom: "Raphael Rondy."
+    position: 2
+    categorie: "Cadet"
     commentaire: "Belle performance en montée"
-  - nom: "Lucas Fernandez"
-    position: 15
-    temps: "35'28\""
-    categorie: "Junior"
+  - nom: "Philippe Valour"
+    position: 11
+    categorie: "Scratch"
     commentaire: "Première participation très prometteuse"
 ---
 
