@@ -26,6 +26,27 @@ const sorties = defineCollection({
   }),
 });
 
+const resultats = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    epreuve: z.string(),
+    lieu: z.string().optional(),
+    distance: z.string().optional(),
+    categorie: z.string().optional(),
+    description: z.string().optional(),
+    images: z.array(z.string()).optional(),
+    participants: z.array(z.object({
+      nom: z.string(),
+      position: z.number().optional(),
+      temps: z.string().optional(),
+      categorie: z.string().optional(),
+      commentaire: z.string().optional(),
+    })),
+  }),
+});
+
 const pages = defineCollection({
   type: 'content',
   schema: z.object({
@@ -37,5 +58,6 @@ const pages = defineCollection({
 export const collections = {
   actualites,
   sorties,
+  resultats,
   pages,
 };
