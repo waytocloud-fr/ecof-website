@@ -15,6 +15,21 @@ const allNews = await Promise.all(
 const recentNews = allNews
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
   .slice(0, 3);
+
+// Récupérer les derniers résultats
+const allResultsModules = import.meta.glob('../content/resultats/*.md');
+const allResults = await Promise.all(
+  Object.entries(allResultsModules).map(async ([path, module]) => {
+    const mod = await (module as any)();
+    return {
+      ...mod,
+      file: path
+    };
+  })
+);
+const recentResults = allResults
+  .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
+  .slice(0, 3);
 ---
 
 <BaseLayout title="Accueil" description="Étoile Cycliste Ouvrière de Firminy - Découvrez notre club de cyclisme">
@@ -144,33 +159,39 @@ const recentNews = allNews
               Découvrez les performances de nos coureurs lors des dernières compétitions et courses.
             </p>
             <div class="space-y-2 mb-4">
-              <a href="/resultats" class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                <div class="flex items-start space-x-3">
-                  <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">🏆 3ème place - Pierre Martin</p>
-                    <p class="text-xs text-gray-500">Course de côte du Pilat - 15 janvier 2026</p>
-                  </div>
+              {recentResults.map((result) => {
+                const slug = result.file.split('/').pop()?.replace('.md', '') || '';
+                const topParticipant = result.frontmatter.participants?.[0];
+                const medal = topParticipant?.position === 1 ? '🥇' : 
+                             topParticipant?.position === 2 ? '🥈' : 
+                             topParticipant?.position === 3 ? '🥉' : '🏆';
+                
+                return (
+                  <a href={`/resultats#${slug}`} class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                    <div class="flex items-start space-x-3">
+                      <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <div>
+                        <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">
+                          {medal} {topParticipant ? `${topParticipant.position}${topParticipant.position === 1 ? 'ère' : 'ème'} place - ${topParticipant.nom}` : result.frontmatter.epreuve}
+                        </p>
+                        <p class="text-xs text-gray-500">
+                          {result.frontmatter.epreuve} - {new Date(result.frontmatter.date).toLocaleDateString('fr-FR', { 
+                            day: 'numeric', 
+                            month: 'long', 
+                            year: 'numeric' 
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                );
+              })}
+              
+              {recentResults.length === 0 && (
+                <div class="text-center py-4">
+                  <p class="text-gray-500 text-sm">Aucun résultat récent disponible.</p>
                 </div>
-              </a>
-              <a href="/resultats" class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                <div class="flex items-start space-x-3">
-                  <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">🥈 2ème place - Marie Dubois</p>
-                    <p class="text-xs text-gray-500">Cyclo-cross de Firminy - 8 janvier 2026</p>
-                  </div>
-                </div>
-              </a>
-              <a href="/resultats" class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                <div class="flex items-start space-x-3">
-                  <div class="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <div>
-                    <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">5ème place - Lucas Fernandez</p>
-                    <p class="text-xs text-gray-500">Critérium de Saint-Étienne - 22 décembre 2025</p>
-                  </div>
-                </div>
-              </a>
+              )}
             </div>
             <a href="/resultats" class="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-semibold text-sm touch-manipulation">
               Voir tous les résultats
