@@ -47,6 +47,24 @@ const resultats = defineCollection({
   }),
 });
 
+const evenements = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    heure: z.string().optional(),
+    type: z.string(), // "ecole-velo", "sortie-club", "competition", "reunion", etc.
+    lieu: z.string().optional(),
+    distance: z.string().optional(),
+    difficulte: z.string().optional(),
+    description: z.string(),
+    image: z.string().optional(),
+    lien: z.string().optional(),
+    inscriptionRequise: z.boolean().optional(),
+    contact: z.string().optional(),
+  }),
+});
+
 const pages = defineCollection({
   type: 'content',
   schema: z.object({
@@ -59,5 +77,6 @@ export const collections = {
   actualites,
   sorties,
   resultats,
+  evenements,
   pages,
 };

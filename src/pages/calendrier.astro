@@ -1,20 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
-// Récupérer les sorties
-const allRidesModules = import.meta.glob('../content/sorties/*.md');
-const allRides = await Promise.all(
-  Object.entries(allRidesModules).map(async ([path, module]) => {
-    const mod = await (module as any)();
-    return {
-      ...mod,
-      file: path
-    };
-  })
+// Récupérer tous les événements et les trier par date
+const allEvenements = await getCollection('evenements');
+const evenements = allEvenements.sort((a, b) => 
+  new Date(a.data.date).getTime() - new Date(b.data.date).getTime()
 );
-const upcomingRides = allRides
-  .sort((a, b) => new Date(a.frontmatter.date).getTime() - new Date(b.frontmatter.date).getTime())
-  .filter(ride => new Date(ride.frontmatter.date) >= new Date());
+
+// Séparer les événements passés et à venir
+const now = new Date();
+const evenementsAVenir = evenements.filter(event => new Date(event.data.date) >= now);
+const evenementsPasses = evenements.filter(event => new Date(event.data.date) < now);
+
+// Fonction pour formater la date
+function formatDate(date: Date) {
+  return date.toLocaleDateString('fr-FR', { 
+    weekday: 'long',
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+}
+
+// Fonction pour obtenir la couleur selon le type d'événement
+function getEventColor(type: string) {
+  switch(type) {
+    case 'ecole-velo': return 'from-green-500 to-emerald-600';
+    case 'sortie-club': return 'from-blue-500 to-blue-600';
+    case 'competition': return 'from-red-500 to-red-600';
+    case 'reunion': return 'from-purple-500 to-purple-600';
+    default: return 'from-gray-500 to-gray-600';
+  }
+}
+
+// Fonction pour obtenir l'icône selon le type d'événement
+function getEventIcon(type: string) {
+  switch(type) {
+    case 'ecole-velo': return '🚲';
+    case 'sortie-club': return '🚴‍♂️';
+    case 'competition': return '🏆';
+    case 'reunion': return '👥';
+    default: return '📅';
+  }
+}
 ---
 
 <BaseLayout title="Calendrier" description="Calendrier des sorties et événements de l'Étoile Cycliste Ouvrière de Firminy">
@@ -31,16 +60,146 @@ const upcomingRides = allRides
 
   <section class="py-16">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Événements récurrents -->
+      <!-- Prochains événements -->
       <div class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Prochains événements</h2>
+        {evenementsAVenir.length > 0 ? (
+          <div class="space-y-6">
+            {evenementsAVenir.map((evenement) => (
+              <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <div class="md:flex">
+                  <div class={`md:w-1/4 bg-gradient-to-br ${getEventColor(evenement.data.type)} p-6 text-white text-center`}>
+                    <div class="text-4xl mb-2">
+                      {getEventIcon(evenement.data.type)}
+                    </div>
+                    <div class="text-2xl font-bold">
+                      {new Date(evenement.data.date).getDate()}
+                    </div>
+                    <div class="text-sm uppercase tracking-wide">
+                      {new Date(evenement.data.date).toLocaleDateString('fr-FR', { month: 'long' })}
+                    </div>
+                    <div class="text-xs opacity-75">
+                      {new Date(evenement.data.date).getFullYear()}
+                    </div>
+                    {evenement.data.heure && (
+                      <div class="text-sm mt-2 opacity-90">
+                        {evenement.data.heure}
+                      </div>
+                    )}
+                  </div>
+                  <div class="md:w-3/4 p-6">
+                    <div class="flex flex-wrap items-center gap-2 mb-4">
+                      <span class={`text-white text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r ${getEventColor(evenement.data.type)}`}>
+                        {evenement.data.type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </span>
+                      {evenement.data.distance && (
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">
+                          {evenement.data.distance}
+                        </span>
+                      )}
+                      {evenement.data.difficulte && (
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
+                          {evenement.data.difficulte}
+                        </span>
+                      )}
+                      {evenement.data.inscriptionRequise && (
+                        <span class="bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded">
+                          Inscription requise
+                        </span>
+                      )}
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">
+                      {evenement.data.title}
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                      {evenement.data.description}
+                    </p>
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                      <div class="text-sm text-gray-500 space-y-1">
+                        {evenement.data.lieu && (
+                          <p class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <strong>Lieu:</strong> {evenement.data.lieu}
+                          </p>
+                        )}
+                        {evenement.data.contact && (
+                          <p class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <strong>Contact:</strong> {evenement.data.contact}
+                          </p>
+                        )}
+                      </div>
+                      <div class="flex gap-2">
+                        {evenement.data.lien && (
+                          <a href={evenement.data.lien} 
+                             target="_blank"
+                             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            Plus d'infos
+                          </a>
+                        )}
+                        <a href={`/evenements/${evenement.slug}`} 
+                           class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                          Voir détails
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {evenement.data.image && (
+                  <div class="px-6 pb-6">
+                    <img 
+                      src={evenement.data.image} 
+                      alt={evenement.data.title}
+                      class="w-full h-48 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-12">
+            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun événement programmé</h3>
+            <p class="text-gray-600">Les prochains événements seront bientôt annoncés.</p>
+          </div>
+        )}
+      </div>
+
+      <!-- Événements récurrents -->
+      <div>
         <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Événements récurrents</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+            <div class="flex items-center mb-4">
+              <div class="bg-green-100 p-3 rounded-full">
+                <span class="text-2xl">🚲</span>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900">École de vélo</h3>
+                <p class="text-sm text-gray-600">Tous les mercredis</p>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              Apprentissage du vélo pour les enfants de 7 à 15 ans
+            </p>
+            <div class="text-sm text-gray-500">
+              <p><strong>Horaire:</strong> 14h00 - 16h00</p>
+              <p><strong>Lieu:</strong> Stade municipal</p>
+            </div>
+          </div>
+
           <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
             <div class="flex items-center mb-4">
               <div class="bg-blue-100 p-3 rounded-full">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+                <span class="text-2xl">🚴‍♂️</span>
               </div>
               <div class="ml-4">
                 <h3 class="text-lg font-semibold text-gray-900">Entraînement</h3>
@@ -56,34 +215,10 @@ const upcomingRides = allRides
             </div>
           </div>
 
-          <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-            <div class="flex items-center mb-4">
-              <div class="bg-green-100 p-3 rounded-full">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-              </div>
-              <div class="ml-4">
-                <h3 class="text-lg font-semibold text-gray-900">Sortie découverte</h3>
-                <p class="text-sm text-gray-600">Tous les samedis</p>
-              </div>
-            </div>
-            <p class="text-gray-600 mb-4">
-              Exploration de nouveaux parcours en groupe
-            </p>
-            <div class="text-sm text-gray-500">
-              <p><strong>Horaire:</strong> 14h00 - 17h00</p>
-              <p><strong>Lieu:</strong> Variable selon parcours</p>
-            </div>
-          </div>
-
           <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
             <div class="flex items-center mb-4">
               <div class="bg-purple-100 p-3 rounded-full">
-                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                </svg>
+                <span class="text-2xl">👥</span>
               </div>
               <div class="ml-4">
                 <h3 class="text-lg font-semibold text-gray-900">Réunion club</h3>
@@ -99,66 +234,6 @@ const upcomingRides = allRides
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Prochaines sorties -->
-      <div>
-        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Prochaines sorties</h2>
-        {upcomingRides.length > 0 ? (
-          <div class="space-y-6">
-            {upcomingRides.map((ride) => (
-              <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="md:flex">
-                  <div class="md:w-1/4 bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white text-center">
-                    <div class="text-3xl font-bold">
-                      {new Date(ride.frontmatter.date).getDate()}
-                    </div>
-                    <div class="text-sm uppercase tracking-wide">
-                      {new Date(ride.frontmatter.date).toLocaleDateString('fr-FR', { month: 'long' })}
-                    </div>
-                    <div class="text-xs opacity-75">
-                      {new Date(ride.frontmatter.date).getFullYear()}
-                    </div>
-                  </div>
-                  <div class="md:w-3/4 p-6">
-                    <div class="flex flex-wrap items-center gap-2 mb-4">
-                      <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
-                        {ride.frontmatter.difficulty}
-                      </span>
-                      <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">
-                        {ride.frontmatter.distance}
-                      </span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">
-                      {ride.frontmatter.title}
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                      {ride.frontmatter.description}
-                    </p>
-                    <div class="flex items-center justify-between">
-                      <div class="text-sm text-gray-500">
-                        <p><strong>Départ:</strong> {ride.frontmatter.startTime || '9h00'}</p>
-                        <p><strong>Lieu:</strong> {ride.frontmatter.startLocation || 'Place de la République'}</p>
-                      </div>
-                      <a href={`/sorties/${ride.file.split('/').pop()?.replace('.md', '')}`} 
-                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        Voir détails
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div class="text-center py-12">
-            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Aucune sortie programmée</h3>
-            <p class="text-gray-600">Les prochaines sorties seront bientôt annoncées.</p>
-          </div>
-        )}
       </div>
     </div>
   </section>
