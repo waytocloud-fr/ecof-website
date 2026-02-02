@@ -161,10 +161,7 @@ const recentResults = allResults
             <div class="space-y-2 mb-4">
               {recentResults.map((result) => {
                 const slug = result.file.split('/').pop()?.replace('.md', '') || '';
-                const topParticipant = result.frontmatter.participants?.[0];
-                const medal = topParticipant?.position === 1 ? '🥇' : 
-                             topParticipant?.position === 2 ? '🥈' : 
-                             topParticipant?.position === 3 ? '🥉' : '🏆';
+                const participantCount = result.frontmatter.participants?.length || 0;
                 
                 return (
                   <a href={`/resultats#${slug}`} class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
@@ -172,14 +169,14 @@ const recentResults = allResults
                       <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
                       <div>
                         <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">
-                          {medal} {topParticipant ? `${topParticipant.position}${topParticipant.position === 1 ? 'ère' : 'ème'} place - ${topParticipant.nom}` : result.frontmatter.epreuve}
+                          🏁 {result.frontmatter.epreuve}
                         </p>
                         <p class="text-xs text-gray-500">
-                          {result.frontmatter.epreuve} - {new Date(result.frontmatter.date).toLocaleDateString('fr-FR', { 
+                          {result.frontmatter.lieu ? `${result.frontmatter.lieu} - ` : ''}{new Date(result.frontmatter.date).toLocaleDateString('fr-FR', { 
                             day: 'numeric', 
                             month: 'long', 
                             year: 'numeric' 
-                          })}
+                          })} • {participantCount} participant{participantCount > 1 ? 's' : ''} ECOF
                         </p>
                       </div>
                     </div>
