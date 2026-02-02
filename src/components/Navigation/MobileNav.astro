@@ -30,54 +30,33 @@
           <span class="font-medium">Accueil</span>
         </a>
         
-        <a href="/actualites" class="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-          </svg>
-          <span class="font-medium">Actualités</span>
-        </a>
-        
-        <a href="/calendrier" class="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-          <span class="font-medium">Calendrier</span>
-        </a>
-        
-        <!-- Section Le Club avec sous-menus pour mobile -->
+        <!-- Section Vie du club avec sous-menus pour mobile -->
         <div class="space-y-2">
-          <button class="flex items-center justify-between w-full text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg" id="mobile-club-menu-toggle">
+          <button class="flex items-center justify-between w-full text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg" id="mobile-vie-menu-toggle">
             <div class="flex items-center space-x-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
               </svg>
-              <span class="font-medium">Le Club</span>
+              <span class="font-medium">Vie du club</span>
             </div>
-            <svg class="w-5 h-5 transition-transform duration-200" id="mobile-club-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 transition-transform duration-200" id="mobile-vie-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
           </button>
           
-          <div class="ml-10 space-y-2 hidden" id="mobile-club-submenu">
-            <a href="/historique" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+          <div class="ml-10 space-y-2 hidden" id="mobile-vie-submenu">
+            <a href="/actualites" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
               </svg>
-              <span class="font-medium">Historique</span>
+              <span class="font-medium">Actualités</span>
             </a>
             
-            <a href="/organigramme" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+            <a href="/calendrier" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
-              <span class="font-medium">Organigramme</span>
-            </a>
-            
-            <a href="/esprit" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-              </svg>
-              <span class="font-medium">Esprit du Club</span>
+              <span class="font-medium">Agenda</span>
             </a>
             
             <a href="/resultats" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
@@ -85,6 +64,44 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
               </svg>
               <span class="font-medium">Résultats</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Section Club avec sous-menus pour mobile -->
+        <div class="space-y-2">
+          <button class="flex items-center justify-between w-full text-gray-700 hover:text-red-600 transition-colors p-4 rounded-lg hover:bg-red-50 touch-manipulation text-lg" id="mobile-club-menu-toggle">
+            <div class="flex items-center space-x-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              <span class="font-medium">Club</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-200" id="mobile-club-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+          
+          <div class="ml-10 space-y-2 hidden" id="mobile-club-submenu">
+            <a href="/organigramme" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span class="font-medium">Organigramme</span>
+            </a>
+            
+            <a href="/historique" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+              <span class="font-medium">Historique</span>
+            </a>
+            
+            <a href="/esprit" class="flex items-center space-x-3 text-gray-600 hover:text-red-600 transition-colors p-3 rounded-lg hover:bg-red-50 touch-manipulation">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              </svg>
+              <span class="font-medium">Esprit</span>
             </a>
           </div>
         </div>
@@ -170,12 +187,17 @@
   const mobileClubSubmenu = document.getElementById('mobile-club-submenu');
   const mobileClubArrow = document.getElementById('mobile-club-arrow');
   
+  const mobileVieMenuToggle = document.getElementById('mobile-vie-menu-toggle');
+  const mobileVieSubmenu = document.getElementById('mobile-vie-submenu');
+  const mobileVieArrow = document.getElementById('mobile-vie-arrow');
+  
   const mobileSectionsMenuToggle = document.getElementById('mobile-sections-menu-toggle');
   const mobileSectionsSubmenu = document.getElementById('mobile-sections-submenu');
   const mobileSectionsArrow = document.getElementById('mobile-sections-arrow');
   
   let isMobileMenuOpen = false;
   let isMobileClubSubmenuOpen = false;
+  let isMobileVieSubmenuOpen = false;
   let isMobileSectionsSubmenuOpen = false;
   
   function toggleMobileMenu() {
@@ -198,6 +220,9 @@
       if (isMobileClubSubmenuOpen) {
         toggleMobileClubSubmenu();
       }
+      if (isMobileVieSubmenuOpen) {
+        toggleMobileVieSubmenu();
+      }
       if (isMobileSectionsSubmenuOpen) {
         toggleMobileSectionsSubmenu();
       }
@@ -213,6 +238,18 @@
     } else {
       mobileClubSubmenu?.classList.add('hidden');
       mobileClubArrow?.classList.remove('rotate-90');
+    }
+  }
+  
+  function toggleMobileVieSubmenu() {
+    isMobileVieSubmenuOpen = !isMobileVieSubmenuOpen;
+    
+    if (isMobileVieSubmenuOpen) {
+      mobileVieSubmenu?.classList.remove('hidden');
+      mobileVieArrow?.classList.add('rotate-90');
+    } else {
+      mobileVieSubmenu?.classList.add('hidden');
+      mobileVieArrow?.classList.remove('rotate-90');
     }
   }
   
@@ -234,6 +271,10 @@
   
   if (mobileClubMenuToggle) {
     mobileClubMenuToggle.addEventListener('click', toggleMobileClubSubmenu);
+  }
+  
+  if (mobileVieMenuToggle) {
+    mobileVieMenuToggle.addEventListener('click', toggleMobileVieSubmenu);
   }
   
   if (mobileSectionsMenuToggle) {
