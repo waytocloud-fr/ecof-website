@@ -6,7 +6,7 @@ lieu: "Beauzac"
 distance: "12 km"
 categorie: "FSGT"
 description: "Une belle course. Conditions météo parfaites et parcours technique."
-images: 
+images:
   - "/images/beauzac1.jpg"
   - "/images/beauzac2.jpg"
 participants:
