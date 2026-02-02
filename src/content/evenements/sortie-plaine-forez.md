@@ -7,7 +7,7 @@ lieu: "Départ parking de la mairie de Firminy"
 distance: "73 km"
 difficulte: "Modérée"
 description: "Belle sortie dominicale à travers la plaine du Forez. Parcours vallonné avec quelques côtes accessibles à tous."
-image: "/images/plaine-forez.jpg"
+image: "/images/parcours1.png"
 inscriptionRequise: true
 contact: "sorties@ecof-firminy.fr"
 ---
