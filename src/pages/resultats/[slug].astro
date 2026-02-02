@@ -1,0 +1,206 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const resultats = await getCollection('resultats');
+  return resultats.map((resultat) => ({
+    params: { slug: resultat.slug },
+    props: { resultat },
+  }));
+}
+
+const { resultat } = Astro.props;
+const { Content } = await resultat.render();
+---
+
+<BaseLayout title={resultat.data.title} description={resultat.data.description || `Résultats de ${resultat.data.epreuve}`}>
+  <div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav class="mb-8">
+        <ol class="flex items-center space-x-2 text-sm text-gray-600">
+          <li><a href="/" class="hover:text-red-600 transition-colors">Accueil</a></li>
+          <li class="flex items-center">
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            <a href="/resultats" class="hover:text-red-600 transition-colors">Résultats</a>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            <span class="text-gray-900">{resultat.data.epreuve}</span>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Article principal -->
+      <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <!-- En-tête de l'article -->
+        <div class="p-8 border-b border-gray-100">
+          <div class="mb-6">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{resultat.data.title}</h1>
+            <div class="flex flex-wrap gap-6 text-gray-600">
+              <span class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v12a2 2 0 002 2z"></path>
+                </svg>
+                {new Date(resultat.data.date).toLocaleDateString('fr-FR', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </span>
+              {resultat.data.lieu && (
+                <span class="flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  {resultat.data.lieu}
+                </span>
+              )}
+              {resultat.data.distance && (
+                <span class="flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  {resultat.data.distance}
+                </span>
+              )}
+              {resultat.data.categorie && (
+                <span class="flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                  </svg>
+                  {resultat.data.categorie}
+                </span>
+              )}
+            </div>
+          </div>
+          
+          {resultat.data.description && (
+            <div class="bg-red-50 border-l-4 border-red-600 p-4 rounded-r-lg">
+              <p class="text-gray-800 text-lg leading-relaxed">{resultat.data.description}</p>
+            </div>
+          )}
+        </div>
+
+        <!-- Photos (si disponibles) -->
+        {resultat.data.images && resultat.data.images.length > 0 && (
+          <div class="p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <svg class="w-6 h-6 mr-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              Photos de la compétition
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {resultat.data.images.map((image, index) => (
+                <div class="overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <img 
+                    src={image} 
+                    alt={`Photo ${index + 1} - ${resultat.data.epreuve}`}
+                    class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Résultats des participants -->
+        <div class="p-8 bg-gray-50">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <svg class="w-6 h-6 mr-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+            Résultats ECOF
+          </h2>
+          
+          <div class="grid gap-4">
+            {resultat.data.participants.map((participant, index) => (
+              <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-4">
+                    {participant.position && (
+                      <div class={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white shadow-lg ${
+                        participant.position === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600' :
+                        participant.position === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-500' :
+                        participant.position === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-600' :
+                        'bg-gradient-to-br from-red-500 to-red-700'
+                      }`}>
+                        {participant.position}
+                      </div>
+                    )}
+                    <div>
+                      <h3 class="text-xl font-bold text-gray-900">{participant.nom}</h3>
+                      {participant.categorie && (
+                        <p class="text-gray-600 font-medium">{participant.categorie}</p>
+                      )}
+                      {participant.commentaire && (
+                        <p class="text-gray-500 italic mt-1">{participant.commentaire}</p>
+                      )}
+                    </div>
+                  </div>
+                  {participant.temps && (
+                    <div class="text-right">
+                      <p class="font-mono text-2xl font-bold text-gray-900">{participant.temps}</p>
+                      <p class="text-sm text-gray-500">Temps</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Contenu de l'article -->
+        <div class="p-8">
+          <div class="prose prose-lg max-w-none prose-red">
+            <Content />
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="p-8 bg-gray-50 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <a 
+              href="/resultats" 
+              class="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors duration-200"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              Retour aux résultats
+            </a>
+            
+            <div class="flex gap-3">
+              <button 
+                onclick="window.print()" 
+                class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                </svg>
+                Imprimer
+              </button>
+              
+              <button 
+                onclick="navigator.share ? navigator.share({title: document.title, url: window.location.href}) : navigator.clipboard.writeText(window.location.href)" 
+                class="inline-flex items-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                </svg>
+                Partager
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</BaseLayout>
