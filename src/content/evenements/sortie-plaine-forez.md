@@ -25,17 +25,16 @@ Rejoignez-nous pour une magnifique sortie dominicale à travers la plaine du For
 
 ### Itinéraire
 
-- Départ de Firminy
-- Passage par Unieux, Andrézieux-Bouthéon
-- Traversée de la plaine du Forez
-- Retour par Bonson et Saint-Just-Saint-Rambert
+- Départ de Unieux
+- Passage par Unieux, St-Just-St-Rambert, Craintilleux, St-Romain le Puy, St Marcellin, Chambles
+- Retour par Saint-Just-Saint-Rambert
 
 ### Informations pratiques
 
-- **Rendez-vous** : 8h30 parking de la mairie
-- **Départ** : 9h00 précises
-- **Retour estimé** : 13h00
-- **Ravitaillement** : Prévu à mi-parcours
+- **Rendez-vous** : 9h30 parking de la fenderie
+- **Départ** : 9h30 précises
+- **Retour estimé** : 12h00
+
 
 ### Équipement recommandé
 
