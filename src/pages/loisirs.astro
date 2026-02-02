@@ -3,30 +3,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Loisirs" description="Pratique du vélo loisir à l'Étoile Cycliste Ouvrière de Firminy">
-  <div class="min-h-screen bg-gray-50 py-12">
+  <!-- Hero Section -->
+  <div class="pt-20 pb-16 bg-gradient-to-br from-green-50 to-emerald-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="text-6xl mb-6">🚴‍♀️</div>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Vélo Loisirs
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Le vélo pour le plaisir, le bien-être et la découverte, dans un esprit
+        convivial et accessible à tous.
+      </p>
+    </div>
+  </div>
+
+  <div class="py-16 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">
-          Vélo Loisirs
-        </h1>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Le vélo pour le plaisir, le bien-être et la découverte, dans un esprit
-          convivial et accessible à tous.
-        </p>
-      </div>
-
       <!-- Présentation -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">
-          Qu’est-ce que le vélo loisir ?
-        </h2>
+      <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border-l-4 border-green-500">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+            <span class="text-2xl">🌟</span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900">
+            Qu'est-ce que le vélo loisir ?
+          </h2>
+        </div>
         <p class="text-gray-700 mb-4">
-          Le vélo loisir s’adresse à toutes celles et ceux qui souhaitent pratiquer
+          Le vélo loisir s'adresse à toutes celles et ceux qui souhaitent pratiquer
           le cyclisme sans objectif de performance ou de compétition.  
           Il privilégie le plaisir de rouler, la découverte des paysages et le
-          partage d’un moment sportif en toute simplicité.
+          partage d'un moment sportif en toute simplicité.
         </p>
         <p class="text-gray-700">
           Les sorties sont adaptées au niveau du groupe, avec des parcours variés,
@@ -39,59 +47,185 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="grid md:grid-cols-2 gap-8 mb-12">
 
         <!-- Avantages santé -->
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">
-            Les bienfaits du vélo loisir
-          </h2>
-          <ul class="space-y-3 text-gray-700">
-            <li>• Amélioration de la condition physique et du bien-être</li>
-            <li>• Activité douce et adaptée à tous les âges</li>
-            <li>• Réduction du stress et moment de détente</li>
-            <li>• Découverte du territoire local à vélo</li>
+        <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+              <span class="text-2xl">💪</span>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900">
+              Les bienfaits du vélo loisir
+            </h2>
+          </div>
+          <ul class="space-y-4 text-gray-700">
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Amélioration de la condition physique et du bien-être</span>
+            </li>
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Activité douce et adaptée à tous les âges</span>
+            </li>
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Réduction du stress et moment de détente</span>
+            </li>
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Découverte du territoire local à vélo</span>
+            </li>
           </ul>
         </div>
 
         <!-- Avantages club -->
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">
-            Pourquoi pratiquer en club ?
-          </h2>
-          <ul class="space-y-3 text-gray-700">
-            <li>• Sorties encadrées dans un cadre sécurisé</li>
-            <li>• Convivialité et esprit de groupe</li>
-            <li>• Conseils pratiques (matériel, sécurité, itinéraires)</li>
-            <li>• Motivation et régularité dans la pratique</li>
+        <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-ecof-yellow rounded-full flex items-center justify-center mr-4">
+              <span class="text-2xl">🤝</span>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900">
+              Pourquoi pratiquer en club ?
+            </h2>
+          </div>
+          <ul class="space-y-4 text-gray-700">
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-ecof-red rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Sorties encadrées dans un cadre sécurisé</span>
+            </li>
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-ecof-red rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Convivialité et esprit de groupe</span>
+            </li>
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-ecof-red rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Conseils pratiques (matériel, sécurité, itinéraires)</span>
+            </li>
+            <li class="flex items-start">
+              <div class="w-6 h-6 bg-ecof-red rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <span>Motivation et régularité dans la pratique</span>
+            </li>
           </ul>
         </div>
 
       </div>
 
       <!-- Pour qui -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">
-          À qui s’adresse la section Loisirs ?
-        </h2>
-        <p class="text-gray-700">
+      <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl shadow-lg p-8 mb-12 border-l-4 border-purple-500">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+            <span class="text-2xl">👥</span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900">
+            À qui s'adresse la section Loisirs ?
+          </h2>
+        </div>
+        <p class="text-gray-700 mb-6">
           La section Loisirs est ouverte aux adultes et aux familles souhaitant
           pratiquer le vélo dans une ambiance détendue, sans esprit de compétition.
           Que vous soyez débutant, pratiquant occasionnel ou cycliste souhaitant
           simplement rouler pour le plaisir, vous êtes les bienvenus.
         </p>
+        
+        <!-- Profils types -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-white/70 rounded-lg p-4 text-center">
+            <div class="text-3xl mb-2">🌱</div>
+            <h3 class="font-semibold text-gray-900 mb-1">Débutants</h3>
+            <p class="text-sm text-gray-600">Premiers tours de roue en toute sécurité</p>
+          </div>
+          <div class="bg-white/70 rounded-lg p-4 text-center">
+            <div class="text-3xl mb-2">👨‍👩‍👧‍👦</div>
+            <h3 class="font-semibold text-gray-900 mb-1">Familles</h3>
+            <p class="text-sm text-gray-600">Sorties adaptées aux enfants</p>
+          </div>
+          <div class="bg-white/70 rounded-lg p-4 text-center">
+            <div class="text-3xl mb-2">😌</div>
+            <h3 class="font-semibold text-gray-900 mb-1">Détente</h3>
+            <p class="text-sm text-gray-600">Cyclistes cherchant la tranquillité</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Types de sorties -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+            <span class="text-2xl">🗺️</span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900">
+            Nos types de sorties
+          </h2>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+            <div class="text-4xl mb-3">🚴‍♂️</div>
+            <h3 class="font-semibold text-gray-900 mb-2">Balades découverte</h3>
+            <p class="text-sm text-gray-600">Parcours faciles pour découvrir la région</p>
+          </div>
+          
+          <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl">
+            <div class="text-4xl mb-3">🌄</div>
+            <h3 class="font-semibold text-gray-900 mb-2">Sorties nature</h3>
+            <p class="text-sm text-gray-600">À la découverte des paysages locaux</p>
+          </div>
+          
+          <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl">
+            <div class="text-4xl mb-3">☕</div>
+            <h3 class="font-semibold text-gray-900 mb-2">Sorties café</h3>
+            <p class="text-sm text-gray-600">Avec pause gourmande en cours de route</p>
+          </div>
+        </div>
       </div>
 
       <!-- Appel à l'action -->
-      <div class="bg-blue-50 rounded-2xl p-8 text-center">
-        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+      <div class="bg-gradient-to-r from-ecof-red to-ecof-yellow rounded-2xl p-8 text-center text-white">
+        <div class="text-5xl mb-4">🚴‍♀️</div>
+        <h2 class="text-2xl font-bold mb-4">
           Envie de nous rejoindre ?
         </h2>
-        <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Venez découvrir la section Loisirs de l’ECOF lors d’une sortie conviviale
+        <p class="text-white/90 mb-6 max-w-2xl mx-auto">
+          Venez découvrir la section Loisirs de l'ECOF lors d'une sortie conviviale
           et adaptée à votre niveau.
         </p>
         <a
-          href="/contact"
-          class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          href="/nous-rejoindre"
+          class="inline-flex items-center bg-white text-ecof-red hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition-colors"
         >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2v-6a2 2 0 012-2h2V4a2 2 0 012-2h4a2 2 0 012 2v4z"></path>
+          </svg>
           Nous contacter
         </a>
       </div>

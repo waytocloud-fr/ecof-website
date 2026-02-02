@@ -92,8 +92,23 @@ const recentResults = allResults
   <section class="py-12 sm:py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">En bref</h2>
-        <p class="text-lg text-gray-600">Les dernières nouvelles de l'E.C.O.F.</p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+          <div class="text-center sm:text-left">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 sm:mb-0">En bref</h2>
+            <p class="text-lg text-gray-600">Les dernières nouvelles de l'E.C.O.F.</p>
+          </div>
+          <div class="mt-4 sm:mt-0">
+            <a 
+              href="/actualites" 
+              class="inline-flex items-center text-ecof-red hover:text-ecof-yellow font-semibold text-sm bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full transition-all duration-200"
+            >
+              Toutes les actualités
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
