@@ -2,26 +2,100 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Loisirs" description="Section loisirs de l'Étoile Cycliste Ouvrière de Firminy">
+<BaseLayout title="Loisirs" description="Pratique du vélo loisir à l'Étoile Cycliste Ouvrière de Firminy">
   <div class="min-h-screen bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
       <!-- Header -->
       <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">Loisirs</h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+          Vélo Loisirs
+        </h1>
         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Notre section loisirs pour découvrir le cyclisme en famille et entre amis dans la convivialité.
+          Le vélo pour le plaisir, le bien-être et la découverte, dans un esprit
+          convivial et accessible à tous.
         </p>
       </div>
 
-      <!-- Contenu à développer -->
-      <div class="bg-white rounded-2xl shadow-lg p-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Section en développement</h2>
-        <p class="text-gray-600">
-          Cette section présentera bientôt toutes les informations sur nos sorties loisirs, 
-          les balades familiales, les découvertes touristiques à vélo et les activités 
-          conviviales ouvertes à tous les niveaux.
+      <!-- Présentation -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          Qu’est-ce que le vélo loisir ?
+        </h2>
+        <p class="text-gray-700 mb-4">
+          Le vélo loisir s’adresse à toutes celles et ceux qui souhaitent pratiquer
+          le cyclisme sans objectif de performance ou de compétition.  
+          Il privilégie le plaisir de rouler, la découverte des paysages et le
+          partage d’un moment sportif en toute simplicité.
+        </p>
+        <p class="text-gray-700">
+          Les sorties sont adaptées au niveau du groupe, avec des parcours variés,
+          des allures modérées et des pauses régulières, permettant à chacun de
+          profiter pleinement de la sortie.
         </p>
       </div>
+
+      <!-- Avantages -->
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+
+        <!-- Avantages santé -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">
+            Les bienfaits du vélo loisir
+          </h2>
+          <ul class="space-y-3 text-gray-700">
+            <li>• Amélioration de la condition physique et du bien-être</li>
+            <li>• Activité douce et adaptée à tous les âges</li>
+            <li>• Réduction du stress et moment de détente</li>
+            <li>• Découverte du territoire local à vélo</li>
+          </ul>
+        </div>
+
+        <!-- Avantages club -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">
+            Pourquoi pratiquer en club ?
+          </h2>
+          <ul class="space-y-3 text-gray-700">
+            <li>• Sorties encadrées dans un cadre sécurisé</li>
+            <li>• Convivialité et esprit de groupe</li>
+            <li>• Conseils pratiques (matériel, sécurité, itinéraires)</li>
+            <li>• Motivation et régularité dans la pratique</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Pour qui -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          À qui s’adresse la section Loisirs ?
+        </h2>
+        <p class="text-gray-700">
+          La section Loisirs est ouverte aux adultes et aux familles souhaitant
+          pratiquer le vélo dans une ambiance détendue, sans esprit de compétition.
+          Que vous soyez débutant, pratiquant occasionnel ou cycliste souhaitant
+          simplement rouler pour le plaisir, vous êtes les bienvenus.
+        </p>
+      </div>
+
+      <!-- Appel à l'action -->
+      <div class="bg-blue-50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          Envie de nous rejoindre ?
+        </h2>
+        <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+          Venez découvrir la section Loisirs de l’ECOF lors d’une sortie conviviale
+          et adaptée à votre niveau.
+        </p>
+        <a
+          href="/contact"
+          class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+        >
+          Nous contacter
+        </a>
+      </div>
+
     </div>
   </div>
 </BaseLayout>

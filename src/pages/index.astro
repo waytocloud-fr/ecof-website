@@ -23,10 +23,9 @@ const recentNews = allNews
     <!-- Hero Background Image -->
     <div class="absolute inset-0 z-0">
       <img 
-        src="/images/GroupRide.png" 
+        src="/images/GroupeRide_hero.png" 
         alt="Groupe de cyclistes ECOF" 
         class="w-full h-full object-cover hero-image sm:object-center md:object-center"
-        style="object-position: 50% 20%;"
       />
       <!-- Overlay plus sombre pour mobile pour améliorer la lisibilité -->
       <div class="absolute inset-0 bg-black/40 sm:bg-black/30"></div>
@@ -53,14 +52,14 @@ const recentNews = allNews
   <style>
     /* Optimisation de l'image hero pour différentes tailles d'écran */
     @media (max-width: 640px) {
-      /* Mobile : centrer l'image et ajuster la position */
+      /* Mobile : même position que desktop */
       .hero-image {
-        object-position: 50% 25% !important;
+        object-position: 50% 30% !important;
       }
     }
     
     @media (min-width: 641px) and (max-width: 1024px) {
-      /* Tablette : position légèrement ajustée */
+      /* Tablette : même position que desktop */
       .hero-image {
         object-position: 50% 30% !important;
       }
@@ -219,6 +218,41 @@ const recentNews = allNews
             </a>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Ils nous soutiennent -->
+  <section class="py-12 sm:py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Ils nous soutiennent</h2>
+        <p class="text-lg text-gray-600">Nos partenaires et soutiens qui nous accompagnent dans notre passion</p>
+      </div>
+      
+      <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+        <div class="flex-shrink-0">
+          <img 
+            src="/images/soutien1.png" 
+            alt="Partenaire soutien 1"
+            class="h-16 sm:h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+          />
+        </div>
+        
+        <div class="flex-shrink-0">
+          <img 
+            src="/images/soutien2.png" 
+            alt="Partenaire soutien 2"
+            class="h-16 sm:h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+          />
+        </div>
+      </div>
+      
+      <!-- Message de remerciement -->
+      <div class="text-center mt-8">
+        <p class="text-gray-600 italic">
+          Un grand merci à tous nos partenaires pour leur confiance et leur soutien
+        </p>
       </div>
     </div>
   </section>

@@ -18,17 +18,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Sponsoring vs Mécénat -->
       <div class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Sponsoring ou Mécénat ?</h2>
+        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Comment nous soutenir ?</h2>
         <div class="grid md:grid-cols-2 gap-8">
           <!-- Sponsoring -->
           <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-red-500">
             <div class="h-48 bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
-              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-              </svg>
+              <h3 class="text-4xl font-bold text-white">Sponsoring</h3>
             </div>
             <div class="p-8">
-              <h3 class="text-2xl font-bold text-gray-900 mb-4">Sponsoring</h3>
               <p class="text-gray-600 mb-6">
                 Partenariat commercial avec contrepartie publicitaire. Votre entreprise bénéficie d'une visibilité 
                 directe auprès de notre communauté de cyclistes et lors de nos événements.
@@ -69,12 +66,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <!-- Mécénat -->
           <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-yellow-500">
             <div class="h-48 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
-              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-              </svg>
+              <h3 class="text-4xl font-bold text-white">Mécénat</h3>
             </div>
             <div class="p-8">
-              <h3 class="text-2xl font-bold text-gray-900 mb-4">Mécénat</h3>
               <p class="text-gray-600 mb-6">
                 Soutien désintéressé à notre association d'intérêt général. Votre contribution aide directement 
                 au développement du cyclisme local et à la formation des jeunes.
@@ -109,129 +103,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <li>• Rapport d'activité annuel</li>
                 <li>• Invitation aux événements du club</li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Nos formules de partenariat -->
-      <div class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Nos formules de partenariat</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          <!-- Partenaire Bronze -->
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div class="bg-gradient-to-br from-gray-600 to-gray-700 p-6 text-center text-white">
-              <h3 class="text-2xl font-bold mb-2">Partenaire Bronze</h3>
-              <div class="text-4xl font-bold mb-2">500€</div>
-              <p class="opacity-90">par an</p>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Logo sur le site internet</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Mention réseaux sociaux</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Remerciements événements</span>
-                </li>
-              </ul>
-              <button class="w-full mt-6 bg-gray-600 hover:bg-gray-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                Choisir Bronze
-              </button>
-            </div>
-          </div>
-
-          <!-- Partenaire Argent -->
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-red-500 relative">
-            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-medium">Populaire</span>
-            </div>
-            <div class="bg-gradient-to-br from-red-600 to-red-700 p-6 text-center text-white">
-              <h3 class="text-2xl font-bold mb-2">Partenaire Argent</h3>
-              <div class="text-4xl font-bold mb-2">1 500€</div>
-              <p class="opacity-90">par an</p>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Tout Bronze +</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Logo sur les maillots</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Panneau lors des événements</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Newsletter mensuelle</span>
-                </li>
-              </ul>
-              <button class="w-full mt-6 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                Choisir Argent
-              </button>
-            </div>
-          </div>
-
-          <!-- Partenaire Or -->
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 p-6 text-center text-white">
-              <h3 class="text-2xl font-bold mb-2">Partenaire Or</h3>
-              <div class="text-4xl font-bold mb-2">3 000€</div>
-              <p class="opacity-90">par an</p>
-            </div>
-            <div class="p-6">
-              <ul class="space-y-3">
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Tout Argent +</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Naming d'un événement</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Logo principal sur véhicule</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-gray-700">Événement dédié</span>
-                </li>
-              </ul>
-              <button class="w-full mt-6 bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                Choisir Or
-              </button>
             </div>
           </div>
         </div>
