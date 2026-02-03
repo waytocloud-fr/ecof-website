@@ -68,35 +68,28 @@ jobs:
     - name: Get AWS caller identity (for verification)
       run: aws sts get-caller-identity
 
-    - name: Deploy to S3
+    - name: Deploy main site to S3
       run: |
-        # Nom du bucket S3 (à adapter selon ton bucket)
+        # Nom du bucket S3 
         S3_BUCKET="ecof-website-stage-6e85ed80"
         
-        echo "🚀 Déploiement vers S3: $S3_BUCKET"
-        
-        # Sync des fichiers statiques avec cache long
+        echo "🚀 Déploiement du site principal vers S3"
         aws s3 sync dist/ s3://$S3_BUCKET \
           --delete \
           --cache-control "public, max-age=31536000" \
           --exclude "*.html" \
-          --exclude "*.xml" \
-          --exclude "*.txt"
-        
-        # HTML avec cache plus court
+          --exclude "admin/*"
         aws s3 sync dist/ s3://$S3_BUCKET \
           --cache-control "public, max-age=3600" \
-          --include "*.html" \
-          --include "*.xml" \
-          --include "*.txt"
-        
-        echo "✅ Déploiement S3 terminé"
+          --include "*.html"
 
     - name: Deploy admin folder
+      
       run: |
+        S3_BUCKET="ecof-website-stage-6e85ed80"
         echo "🚀 Déploiement du dossier /admin"
-        aws s3 sync dist/admin/ s3://$S3_BUCKET/admin/ --delete \
-          --cache-control "no-cache, no-store"
+        aws s3 sync admin/ s3://$S3_BUCKET/admin/ --delete --cache-control "no-cache, no-store"
+
 
 
     - name: Invalidate CloudFront
