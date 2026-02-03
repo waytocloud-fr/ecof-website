@@ -92,6 +92,13 @@ jobs:
         
         echo "✅ Déploiement S3 terminé"
 
+    - name: Deploy admin folder
+      run: |
+        echo "🚀 Déploiement du dossier /admin"
+        aws s3 sync dist/admin/ s3://$S3_BUCKET/admin/ --delete \
+          --cache-control "no-cache, no-store"
+
+
     - name: Invalidate CloudFront
       run: |
         # ID de distribution CloudFront (corrigé)
