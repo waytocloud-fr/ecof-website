@@ -158,13 +158,13 @@ const recentResults = allResults
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         <!-- Résultats -->
-        <a href="/resultats" class="block">
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 touch-manipulation cursor-pointer h-full">
-            <div class="h-20 sm:h-24 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
-              <h3 class="text-lg sm:text-xl font-bold text-white">Résultats</h3>
+        <a href="/resultats" class="block group">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 touch-manipulation cursor-pointer h-full transform group-hover:scale-[1.02]">
+            <div class="h-20 sm:h-24 bg-gradient-to-br from-yellow-500 to-yellow-600 group-hover:from-yellow-600 group-hover:to-yellow-700 flex items-center justify-center transition-all duration-300">
+              <h3 class="text-lg sm:text-xl font-bold text-white group-hover:scale-105 transition-transform duration-300">Résultats</h3>
             </div>
             <div class="p-4 sm:p-6">
-              <p class="text-gray-600 mb-3 sm:mb-4 text-sm">
+              <p class="text-gray-600 mb-3 sm:mb-4 text-sm group-hover:text-gray-700 transition-colors">
                 Découvrez les performances de nos coureurs lors des dernières compétitions et courses.
               </p>
               <div class="space-y-2">
@@ -172,14 +172,14 @@ const recentResults = allResults
                   const participantCount = result.frontmatter.participants?.length || 0;
                   
                   return (
-                    <div class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                    <div class="block hover:bg-yellow-50 p-2 rounded-lg transition-colors group-hover:bg-yellow-50">
                       <div class="flex items-start space-x-3">
-                        <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0 group-hover:bg-yellow-700 transition-colors"></div>
                         <div>
-                          <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">
+                          <p class="text-sm font-medium text-gray-900 group-hover:text-yellow-700 transition-colors">
                             🏁 {result.frontmatter.epreuve}
                           </p>
-                          <p class="text-xs text-gray-500">
+                          <p class="text-xs text-gray-500 group-hover:text-gray-600 transition-colors">
                             {result.frontmatter.lieu ? `${result.frontmatter.lieu} - ` : ''}{new Date(result.frontmatter.date).toLocaleDateString('fr-FR', { 
                               day: 'numeric', 
                               month: 'long', 
@@ -198,38 +198,58 @@ const recentResults = allResults
                   </div>
                 )}
               </div>
+              
+              <!-- Indicateur visuel d'action -->
+              <div class="mt-4 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <div class="flex items-center text-yellow-600 text-sm font-medium">
+                  <span>Voir tous les résultats</span>
+                  <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </a>
 
         <!-- Nous rejoindre -->
-        <a href="/nous-rejoindre" class="block">
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 touch-manipulation cursor-pointer h-full">
-            <div class="h-20 sm:h-24 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-              <h3 class="text-lg sm:text-xl font-bold text-white">Nous rejoindre</h3>
+        <a href="/nous-rejoindre" class="block group">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 touch-manipulation cursor-pointer h-full transform group-hover:scale-[1.02]">
+            <div class="h-20 sm:h-24 bg-gradient-to-br from-gray-800 to-gray-900 group-hover:from-gray-900 group-hover:to-black flex items-center justify-center transition-all duration-300">
+              <h3 class="text-lg sm:text-xl font-bold text-white group-hover:scale-105 transition-transform duration-300">Nous rejoindre</h3>
             </div>
             <div class="p-4 sm:p-6">
-              <p class="text-gray-600 mb-3 sm:mb-4 text-sm">
+              <p class="text-gray-600 mb-3 sm:mb-4 text-sm group-hover:text-gray-700 transition-colors">
                 Envie de faire partie de l'aventure ? Découvrez comment rejoindre notre club et nos conditions d'adhésion.
               </p>
               <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center space-x-3 group-hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                  <svg class="w-4 h-4 text-gray-800 group-hover:text-gray-900 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  <span class="text-sm text-gray-700">Tous niveaux acceptés</span>
+                  <span class="text-sm text-gray-700 group-hover:text-gray-800 transition-colors">Tous niveaux acceptés</span>
                 </div>
-                <div class="flex items-center space-x-3">
-                  <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center space-x-3 group-hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                  <svg class="w-4 h-4 text-gray-800 group-hover:text-gray-900 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  <span class="text-sm text-gray-700">Matériel fourni</span>
+                  <span class="text-sm text-gray-700 group-hover:text-gray-800 transition-colors">Matériel fourni</span>
                 </div>
-                <div class="flex items-center space-x-3">
-                  <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center space-x-3 group-hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                  <svg class="w-4 h-4 text-gray-800 group-hover:text-gray-900 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
-                  <span class="text-sm text-gray-700">Encadrement professionnel</span>
+                  <span class="text-sm text-gray-700 group-hover:text-gray-800 transition-colors">Encadrement professionnel</span>
+                </div>
+              </div>
+              
+              <!-- Indicateur visuel d'action -->
+              <div class="mt-4 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <div class="flex items-center text-gray-800 text-sm font-medium">
+                  <span>Rejoindre le club</span>
+                  <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
                 </div>
               </div>
             </div>
