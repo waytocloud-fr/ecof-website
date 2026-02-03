@@ -68,27 +68,28 @@ jobs:
     - name: Get AWS caller identity (for verification)
       run: aws sts get-caller-identity
 
-    - name: Deploy main site to S3
+    - name: Deploy site to S3
       run: |
         # Nom du bucket S3 
         S3_BUCKET="ecof-website-stage-6e85ed80"
         
-        echo "🚀 Déploiement du site principal vers S3"
+        echo "🚀 Déploiement du site complet vers S3"
+        # Déployer tous les assets avec cache long (sauf HTML et fichiers admin)
         aws s3 sync dist/ s3://$S3_BUCKET \
           --delete \
           --cache-control "public, max-age=31536000" \
           --exclude "*.html" \
           --exclude "admin/*"
+        
+        # Déployer les fichiers HTML avec cache court
         aws s3 sync dist/ s3://$S3_BUCKET \
           --cache-control "public, max-age=3600" \
           --include "*.html"
-
-    - name: Deploy admin folder
-      
-      run: |
-        S3_BUCKET="ecof-website-stage-6e85ed80"
-        echo "🚀 Déploiement du dossier /admin"
-        aws s3 sync admin/ s3://$S3_BUCKET/admin/ --delete --cache-control "no-cache, no-store"
+        
+        # Déployer les fichiers admin avec cache désactivé (pour les mises à jour CMS)
+        aws s3 sync dist/admin/ s3://$S3_BUCKET/admin/ \
+          --cache-control "no-cache, no-store, must-revalidate" \
+          --include "*"
 
 
 
