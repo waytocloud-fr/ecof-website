@@ -115,39 +115,32 @@ const recentResults = allResults
         {recentNews.map((news) => {
           const slug = news.file.split('/').pop()?.replace('.md', '') || '';
           return (
-            <article class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              {news.frontmatter.image && (
-                <div class="h-48 overflow-hidden">
-                  <img 
-                    src={news.frontmatter.image} 
-                    alt={news.frontmatter.title}
-                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              )}
-              <div class="p-6">
-                <div class="text-sm text-red-600 font-medium mb-2">
-                  {new Date(news.frontmatter.date).getFullYear()}
-                </div>
-                <h3 class="text-lg font-bold text-gray-900 mb-3">
-                  {news.frontmatter.title}
-                </h3>
-                {news.frontmatter.excerpt && (
-                  <p class="text-gray-600 text-sm mb-4">
-                    {news.frontmatter.excerpt.substring(0, 120)}...
-                  </p>
+            <a href={`/actualites/${slug}`} class="block">
+              <article class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-full">
+                {news.frontmatter.image && (
+                  <div class="h-48 overflow-hidden">
+                    <img 
+                      src={news.frontmatter.image} 
+                      alt={news.frontmatter.title}
+                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
                 )}
-                <a 
-                  href={`/actualites/${slug}`}
-                  class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm transition-colors"
-                >
-                  Lire l'article
-                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </a>
-              </div>
-            </article>
+                <div class="p-6">
+                  <div class="text-sm text-red-600 font-medium mb-2">
+                    {new Date(news.frontmatter.date).getFullYear()}
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-3 hover:text-red-600 transition-colors">
+                    {news.frontmatter.title}
+                  </h3>
+                  {news.frontmatter.excerpt && (
+                    <p class="text-gray-600 text-sm">
+                      {news.frontmatter.excerpt.substring(0, 120)}...
+                    </p>
+                  )}
+                </div>
+              </article>
+            </a>
           );
         })}
         
@@ -165,92 +158,83 @@ const recentResults = allResults
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         <!-- Résultats -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 touch-manipulation">
-          <div class="h-20 sm:h-24 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Résultats</h3>
-          </div>
-          <div class="p-4 sm:p-6">
-            <p class="text-gray-600 mb-3 sm:mb-4 text-sm">
-              Découvrez les performances de nos coureurs lors des dernières compétitions et courses.
-            </p>
-            <div class="space-y-2 mb-4">
-              {recentResults.map((result) => {
-                const slug = result.file.split('/').pop()?.replace('.md', '') || '';
-                const participantCount = result.frontmatter.participants?.length || 0;
-                
-                return (
-                  <a href={`/resultats/${slug}`} class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                    <div class="flex items-start space-x-3">
-                      <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
-                      <div>
-                        <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">
-                          🏁 {result.frontmatter.epreuve}
-                        </p>
-                        <p class="text-xs text-gray-500">
-                          {result.frontmatter.lieu ? `${result.frontmatter.lieu} - ` : ''}{new Date(result.frontmatter.date).toLocaleDateString('fr-FR', { 
-                            day: 'numeric', 
-                            month: 'long', 
-                            year: 'numeric' 
-                          })} • {participantCount} participant{participantCount > 1 ? 's' : ''} ECOF
-                        </p>
+        <a href="/resultats" class="block">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 touch-manipulation cursor-pointer h-full">
+            <div class="h-20 sm:h-24 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
+              <h3 class="text-lg sm:text-xl font-bold text-white">Résultats</h3>
+            </div>
+            <div class="p-4 sm:p-6">
+              <p class="text-gray-600 mb-3 sm:mb-4 text-sm">
+                Découvrez les performances de nos coureurs lors des dernières compétitions et courses.
+              </p>
+              <div class="space-y-2">
+                {recentResults.map((result) => {
+                  const participantCount = result.frontmatter.participants?.length || 0;
+                  
+                  return (
+                    <div class="block hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                      <div class="flex items-start space-x-3">
+                        <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <div>
+                          <p class="text-sm font-medium text-gray-900 hover:text-yellow-600">
+                            🏁 {result.frontmatter.epreuve}
+                          </p>
+                          <p class="text-xs text-gray-500">
+                            {result.frontmatter.lieu ? `${result.frontmatter.lieu} - ` : ''}{new Date(result.frontmatter.date).toLocaleDateString('fr-FR', { 
+                              day: 'numeric', 
+                              month: 'long', 
+                              year: 'numeric' 
+                            })} • {participantCount} participant{participantCount > 1 ? 's' : ''} ECOF
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </a>
-                );
-              })}
-              
-              {recentResults.length === 0 && (
-                <div class="text-center py-4">
-                  <p class="text-gray-500 text-sm">Aucun résultat récent disponible.</p>
-                </div>
-              )}
+                  );
+                })}
+                
+                {recentResults.length === 0 && (
+                  <div class="text-center py-4">
+                    <p class="text-gray-500 text-sm">Aucun résultat récent disponible.</p>
+                  </div>
+                )}
+              </div>
             </div>
-            <a href="/resultats" class="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-semibold text-sm touch-manipulation">
-              Voir tous les résultats
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </a>
           </div>
-        </div>
+        </a>
 
         <!-- Nous rejoindre -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 touch-manipulation">
-          <div class="h-20 sm:h-24 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-            <h3 class="text-lg sm:text-xl font-bold text-white">Nous rejoindre</h3>
-          </div>
-          <div class="p-4 sm:p-6">
-            <p class="text-gray-600 mb-3 sm:mb-4 text-sm">
-              Envie de faire partie de l'aventure ? Découvrez comment rejoindre notre club et nos conditions d'adhésion.
-            </p>
-            <div class="space-y-2 mb-4">
-              <div class="flex items-center space-x-3">
-                <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="text-sm text-gray-700">Tous niveaux acceptés</span>
-              </div>
-              <div class="flex items-center space-x-3">
-                <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="text-sm text-gray-700">Matériel fourni</span>
-              </div>
-              <div class="flex items-center space-x-3">
-                <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="text-sm text-gray-700">Encadrement professionnel</span>
+        <a href="/nous-rejoindre" class="block">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 touch-manipulation cursor-pointer h-full">
+            <div class="h-20 sm:h-24 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+              <h3 class="text-lg sm:text-xl font-bold text-white">Nous rejoindre</h3>
+            </div>
+            <div class="p-4 sm:p-6">
+              <p class="text-gray-600 mb-3 sm:mb-4 text-sm">
+                Envie de faire partie de l'aventure ? Découvrez comment rejoindre notre club et nos conditions d'adhésion.
+              </p>
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">Tous niveaux acceptés</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">Matériel fourni</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <svg class="w-4 h-4 text-gray-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-sm text-gray-700">Encadrement professionnel</span>
+                </div>
               </div>
             </div>
-            <a href="/nous-rejoindre" class="inline-flex items-center text-gray-800 hover:text-gray-900 font-semibold text-sm touch-manipulation">
-              Rejoindre le club
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </a>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
