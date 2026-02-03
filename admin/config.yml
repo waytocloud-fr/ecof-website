@@ -1,0 +1,89 @@
+backend:
+  name: github
+  repo: ton-org/ton-repo
+  branch: cms-test  # branche de test
+  auth_type: pkce
+  app_id: Ov23liqUf8UvA6qFhXHK
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "actualites"
+    label: "Actualités"
+    folder: "src/content/actualites"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "pubDate", widget: "datetime" }
+      - { label: "Auteur", name: "author", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+
+  - name: "sorties"
+    label: "Sorties"
+    folder: "src/content/sorties"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Distance", name: "distance", widget: "string" }
+      - { label: "Difficulté", name: "difficulty", widget: "string" }
+      - { label: "Description", name: "description", widget: "markdown" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Heure de départ", name: "startTime", widget: "string", required: false }
+      - { label: "Lieu de départ", name: "startLocation", widget: "string", required: false }
+
+  - name: "resultats"
+    label: "Résultats"
+    folder: "src/content/resultats"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Épreuve", name: "epreuve", widget: "string" }
+      - { label: "Lieu", name: "lieu", widget: "string", required: false }
+      - { label: "Distance", name: "distance", widget: "string", required: false }
+      - { label: "Catégorie", name: "categorie", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "markdown", required: false }
+      - label: "Participants"
+        name: "participants"
+        widget: "list"
+        fields:
+          - { label: "Nom", name: "nom", widget: "string" }
+          - { label: "Position", name: "position", widget: "number", required: false }
+          - { label: "Temps", name: "temps", widget: "string", required: false }
+          - { label: "Catégorie", name: "categorie", widget: "string", required: false }
+          - { label: "Commentaire", name: "commentaire", widget: "string", required: false }
+
+  - name: "evenements"
+    label: "Événements"
+    folder: "src/content/evenements"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Heure", name: "heure", widget: "string", required: false }
+      - { label: "Type", name: "type", widget: "string" }
+      - { label: "Lieu", name: "lieu", widget: "string", required: false }
+      - { label: "Distance", name: "distance", widget: "string", required: false }
+      - { label: "Difficulté", name: "difficulte", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "markdown" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Lien", name: "lien", widget: "string", required: false }
+      - { label: "Inscription requise", name: "inscriptionRequise", widget: "boolean", required: false }
+      - { label: "Contact", name: "contact", widget: "string", required: false }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
