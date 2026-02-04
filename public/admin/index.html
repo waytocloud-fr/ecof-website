@@ -44,6 +44,12 @@
         .btn-secondary:hover {
             background: #5a6268;
         }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
         .hidden {
             display: none;
         }
@@ -65,10 +71,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.2s ease;
         }
         .file-item:hover {
             background: #f8f9fa;
             border-color: #0366d6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .file-path {
             font-weight: 500;
@@ -208,6 +217,12 @@
                             <p><strong>Italique :</strong> <code>*texte*</code></p>
                             <p><strong>Liste :</strong><br>
                             <code>- Item 1<br>- Item 2</code></p>
+                        </div>
+                        
+                        <h4>⚠️ Suppression</h4>
+                        <div style="font-size: 12px; color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 4px;">
+                            <p><strong>ATTENTION :</strong> La suppression de fichiers est définitive et irréversible.</p>
+                            <p>Utilisez cette fonction avec précaution.</p>
                         </div>
                     </div>
                 </div>
@@ -359,9 +374,18 @@
                                 <div class="file-path">${file.name}</div>
                                 <div class="file-date">Modifié récemment</div>
                             </div>
-                            <div>📝</div>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <button onclick="editFile(event, ${JSON.stringify(file).replace(/"/g, '&quot;')})" 
+                                        class="btn" style="padding: 5px 10px; font-size: 12px;">
+                                    📝 Éditer
+                                </button>
+                                <button onclick="deleteFile(event, ${JSON.stringify(file).replace(/"/g, '&quot;')})" 
+                                        class="btn" style="padding: 5px 10px; font-size: 12px; background: #dc3545;">
+                                    🗑️ Supprimer
+                                </button>
+                            </div>
                         `;
-                        div.onclick = () => editFile(file);
+                        div.onclick = null; // Supprimer l'onclick global
                         container.appendChild(div);
                     });
                 } else {
@@ -373,7 +397,12 @@
             }
         }
 
-        async function editFile(file) {
+        async function editFile(event, file) {
+            // Empêcher la propagation si appelé depuis un bouton
+            if (event && event.stopPropagation) {
+                event.stopPropagation();
+            }
+            
             const token = localStorage.getItem(GITHUB_TOKEN_KEY);
             
             showStatus('Chargement du fichier...', 'info');
@@ -407,6 +436,86 @@
                 }
             } catch (error) {
                 showStatus('Erreur de connexion', 'error');
+                console.error(error);
+            }
+        }
+
+        async function deleteFile(event, file) {
+            // Empêcher la propagation
+            if (event && event.stopPropagation) {
+                event.stopPropagation();
+            }
+
+            // Confirmation de suppression
+            const confirmDelete = confirm(`⚠️ ATTENTION ⚠️\n\nÊtes-vous sûr de vouloir supprimer définitivement le fichier :\n\n"${file.name}"\n\nCette action est irréversible !`);
+            
+            if (!confirmDelete) {
+                return;
+            }
+
+            // Double confirmation pour éviter les erreurs
+            const doubleConfirm = confirm(`🚨 DERNIÈRE CONFIRMATION 🚨\n\nVous allez DÉFINITIVEMENT supprimer :\n"${file.path}"\n\nTapez "SUPPRIMER" dans la prochaine boîte pour confirmer.`);
+            
+            if (!doubleConfirm) {
+                return;
+            }
+
+            const finalConfirm = prompt('Tapez exactement "SUPPRIMER" pour confirmer la suppression définitive :');
+            if (finalConfirm !== 'SUPPRIMER') {
+                alert('Suppression annulée - texte de confirmation incorrect');
+                return;
+            }
+
+            const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+            showStatus('Suppression en cours...', 'info');
+
+            try {
+                // D'abord récupérer le SHA du fichier
+                const getResponse = await fetch(file.url, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!getResponse.ok) {
+                    throw new Error('Impossible de récupérer les informations du fichier');
+                }
+
+                const fileData = await getResponse.json();
+
+                // Supprimer le fichier
+                const deleteResponse = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${file.path}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Delete ${file.name} via CMS`,
+                        sha: fileData.sha
+                    })
+                });
+
+                if (deleteResponse.ok) {
+                    showStatus(`✅ Fichier "${file.name}" supprimé avec succès !`, 'success');
+                    
+                    // Fermer l'éditeur si c'était le fichier en cours d'édition
+                    if (currentFile && currentFile.path === file.path) {
+                        cancelEdit();
+                    }
+                    
+                    // Recharger la liste des fichiers
+                    setTimeout(() => {
+                        loadAllFiles();
+                    }, 2000);
+                } else {
+                    const error = await deleteResponse.json();
+                    showStatus(`❌ Erreur lors de la suppression: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Erreur lors de la suppression', 'error');
                 console.error(error);
             }
         }
