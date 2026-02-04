@@ -201,11 +201,15 @@
                     </div>
                     <div style="width: 300px;">
                         <h4>🖼️ Gestion des images</h4>
+                        <div style="font-size: 12px; color: #666; margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                            <p style="margin: 0;"><strong>💡 Conseil :</strong> L'image sélectionnée est automatiquement effacée après upload ou changement d'article pour éviter les erreurs.</p>
+                        </div>
                         <input type="file" id="image-input" accept="image/*" style="margin-bottom: 10px;" onchange="handleImageSelect()">
-                        <div id="image-preview" style="border: 1px dashed #ddd; padding: 20px; text-align: center; margin-bottom: 10px; min-height: 100px;">
+                        <div id="image-preview" style="border: 1px dashed #ddd; padding: 20px; text-align: center; margin-bottom: 10px; min-height: 100px; border-radius: 6px;">
                             <p style="color: #666; margin: 0;">Sélectionnez une image</p>
                         </div>
                         <button class="btn btn-secondary" onclick="insertImagePath()" style="width: 100%; margin-bottom: 10px;">📝 Insérer chemin image</button>
+                        <button class="btn btn-secondary" onclick="resetImageSelection()" style="width: 100%; margin-bottom: 10px; background: #6c757d;">🗑️ Effacer sélection</button>
                         
                         <h4>💡 Aide Markdown</h4>
                         <div style="font-size: 12px; color: #666;">
@@ -403,6 +407,9 @@
                 event.stopPropagation();
             }
             
+            // Reset de l'image sélectionnée quand on ouvre un nouveau fichier
+            resetImageSelection();
+            
             const token = localStorage.getItem(GITHUB_TOKEN_KEY);
             
             showStatus('Chargement du fichier...', 'info');
@@ -571,8 +578,29 @@
         function cancelEdit() {
             document.getElementById('editor').classList.add('hidden');
             document.getElementById('status').innerHTML = '';
+            
+            // Reset de la sélection d'image lors de l'annulation
+            resetImageSelection();
+            
             currentFile = null;
             currentSha = null;
+        }
+
+        function resetImageSelection() {
+            // Reset du sélecteur de fichier
+            const imageInput = document.getElementById('image-input');
+            if (imageInput) {
+                imageInput.value = '';
+            }
+            
+            // Reset de l'aperçu
+            const preview = document.getElementById('image-preview');
+            if (preview) {
+                preview.innerHTML = '<p style="color: #666; margin: 0;">Sélectionnez une image</p>';
+            }
+            
+            // Reset de la variable globale
+            selectedImageFile = null;
         }
 
         function showStatus(message, type) {
@@ -587,6 +615,9 @@
         }
 
         function createNewFile(type) {
+            // Reset de l'image sélectionnée quand on crée un nouveau fichier
+            resetImageSelection();
+            
             const today = new Date();
             const dateStr = today.toISOString().split('T')[0];
             const timeStr = today.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -818,10 +849,13 @@ Retour sur la course, ambiance, difficultés rencontrées...
                             
                             editor.value = textBefore + `![Description de l'image](${imagePath})` + textAfter;
                             
-                            // Reset de la sélection d'image
-                            document.getElementById('image-input').value = '';
-                            document.getElementById('image-preview').innerHTML = '<p style="color: #666; margin: 0;">Image uploadée avec succès !</p>';
-                            selectedImageFile = null;
+                            // Reset complet de la sélection d'image après upload
+                            resetImageSelection();
+                            
+                            // Message de confirmation
+                            setTimeout(() => {
+                                showStatus('✅ Image ajoutée au contenu. Vous pouvez maintenant sauvegarder l\'article.', 'success');
+                            }, 2000);
                             
                         } else {
                             const error = await response.json();
