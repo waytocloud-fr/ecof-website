@@ -5,7 +5,7 @@ heure: "09:30"
 type: "sortie-club"
 lieu: "Moulin fenderie"
 description: "Sortie de 70 km dans la plaine en passant par Chambles"
-image: "![sortievelo](/images/2026-02-04-sortievelo.jpeg)!"
+image: "/images/2026-02-04-sortievelo.jpeg"
 lien: ""
 contact: "ludo@ecof.fr"
 ---
