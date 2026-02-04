@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 // Récupérer tous les résultats et les trier par date décroissante
 const allResultats = await getCollection('resultats');
 const resultats = allResultats.sort((a, b) => 
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
 );
 ---
 
@@ -36,7 +36,7 @@ const resultats = allResultats.sort((a, b) =>
                       <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                       </svg>
-                      {new Date(resultat.data.date).toLocaleDateString('fr-FR', { 
+                      {new Date(resultat.data.pubDate).toLocaleDateString('fr-FR', { 
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric' 
@@ -49,14 +49,6 @@ const resultats = allResultats.sort((a, b) =>
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                         {resultat.data.lieu}
-                      </span>
-                    )}
-                    {resultat.data.distance && (
-                      <span class="flex items-center">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                        {resultat.data.distance}
                       </span>
                     )}
                   </div>
@@ -106,7 +98,8 @@ const resultats = allResultats.sort((a, b) =>
               </h3>
               
               <div class="space-y-3">
-                {resultat.data.participants.map((participant) => (
+                {resultat.data.participants && resultat.data.participants.length > 0 ? (
+                  resultat.data.participants.map((participant) => (
                   <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div class="flex items-center space-x-4">
                       {participant.position && (
@@ -135,7 +128,10 @@ const resultats = allResultats.sort((a, b) =>
                       </div>
                     )}
                   </div>
-                ))}
+                ))
+                ) : (
+                  <p class="text-gray-600 text-center py-4">Aucun résultat de participants ECOF pour cette épreuve.</p>
+                )}
               </div>
             </div>
           </article>
@@ -152,33 +148,6 @@ const resultats = allResultats.sort((a, b) =>
           <p class="text-gray-600">Les résultats des prochaines compétitions apparaîtront ici.</p>
         </div>
       )}
-
-      <!-- Prochaines compétitions -->
-      <div class="mt-16 bg-white rounded-2xl shadow-lg p-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-          <svg class="w-6 h-6 mr-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-          Prochaines compétitions
-        </h2>
-        <div class="space-y-4">
-          <div class="border-l-4 border-red-600 pl-4 py-2">
-            <p class="font-medium text-gray-900">Grand Prix de la Loire</p>
-            <p class="text-sm text-gray-600">2 février 2026 - Route</p>
-            <p class="text-xs text-gray-500">Inscriptions ouvertes</p>
-          </div>
-          <div class="border-l-4 border-yellow-500 pl-4 py-2">
-            <p class="font-medium text-gray-900">Cyclo-cross régional</p>
-            <p class="text-sm text-gray-600">9 février 2026 - Terrain varié</p>
-            <p class="text-xs text-gray-500">Préparation en cours</p>
-          </div>
-          <div class="border-l-4 border-gray-400 pl-4 py-2">
-            <p class="font-medium text-gray-900">Course de côte du Forez</p>
-            <p class="text-sm text-gray-600">16 février 2026 - Montagne</p>
-            <p class="text-xs text-gray-500">À confirmer</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </BaseLayout>
