@@ -181,11 +181,36 @@
                 <div class="editor-header">
                     <h3 id="current-file"></h3>
                     <div>
+                        <button class="btn" onclick="uploadImage()">📷 Ajouter image</button>
                         <button class="btn" onclick="saveFile()">💾 Sauvegarder</button>
                         <button class="btn btn-secondary" onclick="cancelEdit()">❌ Annuler</button>
                     </div>
                 </div>
-                <textarea id="content-editor" placeholder="Contenu du fichier..."></textarea>
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <textarea id="content-editor" placeholder="Contenu du fichier..."></textarea>
+                    </div>
+                    <div style="width: 300px;">
+                        <h4>🖼️ Gestion des images</h4>
+                        <input type="file" id="image-input" accept="image/*" style="margin-bottom: 10px;" onchange="handleImageSelect()">
+                        <div id="image-preview" style="border: 1px dashed #ddd; padding: 20px; text-align: center; margin-bottom: 10px; min-height: 100px;">
+                            <p style="color: #666; margin: 0;">Sélectionnez une image</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="insertImagePath()" style="width: 100%; margin-bottom: 10px;">📝 Insérer chemin image</button>
+                        
+                        <h4>💡 Aide Markdown</h4>
+                        <div style="font-size: 12px; color: #666;">
+                            <p><strong>Images :</strong><br>
+                            <code>![Alt text](/images/nom.jpg)</code></p>
+                            <p><strong>Liens :</strong><br>
+                            <code>[Texte](https://url.com)</code></p>
+                            <p><strong>Gras :</strong> <code>**texte**</code></p>
+                            <p><strong>Italique :</strong> <code>*texte*</code></p>
+                            <p><strong>Liste :</strong><br>
+                            <code>- Item 1<br>- Item 2</code></p>
+                        </div>
+                    </div>
+                </div>
                 <div id="status"></div>
             </div>
         </div>
@@ -363,7 +388,8 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    const content = atob(data.content);
+                    // Correction pour l'encodage UTF-8 des accents français
+                    const content = decodeURIComponent(escape(atob(data.content)));
                     
                     currentFile = file;
                     currentSha = data.sha;
@@ -397,6 +423,7 @@
             try {
                 const body = {
                     message: message,
+                    // Correction pour l'encodage UTF-8 des accents français
                     content: btoa(unescape(encodeURIComponent(content)))
                 };
 
@@ -451,62 +478,120 @@
         }
 
         function createNewFile(type) {
+            const today = new Date();
+            const dateStr = today.toISOString().split('T')[0];
+            const timeStr = today.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            
             const templates = {
                 'actualites': `---
 title: "Nouvelle actualité"
-pubDate: ${new Date().toISOString()}
+pubDate: ${today.toISOString()}
 author: "ECOF"
-description: "Description de l'actualité"
-image: ""
-tags: []
+description: "Résumé de l'actualité en quelques mots"
+image: "/images/nom-de-votre-image.jpg"
+tags: ["actualité", "club"]
 ---
 
 # Nouvelle actualité
 
-Contenu de votre actualité ici...`,
+## Introduction
+Votre introduction ici...
+
+## Contenu principal
+Développez votre actualité ici avec tous les détails.
+
+### Points importants :
+- Point 1
+- Point 2
+- Point 3
+
+## Conclusion
+Votre conclusion...
+
+---
+*Publié le ${dateStr} par ECOF*`,
+
                 'evenements': `---
 title: "Nouvel événement"
-date: ${new Date().toISOString()}
-heure: "14:00"
+date: ${today.toISOString()}
+heure: "${timeStr}"
 type: "Sortie"
-lieu: ""
-distance: ""
-difficulte: ""
-image: ""
+lieu: "Point de rendez-vous"
+distance: "XX km"
+difficulte: "Facile/Moyen/Difficile"
+image: "/images/nom-de-votre-image.jpg"
 lien: ""
-inscriptionRequise: false
-contact: ""
+inscriptionRequise: true
+contact: "contact@ecof.fr"
 ---
 
 # Nouvel événement
 
-Description de votre événement ici...`,
+## 📅 Informations pratiques
+- **Date** : ${new Date(today.getTime() + 7*24*60*60*1000).toLocaleDateString('fr-FR')}
+- **Heure** : ${timeStr}
+- **Lieu de RDV** : À préciser
+- **Distance** : XX km
+- **Difficulté** : À préciser
+
+## 🚴‍♂️ Description
+Description détaillée de l'événement...
+
+## 📋 Inscription
+${today.toISOString().includes('true') ? '✅ Inscription obligatoire' : '❌ Inscription libre'}
+
+## 📞 Contact
+Pour plus d'informations : contact@ecof.fr`,
+
                 'resultats': `---
-title: "Nouveau résultat"
-date: ${new Date().toISOString()}
+title: "Résultats - Nom de l'épreuve"
+date: ${today.toISOString()}
 epreuve: "Nom de l'épreuve"
-lieu: ""
-distance: ""
-categorie: ""
+lieu: "Ville, Département"
+distance: "XX km"
+categorie: "Toutes catégories"
 participants:
-  - nom: "Nom du participant"
+  - nom: "Nom Prénom"
     position: 1
-    temps: ""
-    categorie: ""
+    temps: "1h23'45"
+    categorie: "Senior"
+    commentaire: "Excellent parcours !"
+  - nom: "Autre Participant"
+    position: 2
+    temps: "1h25'12"
+    categorie: "Vétéran"
     commentaire: ""
 ---
 
-# Nouveau résultat
+# Résultats - Nom de l'épreuve
 
-Description des résultats ici...`
+## 🏆 Informations de l'épreuve
+- **Date** : ${dateStr}
+- **Lieu** : Ville, Département
+- **Distance** : XX km
+- **Conditions** : Météo, état du parcours...
+
+## 📊 Classement général
+
+### 🥇 Podium
+1. **Nom Prénom** - 1h23'45 (Senior)
+2. **Autre Participant** - 1h25'12 (Vétéran)
+3. **Troisième Place** - 1h27'30 (Senior)
+
+## 💬 Commentaires
+Retour sur la course, ambiance, difficultés rencontrées...
+
+## 📸 Photos
+*Photos disponibles sur notre page Facebook*
+
+---
+*Résultats publiés le ${dateStr}*`
             };
 
-            const fileName = prompt(`Nom du fichier (sans .md) :`);
+            const fileName = prompt(`Nom du fichier (sans .md) :\nExemple: "sortie-mont-pilat" ou "cyclocross-beauzac"`);
             if (!fileName) return;
 
-            const today = new Date();
-            const dateStr = today.toISOString().split('T')[0];
-            const fullFileName = `${dateStr}-${fileName.toLowerCase().replace(/\s+/g, '-')}.md`;
+            const fullFileName = `${dateStr}-${fileName.toLowerCase().replace(/\s+/g, '-').replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e').replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o').replace(/[ùúûü]/g,'u').replace(/[ç]/g,'c').replace(/[^a-z0-9-]/g,'')}.md`;
 
             // Créer un fichier temporaire pour l'édition
             currentFile = {
@@ -523,7 +608,7 @@ Description des résultats ici...`
             // Scroll vers l'éditeur
             document.getElementById('editor').scrollIntoView({ behavior: 'smooth' });
             
-            showStatus('Nouveau fichier créé. N\'oubliez pas de sauvegarder !', 'success');
+            showStatus(`✨ Nouveau fichier créé avec template ${type}. Personnalisez le contenu et sauvegardez !`, 'success');
         }
 
         function authenticateWithPassword() {
@@ -544,6 +629,118 @@ Description des résultats ici...`
                 loadAllFiles();
             } else {
                 alert('Mot de passe incorrect');
+            }
+        }
+
+        let selectedImageFile = null;
+
+        function handleImageSelect() {
+            const input = document.getElementById('image-input');
+            const preview = document.getElementById('image-preview');
+            
+            if (input.files && input.files[0]) {
+                selectedImageFile = input.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" style="max-width: 100%; max-height: 150px; border-radius: 4px;">
+                        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">${selectedImageFile.name}</p>
+                    `;
+                };
+                
+                reader.readAsDataURL(selectedImageFile);
+            }
+        }
+
+        async function uploadImage() {
+            if (!selectedImageFile) {
+                alert('Veuillez d\'abord sélectionner une image');
+                return;
+            }
+
+            const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+            showStatus('Upload de l\'image en cours...', 'info');
+
+            try {
+                // Créer un nom de fichier unique
+                const timestamp = new Date().toISOString().split('T')[0];
+                const cleanName = selectedImageFile.name.toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[àáâãäå]/g,'a')
+                    .replace(/[èéêë]/g,'e')
+                    .replace(/[ìíîï]/g,'i')
+                    .replace(/[òóôõö]/g,'o')
+                    .replace(/[ùúûü]/g,'u')
+                    .replace(/[ç]/g,'c');
+                
+                const fileName = `${timestamp}-${cleanName}`;
+                const imagePath = `public/images/${fileName}`;
+
+                // Convertir l'image en base64
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const base64Content = e.target.result.split(',')[1];
+
+                    try {
+                        const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${imagePath}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `token ${token}`,
+                                'Accept': 'application/vnd.github.v3+json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                message: `Add image ${fileName} via CMS`,
+                                content: base64Content
+                            })
+                        });
+
+                        if (response.ok) {
+                            const imagePath = `/images/${fileName}`;
+                            showStatus(`✅ Image uploadée ! Chemin: ${imagePath}`, 'success');
+                            
+                            // Insérer automatiquement le chemin dans l'éditeur
+                            const editor = document.getElementById('content-editor');
+                            const cursorPos = editor.selectionStart;
+                            const textBefore = editor.value.substring(0, cursorPos);
+                            const textAfter = editor.value.substring(cursorPos);
+                            
+                            editor.value = textBefore + `![Description de l'image](${imagePath})` + textAfter;
+                            
+                            // Reset de la sélection d'image
+                            document.getElementById('image-input').value = '';
+                            document.getElementById('image-preview').innerHTML = '<p style="color: #666; margin: 0;">Image uploadée avec succès !</p>';
+                            selectedImageFile = null;
+                            
+                        } else {
+                            const error = await response.json();
+                            showStatus(`❌ Erreur upload: ${error.message}`, 'error');
+                        }
+                    } catch (error) {
+                        showStatus('❌ Erreur lors de l\'upload', 'error');
+                        console.error(error);
+                    }
+                };
+                
+                reader.readAsDataURL(selectedImageFile);
+                
+            } catch (error) {
+                showStatus('❌ Erreur lors de l\'upload', 'error');
+                console.error(error);
+            }
+        }
+
+        function insertImagePath() {
+            const imageName = prompt('Nom de l\'image (ex: mon-image.jpg):');
+            if (imageName) {
+                const editor = document.getElementById('content-editor');
+                const cursorPos = editor.selectionStart;
+                const textBefore = editor.value.substring(0, cursorPos);
+                const textAfter = editor.value.substring(cursorPos);
+                
+                editor.value = textBefore + `![Description](/images/${imageName})` + textAfter;
+                editor.focus();
             }
         }
     </script>
