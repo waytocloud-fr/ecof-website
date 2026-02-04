@@ -86,13 +86,6 @@ jobs:
           --cache-control "public, max-age=3600" \
           --include "*.html"
         
-        # Déployer les fichiers admin avec cache désactivé (pour les mises à jour CMS)
-        aws s3 sync dist/admin/ s3://$S3_BUCKET/admin/ \
-          --cache-control "no-cache, no-store, must-revalidate" \
-          --include "*"
-
-
-
     - name: Invalidate CloudFront
       run: |
         # ID de distribution CloudFront (corrigé)
