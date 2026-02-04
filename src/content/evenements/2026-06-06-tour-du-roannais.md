@@ -5,7 +5,7 @@ heure: "07:30"
 type: "competition"
 lieu: "La Pacaudiere"
 description: "Le Tour du Roannais se tiendra les 6 et 7 juin 2026 à La Pacaudiere. Inscription obligatoire auprès d'Aurélie."
-image: "/images/nom-de-votre-image.jpg"
+image: "![fsgt42](/images/fsgt42.png)"
 lien: ""
 contact: "contact@ecof.fr"
 ---
