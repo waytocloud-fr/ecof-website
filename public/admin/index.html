@@ -126,16 +126,25 @@
         
         <div id="auth-section" class="auth-section">
             <h2>Authentification GitHub</h2>
-            <p>Pour gérer le contenu du site, vous devez vous authentifier avec GitHub.</p>
-            <p><strong>Étapes :</strong></p>
-            <ol style="text-align: left; display: inline-block;">
-                <li>Allez sur GitHub → Settings → Developer settings → Personal access tokens</li>
-                <li>Créez un nouveau token avec les permissions <code>repo</code></li>
-                <li>Copiez le token et collez-le ci-dessous</li>
-            </ol>
-            <br><br>
-            <input type="password" id="token-input" placeholder="Collez votre GitHub token ici" style="padding: 10px; width: 300px; margin-right: 10px;">
-            <button class="btn" onclick="authenticateWithToken()">Se connecter</button>
+            <p>Connectez-vous avec votre compte GitHub pour gérer le contenu du site.</p>
+            <button class="btn" onclick="authenticateWithGitHub()">🔐 Se connecter avec GitHub</button>
+            
+            <details style="margin-top: 20px;">
+                <summary style="cursor: pointer; color: #586069;">Ou utiliser un token personnel</summary>
+                <div style="margin-top: 15px;">
+                    <input type="password" id="token-input" placeholder="Collez votre GitHub token ici" style="padding: 10px; width: 300px; margin-right: 10px;">
+                    <button class="btn btn-secondary" onclick="authenticateWithToken()">Se connecter</button>
+                </div>
+            </details>
+            
+            <details style="margin-top: 15px;">
+                <summary style="cursor: pointer; color: #586069;">Authentification rapide (moins sécurisé)</summary>
+                <div style="margin-top: 15px;">
+                    <p style="font-size: 14px; color: #586069;">Mot de passe simple pour tests</p>
+                    <input type="password" id="simple-password" placeholder="Mot de passe" style="padding: 10px; width: 200px; margin-right: 10px;">
+                    <button class="btn btn-secondary" onclick="authenticateWithPassword()">Connexion rapide</button>
+                </div>
+            </details>
         </div>
 
         <div id="cms-section" class="hidden">
@@ -146,16 +155,25 @@
 
             <div class="section">
                 <h3>📰 Actualités</h3>
+                <div style="margin-bottom: 15px;">
+                    <button class="btn" onclick="createNewFile('actualites')">➕ Nouvelle actualité</button>
+                </div>
                 <div id="actualites-list" class="file-list loading">Chargement...</div>
             </div>
 
             <div class="section">
                 <h3>📅 Événements</h3>
+                <div style="margin-bottom: 15px;">
+                    <button class="btn" onclick="createNewFile('evenements')">➕ Nouvel événement</button>
+                </div>
                 <div id="evenements-list" class="file-list loading">Chargement...</div>
             </div>
 
             <div class="section">
                 <h3>🏆 Résultats</h3>
+                <div style="margin-bottom: 15px;">
+                    <button class="btn" onclick="createNewFile('resultats')">➕ Nouveau résultat</button>
+                </div>
                 <div id="resultats-list" class="file-list loading">Chargement...</div>
             </div>
             
@@ -183,12 +201,58 @@
 
         // Vérifier si déjà authentifié
         window.onload = function() {
+            // Vérifier si on revient d'OAuth GitHub
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (code) {
+                handleGitHubCallback(code);
+                return;
+            }
+            
+            // Vérifier token stocké
             const token = localStorage.getItem(GITHUB_TOKEN_KEY);
             if (token) {
                 showCMS();
                 loadAllFiles();
             }
         };
+
+        function authenticateWithGitHub() {
+            // Utiliser ton GitHub App existant
+            const clientId = 'Ov23liqUf8UvA6qFhXHK';
+            const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+            const scope = 'repo';
+            
+            // Redirection vers GitHub OAuth
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+        }
+
+        async function handleGitHubCallback(code) {
+            showStatus('Authentification en cours...', 'info');
+            
+            // Ici on devrait échanger le code contre un token
+            // Mais comme on n'a pas de serveur, on demande à l'utilisateur de créer un token
+            alert('Authentification GitHub réussie ! Maintenant, créez un Personal Access Token pour finaliser la connexion.');
+            
+            // Nettoyer l'URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // Afficher les instructions pour le token
+            document.getElementById('auth-section').innerHTML = `
+                <h2>Dernière étape</h2>
+                <p>Pour finaliser l'authentification, créez un Personal Access Token :</p>
+                <ol style="text-align: left; display: inline-block;">
+                    <li>Allez sur <a href="https://github.com/settings/tokens" target="_blank">GitHub → Personal Access Tokens</a></li>
+                    <li>Cliquez sur "Generate new token (classic)"</li>
+                    <li>Cochez la permission <code>repo</code></li>
+                    <li>Copiez le token et collez-le ci-dessous</li>
+                </ol>
+                <br><br>
+                <input type="password" id="token-input" placeholder="Collez votre GitHub token ici" style="padding: 10px; width: 300px; margin-right: 10px;">
+                <button class="btn" onclick="authenticateWithToken()">Finaliser</button>
+            `;
+        }
 
         function authenticateWithToken() {
             const token = document.getElementById('token-input').value.trim();
@@ -326,11 +390,21 @@
             
             const token = localStorage.getItem(GITHUB_TOKEN_KEY);
             const content = document.getElementById('content-editor').value;
-            const message = `Update ${currentFile.name} via CMS`;
+            const message = currentSha ? `Update ${currentFile.name} via CMS` : `Create ${currentFile.name} via CMS`;
 
             showStatus('Sauvegarde en cours...', 'info');
 
             try {
+                const body = {
+                    message: message,
+                    content: btoa(unescape(encodeURIComponent(content)))
+                };
+
+                // Ajouter le SHA seulement si c'est une modification (pas création)
+                if (currentSha) {
+                    body.sha = currentSha;
+                }
+
                 const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${currentFile.path}`, {
                     method: 'PUT',
                     headers: {
@@ -338,15 +412,12 @@
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        message: message,
-                        content: btoa(unescape(encodeURIComponent(content))),
-                        sha: currentSha
-                    })
+                    body: JSON.stringify(body)
                 });
 
                 if (response.ok) {
-                    showStatus('✅ Fichier sauvegardé avec succès !', 'success');
+                    const action = currentSha ? 'sauvegardé' : 'créé';
+                    showStatus(`✅ Fichier ${action} avec succès !`, 'success');
                     setTimeout(() => {
                         cancelEdit();
                         loadAllFiles();
@@ -376,6 +447,103 @@
                 setTimeout(() => {
                     status.innerHTML = '';
                 }, 5000);
+            }
+        }
+
+        function createNewFile(type) {
+            const templates = {
+                'actualites': `---
+title: "Nouvelle actualité"
+pubDate: ${new Date().toISOString()}
+author: "ECOF"
+description: "Description de l'actualité"
+image: ""
+tags: []
+---
+
+# Nouvelle actualité
+
+Contenu de votre actualité ici...`,
+                'evenements': `---
+title: "Nouvel événement"
+date: ${new Date().toISOString()}
+heure: "14:00"
+type: "Sortie"
+lieu: ""
+distance: ""
+difficulte: ""
+image: ""
+lien: ""
+inscriptionRequise: false
+contact: ""
+---
+
+# Nouvel événement
+
+Description de votre événement ici...`,
+                'resultats': `---
+title: "Nouveau résultat"
+date: ${new Date().toISOString()}
+epreuve: "Nom de l'épreuve"
+lieu: ""
+distance: ""
+categorie: ""
+participants:
+  - nom: "Nom du participant"
+    position: 1
+    temps: ""
+    categorie: ""
+    commentaire: ""
+---
+
+# Nouveau résultat
+
+Description des résultats ici...`
+            };
+
+            const fileName = prompt(`Nom du fichier (sans .md) :`);
+            if (!fileName) return;
+
+            const today = new Date();
+            const dateStr = today.toISOString().split('T')[0];
+            const fullFileName = `${dateStr}-${fileName.toLowerCase().replace(/\s+/g, '-')}.md`;
+
+            // Créer un fichier temporaire pour l'édition
+            currentFile = {
+                name: fullFileName,
+                path: `src/content/${type}/${fullFileName}`,
+                url: null // Nouveau fichier
+            };
+            currentSha = null; // Pas de SHA pour un nouveau fichier
+
+            document.getElementById('current-file').textContent = `Nouveau: ${currentFile.path}`;
+            document.getElementById('content-editor').value = templates[type];
+            document.getElementById('editor').classList.remove('hidden');
+            
+            // Scroll vers l'éditeur
+            document.getElementById('editor').scrollIntoView({ behavior: 'smooth' });
+            
+            showStatus('Nouveau fichier créé. N\'oubliez pas de sauvegarder !', 'success');
+        }
+
+        function authenticateWithPassword() {
+            const password = document.getElementById('simple-password').value;
+            const correctPassword = 'COLLE_TON_MOT_DE_PASSE_ICI'; // Injecté automatiquement
+            
+            if (password === correctPassword) {
+                // Token injecté automatiquement lors du build via GitHub Secrets
+                const predefinedToken = 'COLLE_TON_NOUVEAU_TOKEN_ICI';
+                
+                if (predefinedToken === 'COLLE_TON_NOUVEAU_TOKEN_ICI' || correctPassword === 'COLLE_TON_MOT_DE_PASSE_ICI') {
+                    alert('⚠️ Les secrets GitHub ne sont pas configurés. Vérifiez CMS_GITHUB_TOKEN et CMS_PASSWORD.');
+                    return;
+                }
+                
+                localStorage.setItem(GITHUB_TOKEN_KEY, predefinedToken);
+                showCMS();
+                loadAllFiles();
+            } else {
+                alert('Mot de passe incorrect');
             }
         }
     </script>

@@ -32,6 +32,9 @@ jobs:
 
     - name: Build Astro site
       run: npm run build
+      env:
+        CMS_GITHUB_TOKEN: ${{ secrets.CMS_GITHUB_TOKEN }}
+        CMS_PASSWORD: ${{ secrets.CMS_PASSWORD }}
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
