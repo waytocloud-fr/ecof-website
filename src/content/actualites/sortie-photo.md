@@ -16,6 +16,8 @@ tags:
 
 Au-delà des entraînements et des rendez-vous habituels, le club **ECOF** souhaite proposer une **sortie exceptionnelle**, pensée comme un moment fort de la saison, à la fois sportif, convivial et inspirant.
 
+![Sortie groupe ECOF](/images/GroupRide.png)
+
 L'objectif est simple :  
 👉 **se retrouver**,  
 👉 **rouler ensemble**,  
