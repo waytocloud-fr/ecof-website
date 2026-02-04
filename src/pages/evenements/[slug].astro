@@ -18,8 +18,19 @@ function getEventColor(type: string) {
   switch(type) {
     case 'ecole-velo': return 'from-green-500 to-emerald-600';
     case 'sortie-club': return 'from-blue-500 to-blue-600';
+    case 'sortie': return 'from-blue-500 to-blue-600';
+    case 'randonnee': return 'from-teal-500 to-teal-600';
     case 'competition': return 'from-red-500 to-red-600';
+    case 'course': return 'from-red-500 to-red-600';
     case 'reunion': return 'from-purple-500 to-purple-600';
+    case 'assemblee-generale': return 'from-purple-600 to-purple-700';
+    case 'formation': return 'from-orange-500 to-orange-600';
+    case 'entrainement': return 'from-cyan-500 to-cyan-600';
+    case 'evenement-special': return 'from-pink-500 to-pink-600';
+    case 'cyclosport': return 'from-indigo-500 to-indigo-600';
+    case 'vtt': return 'from-amber-500 to-amber-600';
+    case 'piste': return 'from-rose-500 to-rose-600';
+    case 'route': return 'from-sky-500 to-sky-600';
     default: return 'from-gray-500 to-gray-600';
   }
 }
@@ -29,8 +40,19 @@ function getEventIcon(type: string) {
   switch(type) {
     case 'ecole-velo': return '🚲';
     case 'sortie-club': return '🚴‍♂️';
+    case 'sortie': return '🚴‍♂️';
+    case 'randonnee': return '🌄';
     case 'competition': return '🏆';
+    case 'course': return '🏆';
     case 'reunion': return '👥';
+    case 'assemblee-generale': return '🏛️';
+    case 'formation': return '📚';
+    case 'entrainement': return '💪';
+    case 'evenement-special': return '⭐';
+    case 'cyclosport': return '🚴‍♀️';
+    case 'vtt': return '🚵‍♂️';
+    case 'piste': return '🏁';
+    case 'route': return '🛣️';
     default: return '📅';
   }
 }
@@ -68,10 +90,10 @@ function getEventIcon(type: string) {
             </div>
             <div class="text-right">
               <div class="text-3xl font-bold">
-                {new Date(evenement.data.date).getDate()}
+                {new Date(evenement.data.pubDate).getDate()}
               </div>
               <div class="text-lg uppercase tracking-wide">
-                {new Date(evenement.data.date).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+                {new Date(evenement.data.pubDate).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
               </div>
               {evenement.data.heure && (
                 <div class="text-sm opacity-90 mt-1">
@@ -97,7 +119,7 @@ function getEventIcon(type: string) {
                 <div>
                   <span class="font-semibold text-gray-900">Date :</span>
                   <span class="ml-2 text-gray-700">
-                    {new Date(evenement.data.date).toLocaleDateString('fr-FR', { 
+                    {new Date(evenement.data.pubDate).toLocaleDateString('fr-FR', { 
                       weekday: 'long', 
                       year: 'numeric', 
                       month: 'long', 
@@ -134,29 +156,7 @@ function getEventIcon(type: string) {
             </div>
             
             <div class="space-y-4">
-              {evenement.data.distance && (
-                <div class="flex items-center">
-                  <svg class="w-5 h-5 mr-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                  <div>
-                    <span class="font-semibold text-gray-900">Distance :</span>
-                    <span class="ml-2 text-gray-700">{evenement.data.distance}</span>
-                  </div>
-                </div>
-              )}
-              
-              {evenement.data.difficulte && (
-                <div class="flex items-center">
-                  <svg class="w-5 h-5 mr-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                  </svg>
-                  <div>
-                    <span class="font-semibold text-gray-900">Difficulté :</span>
-                    <span class="ml-2 text-gray-700">{evenement.data.difficulte}</span>
-                  </div>
-                </div>
-              )}
+
               
               {evenement.data.contact && (
                 <div class="flex items-center">
@@ -171,17 +171,7 @@ function getEventIcon(type: string) {
               )}
             </div>
           </div>
-          
-          {evenement.data.inscriptionRequise && (
-            <div class="mt-6 p-4 bg-orange-50 border-l-4 border-orange-500 rounded-r-lg">
-              <div class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                </svg>
-                <span class="font-semibold text-orange-800">Inscription requise</span>
-              </div>
-            </div>
-          )}
+
         </div>
 
         <!-- Image (si disponible) -->

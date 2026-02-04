@@ -47,7 +47,7 @@ const { Content } = await resultat.render();
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v12a2 2 0 002 2z"></path>
                 </svg>
-                {new Date(resultat.data.date).toLocaleDateString('fr-FR', { 
+                {new Date(resultat.data.pubDate).toLocaleDateString('fr-FR', { 
                   year: 'numeric', 
                   month: 'long', 
                   day: 'numeric' 
@@ -62,14 +62,7 @@ const { Content } = await resultat.render();
                   {resultat.data.lieu}
                 </span>
               )}
-              {resultat.data.distance && (
-                <span class="flex items-center">
-                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                  {resultat.data.distance}
-                </span>
-              )}
+
               {resultat.data.categorie && (
                 <span class="flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,7 +114,8 @@ const { Content } = await resultat.render();
           </h2>
           
           <div class="grid gap-4">
-            {resultat.data.participants.map((participant, index) => (
+            {resultat.data.participants && resultat.data.participants.length > 0 ? (
+              resultat.data.participants.map((participant, index) => (
               <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-4">
@@ -153,7 +147,12 @@ const { Content } = await resultat.render();
                   )}
                 </div>
               </div>
-            ))}
+            ))
+            ) : (
+              <div class="bg-white rounded-xl p-6 shadow-md text-center">
+                <p class="text-gray-600">Aucun résultat de participants ECOF pour cette épreuve.</p>
+              </div>
+            )}
           </div>
         </div>
 

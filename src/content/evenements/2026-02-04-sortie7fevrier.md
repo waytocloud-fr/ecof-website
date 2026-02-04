@@ -1,15 +1,12 @@
 ---
 title: "Sortie Vélo Samedi 7 fevrier"
-date: 2026-02-06T10:00:21.895Z
+pubDate: 2026-02-06T10:00:21.895Z
 heure: "09:30"
-type: "Sortie"
+type: "sortie-club"
 lieu: "Moulin fenderie"
-distance: "70 km"
-difficulte: "Facile"
-description: "Description courte de l'événement pour le résumé"
+description: "Sortie de 70 km dans la plaine en passant par Chambles"
 image: ""
 lien: ""
-inscriptionRequise: false
 contact: "ludo@ecof.fr"
 ---
 

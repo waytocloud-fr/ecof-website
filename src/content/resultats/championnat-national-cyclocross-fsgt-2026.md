@@ -1,9 +1,8 @@
 ---
 title: "Championnat National de Cyclo-Cross FSGT 2026"
-date: 2026-01-18
+pubDate: 2026-01-18
 epreuve: "Championnat National de Cyclo-Cross FSGT"
 lieu: "Champigny Sur Marne"
-distance: "45 minutes"
 categorie: "National FSGT"
 description: "Championnat National de Cyclo-Cross FSGT avec participation d'Arthur Bonnefoy en catégorie Junior."
 images: 

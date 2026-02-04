@@ -30,10 +30,9 @@ const resultats = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.date(),
+    pubDate: z.date(), // Harmonisé avec actualités
     epreuve: z.string(),
     lieu: z.string().optional(),
-    distance: z.string().optional(),
     categorie: z.string().optional(),
     description: z.string().optional(),
     images: z.array(z.string()).optional(),
@@ -43,7 +42,7 @@ const resultats = defineCollection({
       temps: z.string().optional(),
       categorie: z.string().optional(),
       commentaire: z.string().optional(),
-    })),
+    })).optional(), // Plus obligatoire
   }),
 });
 
@@ -51,16 +50,29 @@ const evenements = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.date(),
+    pubDate: z.date(), // Harmonisé avec actualités
     heure: z.string().optional(),
-    type: z.string(), // "ecole-velo", "sortie-club", "competition", "reunion", etc.
+    type: z.enum([
+      'ecole-velo',
+      'sortie-club', 
+      'sortie',
+      'competition',
+      'course',
+      'reunion',
+      'assemblee-generale',
+      'formation',
+      'entrainement',
+      'evenement-special',
+      'randonnee',
+      'cyclosport',
+      'vtt',
+      'piste',
+      'route'
+    ]), // Types d'événements avec couleurs différentes
     lieu: z.string().optional(),
-    distance: z.string().optional(),
-    difficulte: z.string().optional(),
     description: z.string(),
     image: z.string().optional(),
     lien: z.string().optional(),
-    inscriptionRequise: z.boolean().optional(),
     contact: z.string().optional(),
   }),
 });

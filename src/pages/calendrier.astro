@@ -5,13 +5,13 @@ import { getCollection } from 'astro:content';
 // Récupérer tous les événements et les trier par date
 const allEvenements = await getCollection('evenements');
 const evenements = allEvenements.sort((a, b) => 
-  new Date(a.data.date).getTime() - new Date(b.data.date).getTime()
+  new Date(a.data.pubDate).getTime() - new Date(b.data.pubDate).getTime()
 );
 
 // Séparer les événements passés et à venir
 const now = new Date();
-const evenementsAVenir = evenements.filter(event => new Date(event.data.date) >= now);
-const evenementsPasses = evenements.filter(event => new Date(event.data.date) < now);
+const evenementsAVenir = evenements.filter(event => new Date(event.data.pubDate) >= now);
+const evenementsPasses = evenements.filter(event => new Date(event.data.pubDate) < now);
 
 // Fonction pour formater la date
 function formatDate(date: Date) {
@@ -28,8 +28,19 @@ function getEventColor(type: string) {
   switch(type) {
     case 'ecole-velo': return 'from-green-500 to-emerald-600';
     case 'sortie-club': return 'from-blue-500 to-blue-600';
+    case 'sortie': return 'from-blue-500 to-blue-600';
+    case 'randonnee': return 'from-teal-500 to-teal-600';
     case 'competition': return 'from-red-500 to-red-600';
+    case 'course': return 'from-red-500 to-red-600';
     case 'reunion': return 'from-purple-500 to-purple-600';
+    case 'assemblee-generale': return 'from-purple-600 to-purple-700';
+    case 'formation': return 'from-orange-500 to-orange-600';
+    case 'entrainement': return 'from-cyan-500 to-cyan-600';
+    case 'evenement-special': return 'from-pink-500 to-pink-600';
+    case 'cyclosport': return 'from-indigo-500 to-indigo-600';
+    case 'vtt': return 'from-amber-500 to-amber-600';
+    case 'piste': return 'from-rose-500 to-rose-600';
+    case 'route': return 'from-sky-500 to-sky-600';
     default: return 'from-gray-500 to-gray-600';
   }
 }
@@ -39,8 +50,19 @@ function getEventIcon(type: string) {
   switch(type) {
     case 'ecole-velo': return '🚲';
     case 'sortie-club': return '🚴‍♂️';
+    case 'sortie': return '🚴‍♂️';
+    case 'randonnee': return '🌄';
     case 'competition': return '🏆';
+    case 'course': return '🏆';
     case 'reunion': return '👥';
+    case 'assemblee-generale': return '🏛️';
+    case 'formation': return '📚';
+    case 'entrainement': return '💪';
+    case 'evenement-special': return '⭐';
+    case 'cyclosport': return '🚴‍♀️';
+    case 'vtt': return '🚵‍♂️';
+    case 'piste': return '🏁';
+    case 'route': return '🛣️';
     default: return '📅';
   }
 }
@@ -73,13 +95,13 @@ function getEventIcon(type: string) {
                       {getEventIcon(evenement.data.type)}
                     </div>
                     <div class="text-2xl font-bold">
-                      {new Date(evenement.data.date).getDate()}
+                      {new Date(evenement.data.pubDate).getDate()}
                     </div>
                     <div class="text-sm uppercase tracking-wide">
-                      {new Date(evenement.data.date).toLocaleDateString('fr-FR', { month: 'long' })}
+                      {new Date(evenement.data.pubDate).toLocaleDateString('fr-FR', { month: 'long' })}
                     </div>
                     <div class="text-xs opacity-75">
-                      {new Date(evenement.data.date).getFullYear()}
+                      {new Date(evenement.data.pubDate).getFullYear()}
                     </div>
                     {evenement.data.heure && (
                       <div class="text-sm mt-2 opacity-90">
@@ -92,19 +114,9 @@ function getEventIcon(type: string) {
                       <span class={`text-white text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r ${getEventColor(evenement.data.type)}`}>
                         {evenement.data.type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                       </span>
-                      {evenement.data.distance && (
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">
-                          {evenement.data.distance}
-                        </span>
-                      )}
-                      {evenement.data.difficulte && (
+                      {evenement.data.lieu && (
                         <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
-                          {evenement.data.difficulte}
-                        </span>
-                      )}
-                      {evenement.data.inscriptionRequise && (
-                        <span class="bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded">
-                          Inscription requise
+                          📍 {evenement.data.lieu}
                         </span>
                       )}
                     </div>

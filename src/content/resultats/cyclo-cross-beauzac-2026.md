@@ -1,9 +1,8 @@
 ---
 title: "Cyclo-cross/VTT de Beauzac FSGT 2026"
-date: 2026-01-24
+pubDate: 2026-01-24
 epreuve: "Cyclo-cross de Beauzac FSGT"
 lieu: "Beauzac"
-distance: "12 km"
 categorie: "FSGT"
 description: "Une belle course. Conditions météo parfaites et parcours technique."
 images:

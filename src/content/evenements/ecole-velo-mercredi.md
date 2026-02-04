@@ -1,11 +1,10 @@
 ---
 title: "École de vélo"
-date: 2026-02-05
+pubDate: 2026-02-05
 heure: "14h00 - 16h00"
 type: "ecole-velo"
 lieu: "Stade municipal de Firminy"
 description: "Séance d'apprentissage du vélo pour les enfants de 7 à 15 ans. Encadrement par un éducateur fédéral diplômé."
-inscriptionRequise: false
 contact: "ecole@ecof-firminy.fr"
 ---
 

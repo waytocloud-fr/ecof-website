@@ -685,16 +685,13 @@ Votre conclusion...
 
                 'evenements': `---
 title: "Nouvel événement"
-date: ${today.toISOString()}
+pubDate: ${today.toISOString()}
 heure: "${timeStr}"
-type: "Sortie"
+type: "sortie-club"
 lieu: "Point de rendez-vous"
-distance: "XX km"
-difficulte: "Facile/Moyen/Difficile"
 description: "Description courte de l'événement pour le résumé"
 image: "/images/nom-de-votre-image.jpg"
 lien: ""
-inscriptionRequise: true
 contact: "contact@ecof.fr"
 ---
 
@@ -704,36 +701,26 @@ contact: "contact@ecof.fr"
 - **Date** : ${new Date(today.getTime() + 7*24*60*60*1000).toLocaleDateString('fr-FR')}
 - **Heure** : ${timeStr}
 - **Lieu de RDV** : À préciser
-- **Distance** : XX km
-- **Difficulté** : À préciser
 
 ## 🚴‍♂️ Description
 Description détaillée de l'événement...
-
-## 📋 Inscription
-${today.toISOString().includes('true') ? '✅ Inscription obligatoire' : '❌ Inscription libre'}
 
 ## 📞 Contact
 Pour plus d'informations : contact@ecof.fr`,
 
                 'resultats': `---
 title: "Résultats - Nom de l'épreuve"
-date: ${today.toISOString()}
+pubDate: ${today.toISOString()}
 epreuve: "Nom de l'épreuve"
 lieu: "Ville, Département"
-distance: "XX km"
 categorie: "Toutes catégories"
+description: "Résumé des résultats"
 participants:
   - nom: "Nom Prénom"
     position: 1
     temps: "1h23'45"
     categorie: "Senior"
-    commentaire: "Excellent parcours !"
-  - nom: "Autre Participant"
-    position: 2
-    temps: "1h25'12"
-    categorie: "Vétéran"
-    commentaire: ""
+    commentaire: "Excellent parcours"
 ---
 
 # Résultats - Nom de l'épreuve
@@ -741,15 +728,7 @@ participants:
 ## 🏆 Informations de l'épreuve
 - **Date** : ${dateStr}
 - **Lieu** : Ville, Département
-- **Distance** : XX km
 - **Conditions** : Météo, état du parcours...
-
-## 📊 Classement général
-
-### 🥇 Podium
-1. **Nom Prénom** - 1h23'45 (Senior)
-2. **Autre Participant** - 1h25'12 (Vétéran)
-3. **Troisième Place** - 1h27'30 (Senior)
 
 ## 💬 Commentaires
 Retour sur la course, ambiance, difficultés rencontrées...
@@ -758,7 +737,7 @@ Retour sur la course, ambiance, difficultés rencontrées...
 *Photos disponibles sur notre page Facebook*
 
 ---
-*Résultats publiés le ${dateStr}*`
+*Résultats publiés le ${dateStr}*`Str}*`
             };
 
             const fileName = prompt(`Nom du fichier (sans .md) :\nExemple: "sortie-mont-pilat" ou "cyclocross-beauzac"`);
@@ -839,8 +818,7 @@ Retour sur la course, ambiance, difficultés rencontrées...
             showStatus('Upload vers la galerie...', 'info');
 
             try {
-                // Créer un nom de fichier unique et propre
-                const timestamp = new Date().toISOString().split('T')[0];
+                // Garder le nom original du fichier en le nettoyant
                 const cleanName = selectedImageFile.name.toLowerCase()
                     .replace(/\s+/g, '-')
                     .replace(/[àáâãäå]/g,'a')
@@ -851,7 +829,7 @@ Retour sur la course, ambiance, difficultés rencontrées...
                     .replace(/[ç]/g,'c')
                     .replace(/[^a-z0-9.-]/g,'');
                 
-                const fileName = `${timestamp}-${cleanName}`;
+                const fileName = cleanName;
                 const imagePath = `public/images/${fileName}`;
 
                 // Vérifier si le fichier existe déjà
@@ -1008,8 +986,7 @@ Retour sur la course, ambiance, difficultés rencontrées...
             showStatus('Vérification et upload automatique...', 'info');
 
             try {
-                // Créer un nom de fichier unique et propre
-                const timestamp = new Date().toISOString().split('T')[0];
+                // Garder le nom original du fichier en le nettoyant
                 const cleanName = selectedImageFile.name.toLowerCase()
                     .replace(/\s+/g, '-')
                     .replace(/[àáâãäå]/g,'a')
@@ -1020,7 +997,7 @@ Retour sur la course, ambiance, difficultés rencontrées...
                     .replace(/[ç]/g,'c')
                     .replace(/[^a-z0-9.-]/g,'');
                 
-                const fileName = `${timestamp}-${cleanName}`;
+                const fileName = cleanName;
                 const imagePath = `public/images/${fileName}`;
                 const publicPath = `/images/${fileName}`;
 
