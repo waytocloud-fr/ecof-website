@@ -202,12 +202,14 @@
                     <div style="width: 300px;">
                         <h4>🖼️ Gestion des images</h4>
                         <div style="font-size: 12px; color: #666; margin-bottom: 10px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
-                            <p style="margin: 0;"><strong>💡 Conseil :</strong> L'image sélectionnée est automatiquement effacée après upload ou changement d'article pour éviter les erreurs.</p>
+                            <p style="margin: 0;"><strong>💡 Nouveau :</strong> Sélectionnez une image et elle sera automatiquement uploadée et insérée !</p>
+                            <p style="margin: 5px 0 0 0;"><strong>🔍 Détection :</strong> Le système vérifie si l'image existe déjà.</p>
                         </div>
                         <input type="file" id="image-input" accept="image/*" style="margin-bottom: 10px;" onchange="handleImageSelect()">
                         <div id="image-preview" style="border: 1px dashed #ddd; padding: 20px; text-align: center; margin-bottom: 10px; min-height: 100px; border-radius: 6px;">
                             <p style="color: #666; margin: 0;">Sélectionnez une image</p>
                         </div>
+                        <button class="btn btn-secondary" onclick="uploadImage()" style="width: 100%; margin-bottom: 10px;">📷 Upload manuel</button>
                         <button class="btn btn-secondary" onclick="insertImagePath()" style="width: 100%; margin-bottom: 10px;">📝 Insérer chemin image</button>
                         <button class="btn btn-secondary" onclick="resetImageSelection()" style="width: 100%; margin-bottom: 10px; background: #6c757d;">🗑️ Effacer sélection</button>
                         
@@ -221,6 +223,13 @@
                             <p><strong>Italique :</strong> <code>*texte*</code></p>
                             <p><strong>Liste :</strong><br>
                             <code>- Item 1<br>- Item 2</code></p>
+                        </div>
+                        
+                        <h4>🚀 Upload automatique</h4>
+                        <div style="font-size: 12px; color: #28a745; background: #d4edda; padding: 10px; border-radius: 4px;">
+                            <p><strong>✨ Nouveau :</strong> Sélectionnez une image → Cliquez "Upload et insérer automatiquement"</p>
+                            <p><strong>🔍 Intelligent :</strong> Détecte si l'image existe déjà</p>
+                            <p><strong>📝 Auto-insertion :</strong> Ajoute le code Markdown automatiquement</p>
                         </div>
                         
                         <h4>⚠️ Suppression</h4>
@@ -787,6 +796,11 @@ Retour sur la course, ambiance, difficultés rencontrées...
                     preview.innerHTML = `
                         <img src="${e.target.result}" style="max-width: 100%; max-height: 150px; border-radius: 4px;">
                         <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">${selectedImageFile.name}</p>
+                        <div style="margin-top: 10px;">
+                            <button onclick="autoUploadAndInsert()" class="btn" style="padding: 5px 10px; font-size: 12px; width: 100%;">
+                                🚀 Upload et insérer automatiquement
+                            </button>
+                        </div>
                     `;
                 };
                 
@@ -794,17 +808,17 @@ Retour sur la course, ambiance, difficultés rencontrées...
             }
         }
 
-        async function uploadImage() {
+        async function autoUploadAndInsert() {
             if (!selectedImageFile) {
-                alert('Veuillez d\'abord sélectionner une image');
+                alert('Aucune image sélectionnée');
                 return;
             }
 
             const token = localStorage.getItem(GITHUB_TOKEN_KEY);
-            showStatus('Upload de l\'image en cours...', 'info');
+            showStatus('Vérification et upload automatique...', 'info');
 
             try {
-                // Créer un nom de fichier unique
+                // Créer un nom de fichier unique et propre
                 const timestamp = new Date().toISOString().split('T')[0];
                 const cleanName = selectedImageFile.name.toLowerCase()
                     .replace(/\s+/g, '-')
@@ -813,18 +827,38 @@ Retour sur la course, ambiance, difficultés rencontrées...
                     .replace(/[ìíîï]/g,'i')
                     .replace(/[òóôõö]/g,'o')
                     .replace(/[ùúûü]/g,'u')
-                    .replace(/[ç]/g,'c');
+                    .replace(/[ç]/g,'c')
+                    .replace(/[^a-z0-9.-]/g,'');
                 
                 const fileName = `${timestamp}-${cleanName}`;
                 const imagePath = `public/images/${fileName}`;
+                const publicPath = `/images/${fileName}`;
 
-                // Convertir l'image en base64
+                // 1. Vérifier si le fichier existe déjà
+                const checkResponse = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${imagePath}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (checkResponse.ok) {
+                    // Le fichier existe déjà
+                    showStatus(`✅ Image "${fileName}" existe déjà. Insertion du lien...`, 'success');
+                    insertImageIntoEditor(publicPath, selectedImageFile.name);
+                    resetImageSelection();
+                    return;
+                }
+
+                // 2. Le fichier n'existe pas, on l'upload
+                showStatus('📤 Upload de la nouvelle image...', 'info');
+                
                 const reader = new FileReader();
                 reader.onload = async function(e) {
                     const base64Content = e.target.result.split(',')[1];
 
                     try {
-                        const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${imagePath}`, {
+                        const uploadResponse = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${imagePath}`, {
                             method: 'PUT',
                             headers: {
                                 'Authorization': `token ${token}`,
@@ -837,28 +871,22 @@ Retour sur la course, ambiance, difficultés rencontrées...
                             })
                         });
 
-                        if (response.ok) {
-                            const imagePath = `/images/${fileName}`;
-                            showStatus(`✅ Image uploadée ! Chemin: ${imagePath}`, 'success');
+                        if (uploadResponse.ok) {
+                            showStatus(`✅ Image uploadée et insérée automatiquement !`, 'success');
                             
-                            // Insérer automatiquement le chemin dans l'éditeur
-                            const editor = document.getElementById('content-editor');
-                            const cursorPos = editor.selectionStart;
-                            const textBefore = editor.value.substring(0, cursorPos);
-                            const textAfter = editor.value.substring(cursorPos);
+                            // 3. Insérer automatiquement dans l'éditeur
+                            insertImageIntoEditor(publicPath, selectedImageFile.name);
                             
-                            editor.value = textBefore + `![Description de l'image](${imagePath})` + textAfter;
-                            
-                            // Reset complet de la sélection d'image après upload
+                            // 4. Reset de la sélection
                             resetImageSelection();
                             
-                            // Message de confirmation
+                            // 5. Message de confirmation
                             setTimeout(() => {
-                                showStatus('✅ Image ajoutée au contenu. Vous pouvez maintenant sauvegarder l\'article.', 'success');
+                                showStatus('✅ Prêt ! Vous pouvez maintenant sauvegarder l\'article.', 'success');
                             }, 2000);
                             
                         } else {
-                            const error = await response.json();
+                            const error = await uploadResponse.json();
                             showStatus(`❌ Erreur upload: ${error.message}`, 'error');
                         }
                     } catch (error) {
@@ -870,9 +898,42 @@ Retour sur la course, ambiance, difficultés rencontrées...
                 reader.readAsDataURL(selectedImageFile);
                 
             } catch (error) {
-                showStatus('❌ Erreur lors de l\'upload', 'error');
-                console.error(error);
+                if (error.message && error.message.includes('404')) {
+                    // Le fichier n'existe pas, c'est normal, on continue l'upload
+                    showStatus('📤 Nouvelle image détectée, upload en cours...', 'info');
+                } else {
+                    showStatus('❌ Erreur lors de la vérification', 'error');
+                    console.error(error);
+                }
             }
+        }
+
+        function insertImageIntoEditor(imagePath, originalName) {
+            const editor = document.getElementById('content-editor');
+            const cursorPos = editor.selectionStart;
+            const textBefore = editor.value.substring(0, cursorPos);
+            const textAfter = editor.value.substring(cursorPos);
+            
+            // Utiliser le nom original (sans timestamp) comme description
+            const description = originalName.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ');
+            const imageMarkdown = `![${description}](${imagePath})`;
+            
+            editor.value = textBefore + imageMarkdown + textAfter;
+            
+            // Placer le curseur après l'image insérée
+            const newCursorPos = cursorPos + imageMarkdown.length;
+            editor.setSelectionRange(newCursorPos, newCursorPos);
+            editor.focus();
+        }
+
+        async function uploadImage() {
+            if (!selectedImageFile) {
+                alert('Veuillez d\'abord sélectionner une image');
+                return;
+            }
+
+            // Utiliser la fonction automatique
+            await autoUploadAndInsert();
         }
 
         function insertImagePath() {
