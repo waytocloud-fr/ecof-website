@@ -4,6 +4,7 @@ backend:
   branch: main
   auth_type: pkce
   app_id: Ov23liqUf8UvA6qFhXHK
+  base_url: https://d1zcuce5tj6u3s.cloudfront.net
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
