@@ -36,13 +36,6 @@ const resultats = defineCollection({
     categorie: z.string().optional(),
     description: z.string().optional(),
     images: z.array(z.string()).optional(),
-    participants: z.array(z.object({
-      nom: z.string(),
-      position: z.number().optional(),
-      temps: z.string().optional(),
-      categorie: z.string().optional(),
-      commentaire: z.string().optional(),
-    })).optional(), // Plus obligatoire
   }),
 });
 

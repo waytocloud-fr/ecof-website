@@ -1,6 +1,6 @@
 ---
 title: "Championnat National de Cyclo-Cross FSGT 2026"
-pubDate: 2026-01-18
+pubDate: 2026-01-18T00:00:00.000Z
 epreuve: "Championnat National de Cyclo-Cross FSGT"
 lieu: "Champigny Sur Marne"
 categorie: "National FSGT"
@@ -8,12 +8,12 @@ description: "Championnat National de Cyclo-Cross FSGT avec participation d'Arth
 images: 
   - "/images/champigny-cyclocross-1.jpg"
   - "/images/champigny-cyclocross-2.jpg"
-participants:
-  - nom: "Arthur Bonnefoy"
-    position: 3
-    categorie: "Junior"
-    commentaire: "Excellente 3ème place au niveau national FSGT"
 ---
+
+## Résultats ECOF
+
+**Arthur Bonnefoy** - 3ème place en catégorie Junior  
+*Excellente 3ème place au niveau national FSGT*
 
 ## Résumé de la course
 

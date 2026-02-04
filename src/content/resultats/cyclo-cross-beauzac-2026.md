@@ -1,6 +1,6 @@
 ---
 title: "Cyclo-cross/VTT de Beauzac FSGT 2026"
-pubDate: 2026-01-24
+pubDate: 2026-01-24T00:00:00.000Z
 epreuve: "Cyclo-cross de Beauzac FSGT"
 lieu: "Beauzac"
 categorie: "FSGT"
@@ -8,20 +8,18 @@ description: "Une belle course. Conditions météo parfaites et parcours techniq
 images:
   - "/images/beauzac1.jpg"
   - "/images/beauzac2.jpg"
-participants:
-  - nom: "Léon Michalon"
-    position: 3
-    categorie: "Cyclo-cross/Poussin"
-    commentaire: "Excellent"
-  - nom: "Raphael Rondy"
-    position: 2
-    categorie: "Cadet"
-    commentaire: "Belle performance en montée"
-  - nom: "Philippe Valour"
-    position: 11
-    categorie: "Scratch"
-    commentaire: "Première participation très prometteuse"
 ---
+
+## Résultats ECOF
+
+**Léon Michalon** - 3ème place en catégorie Cyclo-cross/Poussin  
+*Excellent*
+
+**Raphael Rondy** - 2ème place en catégorie Cadet  
+*Belle performance en montée*
+
+**Philippe Valour** - 11ème place en catégorie Scratch  
+*Première participation très prometteuse*
 
 ## Résumé de la course
 
