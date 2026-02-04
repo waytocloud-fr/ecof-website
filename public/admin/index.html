@@ -707,7 +707,21 @@ contact: "contact@ecof.fr"
 Description détaillée de l'événement...
 
 ## 📞 Contact
-Pour plus d'informations : contact@ecof.fr`,
+Pour plus d'informations : contact@ecof.fr
+
+---
+**💡 Types d'événements disponibles :**
+- \`ecole-velo\` : École de vélo (vert)
+- \`sortie-club\` : Sortie club (bleu)
+- \`randonnee\` : Randonnée (teal)
+- \`competition\` : Compétition (rouge)
+- \`reunion\` : Réunion (violet)
+- \`formation\` : Formation (orange)
+- \`entrainement\` : Entraînement (cyan)
+- \`cyclosport\` : Cyclosport (indigo)
+- \`vtt\` : VTT (ambre)
+- \`piste\` : Piste (rose)
+- \`route\` : Route (sky)`,
 
                 'resultats': `---
 title: "Résultats - Nom de l'épreuve"
@@ -716,6 +730,9 @@ epreuve: "Nom de l'épreuve"
 lieu: "Ville, Département"
 categorie: "Toutes catégories"
 description: "Résumé des résultats"
+images:
+  - "/images/photo1.jpg"
+  - "/images/photo2.jpg"
 ---
 
 # Résultats - Nom de l'épreuve
@@ -730,6 +747,9 @@ description: "Résumé des résultats"
 **Nom Prénom** - 1ère place en catégorie Senior  
 *Excellent parcours*
 
+**Autre Nom** - 3ème place en catégorie Vétéran  
+*Belle performance*
+
 ## 💬 Commentaires
 Retour sur la course, ambiance, difficultés rencontrées...
 
@@ -737,7 +757,13 @@ Retour sur la course, ambiance, difficultés rencontrées...
 *Photos disponibles sur notre page Facebook*
 
 ---
-*Résultats publiés le ${dateStr}*`
+*Résultats publiés le ${dateStr}*
+
+---
+**💡 Guide :**
+- Les participants sont maintenant dans le contenu (plus dans l'en-tête)
+- Format : **Nom** - Position en catégorie
+- Ajoutez les images dans le champ \`images\` de l'en-tête`
             };
 
             const fileName = prompt(`Nom du fichier (sans .md) :\nExemple: "sortie-mont-pilat" ou "cyclocross-beauzac"`);
