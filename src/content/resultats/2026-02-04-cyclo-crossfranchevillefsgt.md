@@ -1,7 +1,7 @@
 ---
 title: "Résultats - Cyclo-Cross de Francheville FSGT"
 pubDate: 2026-02-04T15:10:48.681Z
-epreuve: "Nom de l'épreuve"
+epreuve: "Cyclo-Cross de Francheville FSGT"
 lieu: "Francheville"
 categorie: "FSGT"
 description: "Cyclo-Cross de Francheville FSGT"
