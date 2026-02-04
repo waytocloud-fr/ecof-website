@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOF - Administration</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .auth-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .btn {
+            background: #0366d6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0256cc;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .hidden {
+            display: none;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+        }
+        .file-list {
+            display: grid;
+            gap: 10px;
+        }
+        .file-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item:hover {
+            background: #f8f9fa;
+            border-color: #0366d6;
+        }
+        .file-path {
+            font-weight: 500;
+        }
+        .file-date {
+            color: #586069;
+            font-size: 14px;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .editor {
+            margin: 20px 0;
+        }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #586069;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚴‍♂️ ECOF - Administration</h1>
+        
+        <div id="auth-section" class="auth-section">
+            <h2>Authentification GitHub</h2>
+            <p>Pour gérer le contenu du site, vous devez vous authentifier avec GitHub.</p>
+            <p><strong>Étapes :</strong></p>
+            <ol style="text-align: left; display: inline-block;">
+                <li>Allez sur GitHub → Settings → Developer settings → Personal access tokens</li>
+                <li>Créez un nouveau token avec les permissions <code>repo</code></li>
+                <li>Copiez le token et collez-le ci-dessous</li>
+            </ol>
+            <br><br>
+            <input type="password" id="token-input" placeholder="Collez votre GitHub token ici" style="padding: 10px; width: 300px; margin-right: 10px;">
+            <button class="btn" onclick="authenticateWithToken()">Se connecter</button>
+        </div>
+
+        <div id="cms-section" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Gestion du contenu</h2>
+                <button class="btn btn-secondary" onclick="logout()">Se déconnecter</button>
+            </div>
+
+            <div class="section">
+                <h3>📰 Actualités</h3>
+                <div id="actualites-list" class="file-list loading">Chargement...</div>
+            </div>
+
+            <div class="section">
+                <h3>📅 Événements</h3>
+                <div id="evenements-list" class="file-list loading">Chargement...</div>
+            </div>
+
+            <div class="section">
+                <h3>🏆 Résultats</h3>
+                <div id="resultats-list" class="file-list loading">Chargement...</div>
+            </div>
+            
+            <div id="editor" class="editor hidden">
+                <div class="editor-header">
+                    <h3 id="current-file"></h3>
+                    <div>
+                        <button class="btn" onclick="saveFile()">💾 Sauvegarder</button>
+                        <button class="btn btn-secondary" onclick="cancelEdit()">❌ Annuler</button>
+                    </div>
+                </div>
+                <textarea id="content-editor" placeholder="Contenu du fichier..."></textarea>
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GITHUB_TOKEN_KEY = 'ecof_github_token';
+        const REPO_OWNER = 'waytocloud-fr';
+        const REPO_NAME = 'ecof-website';
+        
+        let currentFile = null;
+        let currentSha = null;
+
+        // Vérifier si déjà authentifié
+        window.onload = function() {
+            const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+            if (token) {
+                showCMS();
+                loadAllFiles();
+            }
+        };
+
+        function authenticateWithToken() {
+            const token = document.getElementById('token-input').value.trim();
+            if (!token) {
+                alert('Veuillez entrer votre token GitHub');
+                return;
+            }
+            
+            // Tester le token
+            testGitHubToken(token).then(valid => {
+                if (valid) {
+                    localStorage.setItem(GITHUB_TOKEN_KEY, token);
+                    showCMS();
+                    loadAllFiles();
+                } else {
+                    alert('Token invalide. Vérifiez vos permissions.');
+                }
+            });
+        }
+
+        async function testGitHubToken(token) {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function showCMS() {
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('cms-section').classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem(GITHUB_TOKEN_KEY);
+            location.reload();
+        }
+
+        async function loadAllFiles() {
+            await loadFiles('actualites', 'actualites-list');
+            await loadFiles('evenements', 'evenements-list');
+            await loadFiles('resultats', 'resultats-list');
+        }
+
+        async function loadFiles(type, containerId) {
+            const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+            const path = `src/content/${type}`;
+            const container = document.getElementById(containerId);
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const files = await response.json();
+                    const mdFiles = files.filter(f => f.name.endsWith('.md'));
+                    
+                    container.innerHTML = '';
+                    if (mdFiles.length === 0) {
+                        container.innerHTML = '<p style="color: #586069; text-align: center;">Aucun fichier trouvé</p>';
+                        return;
+                    }
+
+                    mdFiles.forEach(file => {
+                        const div = document.createElement('div');
+                        div.className = 'file-item';
+                        div.innerHTML = `
+                            <div>
+                                <div class="file-path">${file.name}</div>
+                                <div class="file-date">Modifié récemment</div>
+                            </div>
+                            <div>📝</div>
+                        `;
+                        div.onclick = () => editFile(file);
+                        container.appendChild(div);
+                    });
+                } else {
+                    container.innerHTML = '<p style="color: #d73a49;">Erreur lors du chargement</p>';
+                }
+            } catch (error) {
+                container.innerHTML = '<p style="color: #d73a49;">Erreur de connexion</p>';
+                console.error(error);
+            }
+        }
+
+        async function editFile(file) {
+            const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+            
+            showStatus('Chargement du fichier...', 'info');
+            
+            try {
+                const response = await fetch(file.url, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const content = atob(data.content);
+                    
+                    currentFile = file;
+                    currentSha = data.sha;
+                    
+                    document.getElementById('current-file').textContent = file.path;
+                    document.getElementById('content-editor').value = content;
+                    document.getElementById('editor').classList.remove('hidden');
+                    
+                    // Scroll vers l'éditeur
+                    document.getElementById('editor').scrollIntoView({ behavior: 'smooth' });
+                    
+                    showStatus('Fichier chargé avec succès', 'success');
+                } else {
+                    showStatus('Erreur lors du chargement du fichier', 'error');
+                }
+            } catch (error) {
+                showStatus('Erreur de connexion', 'error');
+                console.error(error);
+            }
+        }
+
+        async function saveFile() {
+            if (!currentFile) return;
+            
+            const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+            const content = document.getElementById('content-editor').value;
+            const message = `Update ${currentFile.name} via CMS`;
+
+            showStatus('Sauvegarde en cours...', 'info');
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${currentFile.path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        content: btoa(unescape(encodeURIComponent(content))),
+                        sha: currentSha
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus('✅ Fichier sauvegardé avec succès !', 'success');
+                    setTimeout(() => {
+                        cancelEdit();
+                        loadAllFiles();
+                    }, 2000);
+                } else {
+                    const error = await response.json();
+                    showStatus(`❌ Erreur: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Erreur de connexion lors de la sauvegarde', 'error');
+                console.error(error);
+            }
+        }
+
+        function cancelEdit() {
+            document.getElementById('editor').classList.add('hidden');
+            document.getElementById('status').innerHTML = '';
+            currentFile = null;
+            currentSha = null;
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.innerHTML = `<div class="status ${type}">${message}</div>`;
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    status.innerHTML = '';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
