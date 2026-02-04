@@ -23,118 +23,58 @@ const resultats = allResultats.sort((a, b) =>
       <!-- Fil d'actualité des résultats -->
       <div class="space-y-8">
         {resultats.map((resultat) => (
-          <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <!-- En-tête de l'article -->
-            <div class="p-6 border-b border-gray-100">
-              <div class="flex justify-between items-start mb-4">
-                <div>
-                  <a href={`/resultats/${resultat.slug}`} class="group">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors duration-200">{resultat.data.title}</h2>
-                  </a>
-                  <div class="flex flex-wrap gap-4 text-sm text-gray-600">
-                    <span class="flex items-center">
-                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                      </svg>
-                      {new Date(resultat.data.pubDate).toLocaleDateString('fr-FR', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
-                    </span>
-                    {resultat.data.lieu && (
+          <a href={`/resultats/${resultat.slug}`} class="block">
+            <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
+              <!-- En-tête de l'article -->
+              <div class="p-6 border-b border-gray-100">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2 hover:text-red-600 transition-colors duration-200">{resultat.data.title}</h2>
+                    <div class="flex flex-wrap gap-4 text-sm text-gray-600">
                       <span class="flex items-center">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
-                        {resultat.data.lieu}
+                        {new Date(resultat.data.pubDate).toLocaleDateString('fr-FR', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}
                       </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {resultat.data.description && (
-                <p class="text-gray-700 mb-4">{resultat.data.description}</p>
-              )}
-              
-              <!-- Lien vers l'article complet -->
-              <div class="mt-4">
-                <a 
-                  href={`/resultats/${resultat.slug}`}
-                  class="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm transition-colors"
-                >
-                  Lire l'article complet
-                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            <!-- Photos (si disponibles) -->
-            {resultat.data.images && resultat.data.images.length > 0 && (
-              <div class="px-6 py-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {resultat.data.images.slice(0, 2).map((image) => (
-                    <img 
-                      src={image} 
-                      alt={`Photo ${resultat.data.epreuve}`}
-                      class="w-full h-48 object-cover rounded-lg"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <!-- Résultats des participants -->
-            <div class="p-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                </svg>
-                Résultats ECOF
-              </h3>
-              
-              <div class="space-y-3">
-                {resultat.data.participants && resultat.data.participants.length > 0 ? (
-                  resultat.data.participants.map((participant) => (
-                  <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div class="flex items-center space-x-4">
-                      {participant.position && (
-                        <div class={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white ${
-                          participant.position === 1 ? 'bg-yellow-500' :
-                          participant.position === 2 ? 'bg-gray-400' :
-                          participant.position === 3 ? 'bg-orange-600' :
-                          'bg-red-600'
-                        }`}>
-                          {participant.position}
-                        </div>
+                      {resultat.data.lieu && (
+                        <span class="flex items-center">
+                          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          </svg>
+                          {resultat.data.lieu}
+                        </span>
                       )}
-                      <div>
-                        <p class="font-semibold text-gray-900">{participant.nom}</p>
-                        {participant.categorie && (
-                          <p class="text-sm text-gray-600">{participant.categorie}</p>
-                        )}
-                        {participant.commentaire && (
-                          <p class="text-sm text-gray-500 italic">{participant.commentaire}</p>
-                        )}
-                      </div>
                     </div>
-                    {participant.temps && (
-                      <div class="text-right">
-                        <p class="font-mono text-lg font-semibold text-gray-900">{participant.temps}</p>
-                      </div>
-                    )}
                   </div>
-                ))
-                ) : (
-                  <p class="text-gray-600 text-center py-4">Aucun résultat de participants ECOF pour cette épreuve.</p>
+                </div>
+                
+                {resultat.data.description && (
+                  <p class="text-gray-700">{resultat.data.description}</p>
                 )}
               </div>
-            </div>
-          </article>
+
+              <!-- Photos (si disponibles) -->
+              {resultat.data.images && resultat.data.images.length > 0 && (
+                <div class="px-6 py-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {resultat.data.images.slice(0, 2).map((image) => (
+                      <img 
+                        src={image} 
+                        alt={`Photo ${resultat.data.epreuve}`}
+                        class="w-full h-48 object-cover rounded-lg"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          </a>
         ))}
       </div>
 

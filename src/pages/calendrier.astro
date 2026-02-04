@@ -88,45 +88,45 @@ function getEventIcon(type: string) {
         {evenementsAVenir.length > 0 ? (
           <div class="space-y-6">
             {evenementsAVenir.map((evenement) => (
-              <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="md:flex">
-                  <div class={`md:w-1/4 bg-gradient-to-br ${getEventColor(evenement.data.type)} p-6 text-white text-center`}>
-                    <div class="text-4xl mb-2">
-                      {getEventIcon(evenement.data.type)}
-                    </div>
-                    <div class="text-2xl font-bold">
-                      {new Date(evenement.data.pubDate).getDate()}
-                    </div>
-                    <div class="text-sm uppercase tracking-wide">
-                      {new Date(evenement.data.pubDate).toLocaleDateString('fr-FR', { month: 'long' })}
-                    </div>
-                    <div class="text-xs opacity-75">
-                      {new Date(evenement.data.pubDate).getFullYear()}
-                    </div>
-                    {evenement.data.heure && (
-                      <div class="text-sm mt-2 opacity-90">
-                        {evenement.data.heure}
+              <a href={`/evenements/${evenement.slug}`} class="block">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
+                  <div class="md:flex">
+                    <div class={`md:w-1/4 bg-gradient-to-br ${getEventColor(evenement.data.type)} p-6 text-white text-center`}>
+                      <div class="text-4xl mb-2">
+                        {getEventIcon(evenement.data.type)}
                       </div>
-                    )}
-                  </div>
-                  <div class="md:w-3/4 p-6">
-                    <div class="flex flex-wrap items-center gap-2 mb-4">
-                      <span class={`text-white text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r ${getEventColor(evenement.data.type)}`}>
-                        {evenement.data.type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                      </span>
-                      {evenement.data.lieu && (
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
-                          📍 {evenement.data.lieu}
-                        </span>
+                      <div class="text-2xl font-bold">
+                        {new Date(evenement.data.pubDate).getDate()}
+                      </div>
+                      <div class="text-sm uppercase tracking-wide">
+                        {new Date(evenement.data.pubDate).toLocaleDateString('fr-FR', { month: 'long' })}
+                      </div>
+                      <div class="text-xs opacity-75">
+                        {new Date(evenement.data.pubDate).getFullYear()}
+                      </div>
+                      {evenement.data.heure && (
+                        <div class="text-sm mt-2 opacity-90">
+                          {evenement.data.heure}
+                        </div>
                       )}
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">
-                      {evenement.data.title}
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                      {evenement.data.description}
-                    </p>
-                    <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="md:w-3/4 p-6">
+                      <div class="flex flex-wrap items-center gap-2 mb-4">
+                        <span class={`text-white text-xs font-medium px-3 py-1 rounded-full bg-gradient-to-r ${getEventColor(evenement.data.type)}`}>
+                          {evenement.data.type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        </span>
+                        {evenement.data.lieu && (
+                          <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">
+                            📍 {evenement.data.lieu}
+                          </span>
+                        )}
+                      </div>
+                      <h3 class="text-xl font-bold text-gray-900 mb-2 hover:text-red-600 transition-colors">
+                        {evenement.data.title}
+                      </h3>
+                      <p class="text-gray-600 mb-4">
+                        {evenement.data.description}
+                      </p>
                       <div class="text-sm text-gray-500 space-y-1">
                         {evenement.data.lieu && (
                           <p class="flex items-center">
@@ -146,32 +146,19 @@ function getEventIcon(type: string) {
                           </p>
                         )}
                       </div>
-                      <div class="flex gap-2">
-                        {evenement.data.lien && (
-                          <a href={evenement.data.lien} 
-                             target="_blank"
-                             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                            Plus d'infos
-                          </a>
-                        )}
-                        <a href={`/evenements/${evenement.slug}`} 
-                           class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                          Voir détails
-                        </a>
-                      </div>
                     </div>
                   </div>
+                  {evenement.data.image && (
+                    <div class="px-6 pb-6">
+                      <img 
+                        src={evenement.data.image} 
+                        alt={evenement.data.title}
+                        class="w-full h-48 object-contain rounded-lg bg-gray-50"
+                      />
+                    </div>
+                  )}
                 </div>
-                {evenement.data.image && (
-                  <div class="px-6 pb-6">
-                    <img 
-                      src={evenement.data.image} 
-                      alt={evenement.data.title}
-                      class="w-full h-48 object-contain rounded-lg bg-gray-50"
-                    />
-                  </div>
-                )}
-              </div>
+              </a>
             ))}
           </div>
         ) : (
