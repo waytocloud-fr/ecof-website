@@ -12,20 +12,6 @@ const actualites = defineCollection({
   }),
 });
 
-const sorties = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    distance: z.string(),
-    difficulty: z.string(),
-    description: z.string(),
-    image: z.string().optional(),
-    startTime: z.string().optional(),
-    startLocation: z.string().optional(),
-  }),
-});
-
 const resultats = defineCollection({
   type: 'content',
   schema: z.object({
@@ -80,7 +66,6 @@ const pages = defineCollection({
 
 export const collections = {
   actualites,
-  sorties,
   resultats,
   evenements,
   pages,

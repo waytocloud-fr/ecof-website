@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="École de vélo" description="L'École de vélo de l'ECOF accueille les jeunes enfants pour apprendre à maîtriser le vélo, développer leur confiance et aimer la pratique dans un cadre sécurisé et labellisé FFC">
+<BaseLayout title="École de vélo" description="L'École de vélo de l'ECOF accueille les jeunes enfants pour apprendre à maîtriser le vélo, développer leur confiance et progresser dans le sport et la compétition dans un cadre sécurisé et labellisé FFC">
   <div class="pt-20 pb-16 bg-gradient-to-br from-green-50 to-emerald-100">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -17,20 +17,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="prose prose-lg max-w-none">
+
+        <!-- Groupe 6-10 ans -->
         <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-          <span class="mr-3">🚲</span>
-          Une école de vélo pour les jeunes enfants
+          <span class="mr-3">🚴‍♂️</span>
+          Apprentissage pour les 6-10 ans
         </h2>
-        
         <p class="text-lg text-gray-700 mb-6">
-          L'<strong>École de vélo de l'ECOF</strong> a pour vocation d'accueillir les jeunes enfants afin de leur <strong>apprendre le vélo</strong> dans les meilleures conditions possibles.
+          Destiné aux enfants de <strong>6 à 10 ans</strong>, ce programme se concentre sur l'<strong>apprentissage du vélo en toute sécurité</strong>, la maniabilité et la confiance. Les séances ont lieu <strong>le mercredi après-midi</strong> dans un cadre sécurisé et adapté à leur âge.
         </p>
-        
         <p class="text-lg text-gray-700 mb-12">
-          L'objectif principal est de permettre à chaque enfant de découvrir le vélo, de progresser à son rythme et de prendre confiance, tout en développant le plaisir de rouler.
+          L'objectif est de permettre à chaque enfant de découvrir le vélo, de progresser à son rythme et de développer son autonomie et son assurance sur deux roues.
         </p>
 
-        <!-- Image école 1 -->
+        <!-- Groupe 8-17 ans -->
+        <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+          <span class="mr-3">🏁</span>
+          Sport et compétition pour les 8-17 ans
+        </h2>
+        <p class="text-lg text-gray-700 mb-6">
+          Pour les jeunes de <strong>8 à 17 ans</strong>, l'École propose un programme orienté <strong>sport et compétition</strong> incluant la route et le cyclo-cross. Les séances sont prévues <strong>le mercredi après-midi, le jeudi soir et le samedi matin</strong>.
+        </p>
+        <p class="text-lg text-gray-700 mb-12">
+          Les jeunes cyclistes apprennent à se préparer pour la compétition, améliorer leur technique et leur endurance, tout en restant encadrés par des éducateurs fédéraux diplômés.
+        </p>
+
+        <!-- Image école -->
         <div class="mb-12 flex justify-center">
           <img 
             src="/images/ecole-1.jpg" 
@@ -38,167 +50,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             class="max-w-md w-full h-auto object-contain rounded-2xl shadow-lg"
           />
         </div>
-        <p class="text-sm text-gray-600 text-center mt-3 mb-12">Apprentissage du vélo dans un cadre sécurisé</p>
+        <p class="text-sm text-gray-600 text-center mb-12">Séances adaptées selon l'âge et les objectifs</p>
 
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-          <span class="mr-3">⚖️</span>
-          Apprendre à maîtriser le vélo
-        </h2>
-        
-        <p class="text-lg text-gray-700 mb-6">
-          Les séances sont conçues pour accompagner les enfants dans l'apprentissage des <strong>bases essentielles</strong> du vélo :
-        </p>
-        
-        <div class="grid sm:grid-cols-2 gap-6 mb-8">
-          <div class="bg-green-50 rounded-lg p-6 border-l-4 border-green-500">
-            <div class="flex items-center space-x-3 mb-3">
-              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="font-semibold text-gray-900">Équilibre et coordination</span>
-            </div>
-            <p class="text-gray-700 text-sm">Développer la stabilité et la coordination motrice</p>
-          </div>
-          
-          <div class="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500">
-            <div class="flex items-center space-x-3 mb-3">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="font-semibold text-gray-900">Maniement du vélo</span>
-            </div>
-            <p class="text-gray-700 text-sm">Maîtriser la direction et le contrôle</p>
-          </div>
-          
-          <div class="bg-orange-50 rounded-lg p-6 border-l-4 border-orange-500">
-            <div class="flex items-center space-x-3 mb-3">
-              <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="font-semibold text-gray-900">Freinage et trajectoires</span>
-            </div>
-            <p class="text-gray-700 text-sm">Apprendre à s'arrêter et tourner en sécurité</p>
-          </div>
-          
-          <div class="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-500">
-            <div class="flex items-center space-x-3 mb-3">
-              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span class="font-semibold text-gray-900">Autonomie et confiance</span>
-            </div>
-            <p class="text-gray-700 text-sm">Gagner en assurance et en indépendance</p>
-          </div>
-        </div>
-        
+        <!-- Points clés apprentissage 6-10 ans -->
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Compétences développées pour les 6-10 ans</h3>
+        <ul class="list-disc list-inside text-gray-700 mb-12">
+          <li>Équilibre et coordination</li>
+          <li>Maniement du vélo et direction</li>
+          <li>Freinage et trajectoires en sécurité</li>
+          <li>Autonomie et confiance sur deux roues</li>
+        </ul>
+
+        <!-- Points clés sport/compétition 8-17 ans -->
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Compétences développées pour les 8-17 ans</h3>
+        <ul class="list-disc list-inside text-gray-700 mb-12">
+          <li>Techniques avancées de route et cyclo-cross</li>
+          <li>Endurance et préparation physique</li>
+          <li>Stratégie et esprit de compétition</li>
+          <li>Esprit d'équipe et respect des règles</li>
+        </ul>
+
+        <!-- Encadrement et label FFC -->
         <div class="bg-blue-50 rounded-xl p-6 mb-12 border-l-4 border-blue-500">
-          <div class="flex items-center space-x-3 mb-4">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-            </svg>
-            <h3 class="text-xl font-bold text-gray-900">Encadrement professionnel</h3>
-          </div>
-          <p class="text-lg text-gray-700">
-            Les entraînements sont <strong>encadrés par un éducateur fédéral diplômé</strong>, garantissant un apprentissage de qualité dans le respect des méthodes pédagogiques officielles.
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Encadrement professionnel et cadre sécurisé</h3>
+          <p class="text-gray-700 mb-2">
+            Toutes les séances sont <strong>encadrées par des éducateurs fédéraux diplômés</strong>, garantissant un apprentissage sécurisé et de qualité pour tous les âges.
           </p>
-        </div>
-        
-        <p class="text-lg text-gray-700 mb-12">
-          L'encadrement veille à proposer des exercices ludiques et adaptés à l'âge et au niveau de chacun, afin de favoriser une progression naturelle et durable.
-        </p>
-
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-          <span class="mr-3">❤️</span>
-          Donner le goût de la pratique du vélo
-        </h2>
-        
-        <p class="text-lg text-gray-700 mb-6">
-          Au-delà de l'aspect technique, l'École de vélo de l'ECOF a pour ambition de <strong>transmettre le plaisir de faire du vélo</strong>.
-        </p>
-        
-        <p class="text-lg text-gray-700 mb-8">
-          En créant un environnement bienveillant et motivant, les enfants apprennent à aimer la pratique du cyclisme, à partager des moments avec les autres et à évoluer dans un esprit de respect et de convivialité.
-        </p>
-
-        <!-- Image école 2 -->
-        <div class="mb-12">
-          <img 
-            src="/images/ecole-2.jpg" 
-            alt="Séance ludique de l'école de vélo ECOF dans un environnement sécurisé" 
-            class="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg"
-          />
-          <p class="text-sm text-gray-600 text-center mt-3">Séances ludiques dans un environnement bienveillant</p>
-        </div>
-
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-          <span class="mr-3">🏆</span>
-          Un cadre sécurisé et labellisé FFC
-        </h2>
-        
-        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-8 mb-12 border-l-4 border-yellow-500">
-          <p class="text-lg text-gray-700 mb-4">
-            L'École de vélo de l'ECOF bénéficie du <strong>label École de Vélo délivré par la FFC</strong>.
-          </p>
-          
-          <p class="text-lg text-gray-700 mb-4">
-            Ce label est attribué aux clubs capables d'accueillir les enfants dans un <strong>environnement sécurisé</strong>, avec un encadrement formé et des conditions adaptées à l'apprentissage du vélo.
-          </p>
-          
-          <p class="text-lg text-gray-700">
-            Il garantit un cadre rassurant pour les enfants comme pour les parents, et une pédagogie centrée sur la progression et le plaisir.
+          <p class="text-gray-700">
+            L'École de vélo bénéficie du <strong>label FFC École de Vélo</strong>, gage de sécurité, pédagogie adaptée et progression respectueuse du rythme de chaque enfant.
           </p>
         </div>
 
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
-          <span class="mr-3">🌟</span>
-          Former les cyclistes de demain
-        </h2>
-        
-        <p class="text-lg text-gray-700 mb-6">
-          L'École de vélo constitue souvent la première étape du parcours au sein du club. Elle permet aux enfants de construire des bases solides, qu'ils souhaitent ensuite :
-        </p>
-        
-        <div class="space-y-4 mb-8">
-          <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-            <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-10v20m5-20v20"></path>
-            </svg>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Continuer le vélo en loisir</h3>
-              <p class="text-gray-700 text-sm">Pratiquer le cyclisme pour le plaisir et la détente</p>
-            </div>
-          </div>
-          
-          <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-            <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Évoluer vers une pratique plus sportive</h3>
-              <p class="text-gray-700 text-sm">Rejoindre les sections compétition ou cyclosport</p>
-            </div>
-          </div>
-          
-          <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-            <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-            </svg>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Garder le plaisir de rouler</h3>
-              <p class="text-gray-700 text-sm">Maintenir une relation positive avec le vélo toute la vie</p>
-            </div>
-          </div>
-        </div>
-        
-        <p class="text-lg text-gray-700 mb-12">
-          À l'ECOF, chaque enfant est accompagné avec attention pour grandir avec le vélo, à son rythme.
-        </p>
-
+        <!-- Conclusion -->
         <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-8 rounded-2xl text-center">
           <p class="text-xl font-semibold">
-            <strong>Apprendre le vélo, gagner en confiance et aimer la pratique : telle est la mission de l'École de vélo de l'ECOF.</strong> 🚲✨
+            <strong>Apprendre le vélo, progresser et s'amuser : telle est la mission de l'École de vélo de l'ECOF pour tous les jeunes cyclistes !</strong> 🚲✨
           </p>
         </div>
+
       </div>
     </div>
   </section>

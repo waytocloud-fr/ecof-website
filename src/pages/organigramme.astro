@@ -2,66 +2,102 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Organigramme" description="Organigramme de l'Étoile Cycliste Ouvrière de Firminy">
-  <div class="min-h-screen bg-gray-50 py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">Organigramme du Club</h1>
-        <p class="text-xl text-gray-600">Structure et organisation de l'ECOF</p>
-      </div>
-
-      <div class="bg-white rounded-2xl shadow-lg p-8">
-        <div class="space-y-8">
-          <!-- Bureau -->
-          <div class="text-center">
-            <h2 class="text-2xl font-bold text-red-600 mb-6">Bureau Directeur</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-              <div class="bg-red-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Président</h3>
-                <p class="text-gray-600 mt-2">Direction générale du club</p>
-              </div>
-              <div class="bg-red-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Vice-Président</h3>
-                <p class="text-gray-600 mt-2">Assistance à la direction</p>
-              </div>
-              <div class="bg-red-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Secrétaire</h3>
-                <p class="text-gray-600 mt-2">Administration et communication</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Trésorerie -->
-          <div class="text-center">
-            <h2 class="text-2xl font-bold text-yellow-600 mb-6">Trésorerie</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-              <div class="bg-yellow-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Trésorier</h3>
-                <p class="text-gray-600 mt-2">Gestion financière</p>
-              </div>
-              <div class="bg-yellow-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Trésorier Adjoint</h3>
-                <p class="text-gray-600 mt-2">Assistance trésorerie</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Encadrement -->
-          <div class="text-center">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Encadrement Technique</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Responsable École de Vélo</h3>
-                <p class="text-gray-600 mt-2">Formation des jeunes cyclistes</p>
-              </div>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="font-bold text-gray-900">Encadrants Bénévoles</h3>
-                <p class="text-gray-600 mt-2">Accompagnement des sorties</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<BaseLayout
+  title="Organigramme du club"
+  description="Organisation et équipe dirigeante de l'ECOF"
+>
+  <!-- En-tête -->
+  <div class="pt-20 pb-16 bg-gradient-to-br from-green-50 to-emerald-100">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        Organigramme du club
+      </h1>
+      <p class="text-xl text-gray-600">
+        L’équipe dirigeante de l’ECOF
+      </p>
     </div>
   </div>
+
+  <!-- Contenu -->
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-4">
+
+      <!-- Présidence -->
+      <div class="mb-16 text-center">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Présidence</h2>
+
+        <div class="bg-white rounded-2xl shadow-lg p-8 max-w-md mx-auto">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">
+            Présidente
+          </h3>
+          <p class="text-lg text-gray-700">
+            Aurélie Bonnefoy
+          </p>
+        </div>
+      </div>
+
+      <!-- Bureau -->
+      <div class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-10 text-center">
+          Bureau du club
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+          <!-- Trésorier -->
+          <div class="bg-green-50 rounded-2xl p-6 shadow">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">
+              Trésorier
+            </h3>
+            <p class="text-gray-700">
+              Stéphane Feireira
+            </p>
+          </div>
+
+          <!-- Secrétaire -->
+          <div class="bg-blue-50 rounded-2xl p-6 shadow">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">
+              Secrétaire
+            </h3>
+            <p class="text-gray-700">
+              Virginie Fernandez Perez
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Autres rôles -->
+      <div>
+        <h2 class="text-3xl font-bold text-gray-900 mb-10 text-center">
+          Autres fonctions
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+          <!-- Administrateur -->
+          <div class="bg-gray-50 rounded-2xl p-6 shadow border-2 border-dashed border-gray-300">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">
+              Administrateur
+            </h3>
+            <p class="text-gray-500 italic">
+              Poste à pourvoir
+            </p>
+          </div>
+
+          <!-- Communication -->
+          <div class="bg-purple-50 rounded-2xl p-6 shadow">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">
+              Communication
+            </h3>
+            <p class="text-gray-700">
+              Emmanuel Bonnefoy
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
 </BaseLayout>

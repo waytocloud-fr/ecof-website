@@ -63,9 +63,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center">
         Ceux qui font vivre le club
       </h2>
+      <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 place-items-center">
+          <img src="/images/mcsi.jpg" alt="MCSI" class="h-20 object-contain grayscale hover:grayscale-0 transition" />
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 place-items-center">
-        <img src="/images/mcsi.jpg" alt="MCSI" class="h-20 object-contain grayscale hover:grayscale-0 transition" />
+          <img src="/images/logo-art-et-vue-opticien-firminy.png" alt="MCSI" class="h-20 object-contain grayscale hover:grayscale-0 transition" />
+        </div>
       </div>
     </div>
   </section>
@@ -90,7 +93,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         Vous partagez nos valeurs et souhaitez soutenir le club ?
       </p>
       <a
-        href="/contact"
+        href="/nous-soutenir"
         class="inline-block bg-gray-900 text-white px-8 py-4 rounded-lg hover:bg-gray-800 transition"
       >
         Devenir partenaire
