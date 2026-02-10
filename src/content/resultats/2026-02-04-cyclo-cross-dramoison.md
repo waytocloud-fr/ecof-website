@@ -3,6 +3,8 @@ title: "Résultats - cyclo-cross de Dramoison  (La Ricamarie) "
 pubDate: 2026-02-04T15:14:29.190Z
 epreuve: "cyclo-cross de Dramoison  (La Ricamarie) "
 lieu: "La Ricamarie, Loire"
+images: 
+  - "/images/dramoisant1.jpg"
 categorie: "Toutes catégories"
 description: "Résumé des résultats"
 participants:
